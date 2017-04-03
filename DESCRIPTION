@@ -1,0 +1,28 @@
+Package: rsutils3
+Type: Package
+Title: RS Utilities Parent Package
+Version: 0.1.0
+Authors@R: c(person("Rick", "Saporta", email="rick.saporta@vydia.com", role=c("aut","cre")), person("Mike", "Reca", email="michael.reca@vydia.com", role=c("aut")))
+Description: Loads up the multiple rsu* packages. 
+License: PROPRIETARY - NO ONE OUTSIDE Vydia MAY USE THIS FILE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    rsuaspath,
+    rsuaws,
+    rsubitly,
+    rsuconsoleutils,
+    rsucurl,
+    rsudb,
+    rsudict,
+    rsujesus,
+    rsunotify,
+    rsuorchard,
+    rsuplotting,
+    rsuprophesize,
+    rsuscrubbers,
+    rsushiny,
+    rsutils2,
+    rsuvydia,
+    rsuworkspace,
+    rsuxls

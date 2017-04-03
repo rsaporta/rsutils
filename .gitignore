@@ -1,0 +1,40 @@
+## ----------- BACKUP AND OTHER FILES NOT TO PUSH ------------- ##
+## plot files
+plots
+
+## Specific data or backup folders for this project
+ingest/ftp_data
+ImageSaves
+
+## Credentials Folder
+src/creds
+
+## ----------- GENERIC ------------- ##
+## Mac OS Stuff
+.DS_Store
+.AppleDouble
+.LSOverride
+## Ignore Sublime text stuff
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+# workspace files are user-specific
+*.sublime-workspace
+# sftp configuration file
+sftp-config.json
+# Excel files
+*.xlsx
+*.xls
+*.xlst
+# compressed files
+*.zip
+*.tar
+*.tar.gz
+
+## ---------------- R SPECIFIC FILES ---------------- ##
+.Rhistory
+.Rproj.user
+.RData
+
+## ---------------- FILES SPECIFIC TO THIS PROJECT ---------------- ##
