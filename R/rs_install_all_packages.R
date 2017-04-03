@@ -21,7 +21,7 @@
   devtools::install_github("rsaporta/rsuvydia",         dependencies=FALSE)
   devtools::install_github("rsaporta/rsuworkspace",     dependencies=FALSE)
   devtools::install_github("rsaporta/rsuxls",           dependencies=FALSE)
-  devtools::install_github("rsaporta/rsutils2",         dependencies=FALSE)
+  # devtools::install_github("rsaporta/rsutils2",         dependencies=FALSE)
   devtools::install_github("rsaporta/rsutils3",         dependencies=FALSE)
 }
 
