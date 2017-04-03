@@ -1,4 +1,4 @@
-.rs_install_all_packages <- function() {
+.rsu_install_all_packages <- function() {
   devtools::install_github("rsaporta/rsugeneral",       dependencies=FALSE)
   devtools::install_github("rsaporta/rsuaspath",        dependencies=FALSE)
   devtools::install_github("rsaporta/rsuaws",           dependencies=FALSE)
@@ -21,7 +21,7 @@
   devtools::install_github("rsaporta/rsutils3",         dependencies=FALSE)
 }
 
-.rs_pull_all_packages <- function(
+.rsu_pull_all_packages <- function(
     parent_folder = "~/Development/rsutils_packages"
   , pkgs = 
 c("rsugeneral"
