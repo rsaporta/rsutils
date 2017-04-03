@@ -5,8 +5,15 @@
 
 
 ## NOTIFY
-if (identical(Sys.info()[['sysname']], "Darwin"))
-  try(startListener('~rsaporta/Development/rsutils/notify/RboxRelay_Parse.py', verbose=FALSE))
+if (identical(Sys.info()[['sysname']], "Darwin")) {
+  f.listener <- "~rsaporta/Development/rsutils/notify/RboxRelay_Parse.py"
+  if (file.exists(f.listener))
+    try(startListener(f.listener, verbose=FALSE))
+  else
+    message("DID NOT START notify-LISTENER -- could not find file '", f.listener, "'")
+
+  rm(f.listener)
+}
 
 {
   ## STARTUP TEST/WELCOME MESSAGE
