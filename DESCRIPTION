@@ -22,7 +22,7 @@ Imports:
     rsuprophesize,
     rsuscrubbers,
     rsushiny,
-    rsutils2,
+    rsugeneral,
     rsuvydia,
     rsuworkspace,
     rsuxls
