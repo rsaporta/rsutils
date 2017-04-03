@@ -1,7 +1,7 @@
 # initialize.R
 
 ## gg_Helper_funcs
-.create_axis_functions()
+try(.create_axis_functions())
 
 
 ## NOTIFY
@@ -12,7 +12,7 @@ if (identical(Sys.info()[['sysname']], "Darwin")) {
   else
     message("DID NOT START notify-LISTENER -- could not find file '", f.listener, "'")
 
-  rm(f.listener)
+  rm(f.listenerzx)
 }
 
 {
