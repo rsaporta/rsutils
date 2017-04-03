@@ -38,3 +38,4 @@ sftp-config.json
 .RData
 
 ## ---------------- FILES SPECIFIC TO THIS PROJECT ---------------- ##
+*.sublime-project
