@@ -1,4 +1,8 @@
 .rsu_install_all_packages <- function() {
+
+  if (!nzchar(Sys.getenv("GITHUB_PAT")))
+    warning("GITHUB_PAT may not be set correctly.\n\n\tHINT:   try   source('~rsaporta/.Rprofile')\n\n")
+
   devtools::install_github("rsaporta/rsugeneral",       dependencies=FALSE)
   devtools::install_github("rsaporta/rsuaspath",        dependencies=FALSE)
   devtools::install_github("rsaporta/rsuaws",           dependencies=FALSE)
