@@ -1,4 +1,10 @@
 load_rsutils <- function(verbose=TRUE) {
+
+## usage:  replace   
+##     library(rsutils)
+## with
+##     rsutils::load_rsutils    
+
        pkgs = 
     c("rsugeneral"
     , "rsuaspath"
