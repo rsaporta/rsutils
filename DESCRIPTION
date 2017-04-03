@@ -1,4 +1,4 @@
-Package: rsutils3
+Package: rsutils
 Type: Package
 Title: RS Utilities Parent Package
 Version: 0.1.0
@@ -8,6 +8,7 @@ License: PROPRIETARY - NO ONE OUTSIDE Vydia MAY USE THIS FILE
 Encoding: UTF-8
 LazyData: true
 Imports:
+    rsugeneral,
     rsuaspath,
     rsuaws,
     rsubitly,
@@ -22,7 +23,6 @@ Imports:
     rsuprophesize,
     rsuscrubbers,
     rsushiny,
-    rsugeneral,
     rsuvydia,
     rsuworkspace,
     rsuxls
