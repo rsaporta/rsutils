@@ -52,10 +52,18 @@ c("rsugeneral"
     dir.create(parent_folder, recursive = TRUE)
 
   for (pkg in pkgs) {
-    catn(sprintf(" --------- ========== [ % 15s ] ========== ----------- ", pkg))
+    catn(sprintf(" --------- ========== [ % 15s   ] ========== ----------- ", pkg))
     folder <- file.path(parent_folder, pkg)
-    dir.create(folder, recursive = TRUE)
-    cmd <- sprintf("cd %s; git clone ")
-    catn(folder)
+
+    if (!file.exists(folder)) {
+      message("cloning '", pkg, "' ")
+      cmd.clone <- sprintf("cd %s; git clone git@github.com:rsaporta/%s.git", parent_folder, pkg)
+      system(cmd.clone)
+    }
+
+    stopifnot(file.exists(folder))
+    cmd.pull_push <- sprintf("cd %s; git pull; git push", folder)
+    system(cmd.pull_push)
+
   }
-}#; .rs_pull_all_packages()
+}
