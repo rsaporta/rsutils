@@ -30,10 +30,18 @@ load_rsutils <- function(verbose=TRUE) {
     )
 
 
+    ## LOAD PACKAGES
     for (pkg in pkgs) {
       if (verbose)
         message(sprintf("---------- ========= [    LOADING  % 16s    ] ========= ----------", pkg))
       library(pkg, character.only=TRUE)
     }
+
+    ## SOME FUNCTIONS NEED CREATING
+    try(rsuworkspace::.create_dir.p_functions())
+    try(rsuplotting::.create_axis_functions())
+
+
+    return(invisible(0))
 }
 
