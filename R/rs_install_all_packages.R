@@ -1,62 +1,60 @@
-.rsu_install_all_packages <- function() {
+#   sudo R --vanilla -e 'require(colorout); source("~rsaporta/Development/rsutils_packages/rsutils/R/rs_install_all_packages.R"); source("~rsaporta/Development/R_init/personal_settings_and_options.R"); .rsu_install_all_packages();'
 
+.rsu_install_all_packages <- function(local_folder="~rsaporta/Development/rsutils_packages", pkgs=.rsu_pkgs_strings()) {
+  require(devtools)
   if (!nzchar(Sys.getenv("GITHUB_PAT")))
     warning("GITHUB_PAT may not be set correctly.\n\n\tHINT:   try   source('~rsaporta/.Rprofile')\n\n")
 
-  devtools::install_github("rsaporta/rsugeneral",       dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuaspath",        dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuaws",           dependencies=FALSE)
-  devtools::install_github("rsaporta/rsubitly",         dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuconsoleutils",  dependencies=FALSE)
-  devtools::install_github("rsaporta/rsucurl",          dependencies=FALSE)
-  devtools::install_github("rsaporta/rsudb",            dependencies=FALSE)
-  devtools::install_github("rsaporta/rsudict",          dependencies=FALSE)
-  devtools::install_github("rsaporta/rsujesus",         dependencies=FALSE)
-  devtools::install_github("rsaporta/rsunotify",        dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuorchard",       dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuplotting",      dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuprophesize",    dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuscrubbers",     dependencies=FALSE)
-  devtools::install_github("rsaporta/rsushiny",         dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuvydia",         dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuworkspace",     dependencies=FALSE)
-  devtools::install_github("rsaporta/rsuxls",           dependencies=FALSE)
-  # devtools::install_github("rsaporta/rsutils2",         dependencies=FALSE)
-  devtools::install_github("rsaporta/rsutils3",         dependencies=FALSE)
+  for (pkg in pkgs) {
+    cat(sprintf(" --------- ========== [ % 15s   ] ========== ----------- \n", pkg))
+    f <- file.path(local_folder, pkg)
+    if (file.exists(f)) {
+      cat("   |- installing locally\n")
+      try({install_local(f)})
+    } else {
+      cat("   |- installing from GITHUB\n")
+      repo <- paste0("rsaporta/", pkg)
+      try({install_github(f)})
+    }
+  }
 }
 
-.rsu_pull_all_packages <- function(
-    parent_folder = "~/Development/rsutils_packages"
-  , pkgs = 
-c("rsugeneral"
-, "rsuaspath"
-, "rsuaws"
-, "rsubitly"
-, "rsuconsoleutils"
-, "rsucurl"
-, "rsudb"
-, "rsudict"
-, "rsujesus"
-, "rsunotify"
-, "rsuorchard"
-, "rsuplotting"
-, "rsuprophesize"
-, "rsuscrubbers"
-, "rsushiny"
-, "rsuvydia"
-, "rsuworkspace"
-, "rsuxls"
-, "rsutils"
-, "rsutils2"
-, "rsutils3")
-    ) {
+.rsu_pkgs_strings <- function() {
+  c(
+    "rsugeneral"
+  , "rsuaspath"
+  , "rsuaws"
+  , "rsubitly"
+  , "rsuconsoleutils"
+  , "rsucurl"
+  , "rsudb"
+  , "rsudict"
+  , "rsujesus"
+  , "rsunotify"
+  # , "rsuorchard"
+  , "rsuplotting"
+  , "rsuprophesize"
+  , "rsuscrubbers"
+  , "rsushiny"
+  , "rsuvydia"
+  , "rsuworkspace"
+  , "rsuxls"
+  , "rsutils"
+  # , "rsutils2"
+  # , "rsutils3"
+  )
+}
 
-  
+.rsu_pull_all_packages <- function(parent_folder="~/Development/rsutils_packages", pkgs=.rsu_pkgs_strings() ) {
+
+  if (file.exists("~/Development/R_init"))
+    system("cd ~/Development/R_init; git pull")
+
   if (!file.exists(parent_folder))
     dir.create(parent_folder, recursive = TRUE)
 
   for (pkg in pkgs) {
-    catn(sprintf(" --------- ========== [ % 15s   ] ========== ----------- ", pkg))
+    cat(sprintf(" --------- ========== [ % 15s   ] ========== ----------- \n", pkg))
     folder <- file.path(parent_folder, pkg)
 
     if (!file.exists(folder)) {
