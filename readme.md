@@ -32,3 +32,14 @@ For now, you have to call these functions right after loading the package
      .create_axis_functions()
      .create_dir.p_functions()
      ```
+
+--------------------------------------------------
+
+Alternate, from within R:
+
+    ```R
+    source("https://raw.githubusercontent.com/rsaporta/rsutils/master/R/rsu_install_all_packages.R")
+    .install_all_packages()
+    library(rsutils)
+    ```
+    
