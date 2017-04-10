@@ -1,4 +1,4 @@
-load_rsutils <- function(verbose=TRUE) {
+load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE) {
 
 ## usage:  replace   
 ##     library(rsutils)
@@ -19,7 +19,6 @@ load_rsutils <- function(verbose=TRUE) {
             , "rsudict"
             , "rsujesus"
             , "rsunotify"
-            # , "rsuorchard"
             , "rsuplotting"
             , "rsuprophesize"
             , "rsuscrubbers"
@@ -28,10 +27,17 @@ load_rsutils <- function(verbose=TRUE) {
             , "rsuworkspace"
             , "rsuxls"
             , "rsutils"
+
+            # ------------------------ #
+            # , "rsuorchard"
             # , "rsutils2"
             # , "rsutils3"
+            # ------------------------ #
             )
     }
+
+    if (!isTRUE(rsutils_load))
+        pkgs <- setdiff(pkgs, "rsutils")
 
     ## LOAD PACKAGES
     for (pkg in pkgs) {
@@ -41,8 +47,8 @@ load_rsutils <- function(verbose=TRUE) {
     }
 
     ## SOME FUNCTIONS NEED CREATING
-    try(rsuworkspace::.create_dir.p_functions())
-    try(rsuplotting::.create_axis_functions())
+    try({  eval( rsuworkspace::.create_dir.p_functions(), envir=globalenv() )  })
+    try({  eval(  rsuplotting::.create_axis_functions(),  envir=globalenv() )  })
 
 
     return(invisible(0))
