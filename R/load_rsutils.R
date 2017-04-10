@@ -16,7 +16,7 @@ load_rsutils <- function(verbose=TRUE) {
     , "rsudict"
     , "rsujesus"
     , "rsunotify"
-    , "rsuorchard"
+    # , "rsuorchard"
     , "rsuplotting"
     , "rsuprophesize"
     , "rsuscrubbers"

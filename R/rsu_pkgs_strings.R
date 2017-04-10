@@ -1,0 +1,25 @@
+.rsu_pkgs_strings <- function() {
+  c(
+    "rsuaspath"
+  , "rsuaws"
+  , "rsubitly"
+  , "rsuconsoleutils"
+  , "rsucurl"
+  , "rsudb"
+  , "rsudict"
+  , "rsujesus"
+  , "rsunotify"
+  # , "rsuorchard"
+  , "rsuplotting"
+  , "rsuprophesize"
+  , "rsuscrubbers"
+  , "rsushiny"
+  , "rsuvydia"
+  , "rsuworkspace"
+  , "rsuxls"
+  , "rsugeneral"
+  , "rsutils3"
+  # , "rsutils2"
+  # , "rsutils"
+  )
+}
