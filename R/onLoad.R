@@ -2,7 +2,7 @@
   try(require(colorout))
   cat("Running .onLoad() from rsutils --------------------------------- ======================================= ||\n")
 
-  load_rsutils()
+  load_rsutils(rsutils_load=FALSE)
 }
 
 testing_utils <- function() {
