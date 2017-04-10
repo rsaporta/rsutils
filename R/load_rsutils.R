@@ -34,7 +34,7 @@ load_rsutils <- function(verbose=TRUE) {
     for (pkg in pkgs) {
       if (verbose)
         message(sprintf("---------- ========= [    LOADING  % 16s    ] ========= ----------", pkg))
-      library(pkg, character.only=TRUE)
+      try(library(pkg, character.only=TRUE))
     }
 
     ## SOME FUNCTIONS NEED CREATING
