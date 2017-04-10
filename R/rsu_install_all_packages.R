@@ -32,8 +32,11 @@
       caught <- try({install_github(repo, depen=FALSE)})
     }
 
-    if (inherits(caught, "try-error"))
+    if (inherits(caught, "try-error")) {
       errd <- c(errd, pkg)
+      cat ("   |- FAILED for ", pkg, "       <~~~~~~~~~~~~~~~~  \n")
+      Sys.sleep(0.8)
+    }
   }
 
   if (length(errd))
@@ -87,7 +90,7 @@
   , "rsuworkspace"
   , "rsuxls"
   , "rsugeneral"
-  , "rsutils3"
+  # , "rsutils3"
   # , "rsutils2"
   # , "rsutils"
   )

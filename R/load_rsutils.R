@@ -6,7 +6,7 @@ load_rsutils <- function(verbose=TRUE) {
 ##     rsutils::load_rsutils    
 
     if (exists(".rsu_pkgs_strings", mode="function")) {
-        pkgs <- .rsu_pkgs_strings()
+        pkgs <- setdiff(.rsu_pkgs_strings(), "rsutils3")
     } else  {
         pkgs <- 
             c("rsugeneral"

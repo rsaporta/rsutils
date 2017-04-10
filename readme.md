@@ -20,7 +20,7 @@ Ideally, write this into your  ~/.Rprofile  file  (create the file if it doesnt 
 
      ```R
      require(devtools)
-     install_github("rsaporta/rsutils_pkg")
+     install_github("rsaporta/rsutils")
      ```
 
 4. Calling  
