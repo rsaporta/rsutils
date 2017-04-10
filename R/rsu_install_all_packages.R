@@ -10,19 +10,20 @@
     f <- file.path(local_folder, pkg)
     if (file.exists(f)) {
       cat("   |- installing locally\n")
-      try({install_local(f)})
+      try({install_local(f, depen=FALSE)})
     } else {
       cat("   |- installing from GITHUB\n")
       repo <- paste0("rsaporta/", pkg)
-      try({install_github(f)})
+      print(repo)
+      Sys.sleep(2)
+      try({install_github(f, depen=FALSE)})
     }
   }
 }
 
 .rsu_pkgs_strings <- function() {
   c(
-    "rsugeneral"
-  , "rsuaspath"
+    "rsuaspath"
   , "rsuaws"
   , "rsubitly"
   , "rsuconsoleutils"
@@ -39,9 +40,10 @@
   , "rsuvydia"
   , "rsuworkspace"
   , "rsuxls"
-  , "rsutils"
+  , "rsugeneral"
+  , "rsutils3"
   # , "rsutils2"
-  # , "rsutils3"
+  # , "rsutils"
   )
 }
 
