@@ -6,6 +6,13 @@
     warning("GITHUB_PAT may not be set correctly.\n\n\tHINT:   try   source('~rsaporta/.Rprofile')\n\n")
 
   if (attempt != 0) {
+    cat("\n\n\n\n")
+    cat(" + ~~~ ----- ========================================================================= ------ ~~~ +\n")
+    cat("                                   RE RUNNING, attempt # ", attempt, "\n")
+    cat(" + ~~~ ----- ========================================================================= ------ ~~~ +\n")
+    cat("\n\n")
+    Sys.sleep(0.8)
+
     if (attempt > 4)
       stop("TRIED FOUR TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
     message("\n\nTrying again for packages: \n\t", paste(pkgs, collapse="\n\t"))
@@ -60,11 +67,38 @@
   }
 }
 
+.rsu_pkgs_strings <- function() {
+  c(
+    "rsuaspath"
+  , "rsuaws"
+  , "rsubitly"
+  , "rsuconsoleutils"
+  , "rsucurl"
+  , "rsudb"
+  , "rsudict"
+  , "rsujesus"
+  , "rsunotify"
+  # , "rsuorchard"
+  , "rsuplotting"
+  , "rsuprophesize"
+  , "rsuscrubbers"
+  , "rsushiny"
+  , "rsuvydia"
+  , "rsuworkspace"
+  , "rsuxls"
+  , "rsugeneral"
+  , "rsutils3"
+  # , "rsutils2"
+  # , "rsutils"
+  )
+}
+
 
 ## RUN THIS MANUALLY
 if (FALSE) 
 {
-  source("< THIS FILE >")
+  ## CHANGE THE PATH TO POINT TO THIS FILE
+  source(paste0(parent_folder="~rsaporta/Development/rsutils_packages/rsutils/R/", file="rsu_install_all_packages.R"))
 
   install.packages("prophet")
   install.packages("devtools")
