@@ -5,30 +5,33 @@ load_rsutils <- function(verbose=TRUE) {
 ## with
 ##     rsutils::load_rsutils    
 
-       pkgs = 
-    c("rsugeneral"
-    , "rsuaspath"
-    , "rsuaws"
-    , "rsubitly"
-    , "rsuconsoleutils"
-    , "rsucurl"
-    , "rsudb"
-    , "rsudict"
-    , "rsujesus"
-    , "rsunotify"
-    # , "rsuorchard"
-    , "rsuplotting"
-    , "rsuprophesize"
-    , "rsuscrubbers"
-    , "rsushiny"
-    , "rsuvydia"
-    , "rsuworkspace"
-    , "rsuxls"
-    , "rsutils"
-    # , "rsutils2"
-    # , "rsutils3"
-    )
-
+    if (exists(".rsu_pkgs_strings", mode="function")) {
+        pkgs <- .rsu_pkgs_strings()
+    } else  {
+        pkgs <- 
+            c("rsugeneral"
+            , "rsuaspath"
+            , "rsuaws"
+            , "rsubitly"
+            , "rsuconsoleutils"
+            , "rsucurl"
+            , "rsudb"
+            , "rsudict"
+            , "rsujesus"
+            , "rsunotify"
+            # , "rsuorchard"
+            , "rsuplotting"
+            , "rsuprophesize"
+            , "rsuscrubbers"
+            , "rsushiny"
+            , "rsuvydia"
+            , "rsuworkspace"
+            , "rsuxls"
+            , "rsutils"
+            # , "rsutils2"
+            # , "rsutils3"
+            )
+    }
 
     ## LOAD PACKAGES
     for (pkg in pkgs) {
