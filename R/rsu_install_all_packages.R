@@ -81,7 +81,6 @@
   , "rsudict"
   , "rsujesus"
   , "rsunotify"
-  # , "rsuorchard"
   , "rsuplotting"
   , "rsuprophesize"
   , "rsuscrubbers"
@@ -90,9 +89,12 @@
   , "rsuworkspace"
   , "rsuxls"
   , "rsugeneral"
-  # , "rsutils3"
+  , "rsutils"
+
+  # ------- NOT USED --------------- #
+  # , "rsuorchard"
   # , "rsutils2"
-  # , "rsutils"
+  # , "rsutils3"
   )
 }
 
