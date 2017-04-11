@@ -116,5 +116,10 @@ if (FALSE)
   devtools::install_github("rstats-db/RMySQL")
   try(remove.packages("rsutils"))
   .rsu_install_all_packages()
+
+
+  ## GITHUB SETTINGS FOR THE PACKAGES
+  if (FALSE)
+  openChromeTabs(sprintf("https://github.com/rsaporta/%s/settings/collaboration", .rsu_pkgs_strings()))
 }
 
