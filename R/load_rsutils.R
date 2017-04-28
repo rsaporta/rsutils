@@ -5,6 +5,10 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE) {
 ## with
 ##     rsutils::load_rsutils    
 
+    ## THESE PACKAGES GET USED SO OFTEN, MAKE SURE TO LOAD THEM
+    library(data.table)
+    library(magrittr)
+
     if (exists(".rsu_pkgs_strings", mode="function")) {
         pkgs <- setdiff(.rsu_pkgs_strings(), "rsutils3")
     } else  {
