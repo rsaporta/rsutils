@@ -1,7 +1,13 @@
-check_git_status_of_rsutils_packages <- function(verbose=TRUE) {
+check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) {
   main_folder <- "~/Development/rsutils_packages"
 
   pkg_folders <- extractSubfoldersFromFolder(folder=main_folder, pattern = "^rsu")
+
+  if (add_R_init) {
+    R_init.folder <- c("R_init" = as.path(main_folder, "../R_init/", expand=TRUE))
+    if (file.exists(R_init.folder) && isdir(R_init.folder))
+      pkg_folders  %<>% c(R_init.folder)
+  }
 
   rets <- emptylist(pkg_folders)
   for (pkg in names(pkg_folders)) {
