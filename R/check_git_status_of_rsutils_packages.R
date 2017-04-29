@@ -26,8 +26,6 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) 
 
 
 
-
-
   DT.ret <- data.table(
                   pkg=names(pkg_folders)
                 ## , folder=pkg_folders
