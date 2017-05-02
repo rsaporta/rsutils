@@ -8,6 +8,7 @@ License: PROPRIETARY
 Encoding: UTF-8
 LazyData: true
 Imports:
+    data.table,
     rsugeneral,
     rsuaspath,
     rsuaws,

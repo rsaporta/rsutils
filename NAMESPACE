@@ -1,4 +1,5 @@
 exportPattern("^[_|\\.|%|[:alpha:]]+|%")
+import(data.table)
 import(rsugeneral)
 import(rsuaspath)
 import(rsuaws)
