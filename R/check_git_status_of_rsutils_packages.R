@@ -32,7 +32,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) 
                 , as.data.table(git_parse_status_text(rets))
             )
   DT.ret[, on_master  := (branch == "master")]
-  DT.ret[, up_to_date := (status == "up-to-date")]
+  DT.ret[, up_to_date := (status == "up-to-date" & no_untracked_files & no_unstaged_changes)]
   setkey(DT.ret, status, pkg)
 
   if (verbose) {
@@ -43,4 +43,12 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) 
   }
 
   return(DT.ret)
+}
+
+
+if (FALSE) {
+
+  system("cd /Users/rsaporta/Development/rsutils_packages/rsuvydia/ && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
+  system("cd /Users/rsaporta/Development/rsutils_packages/rsutils/  && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
+
 }
