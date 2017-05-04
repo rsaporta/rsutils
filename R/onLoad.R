@@ -1,6 +1,8 @@
-.onLoad <- function(libname, pkgname) {
+.onLoad <- function(libname, pkgname, verbose=getOption("verbose.rsutils_load", default=FALSE)) {
   try(require(colorout))
-  cat("Running .onLoad() from rsutils --------------------------------- ======================================= ||\n")
+
+  if (verbose)
+    cat("Running .onLoad() from rsutils --------------------------------- ======================================= ||\n")
 
   load_rsutils(rsutils_load=FALSE)
 }
