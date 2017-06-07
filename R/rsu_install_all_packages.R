@@ -2,7 +2,10 @@
 #         OR
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
-.rsu_install_all_packages <- function(local_folder="~rsaporta/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), attempt=0) {
+.rsu_install_all_packages <- function(local_folder="~rsaporta/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), attempt=0, max_attempts=4) {
+  if (attempt > max_attempts)
+    stop("TRIED ", ifelse (max_attempts==4, "FOUR", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
+
   require(devtools)
   if (!nzchar(Sys.getenv("GITHUB_PAT")))
     warning("GITHUB_PAT may not be set correctly.\n\n\tHINT:   try   source('~rsaporta/.Rprofile')\n\n")
@@ -15,8 +18,6 @@
     cat("\n\n")
     Sys.sleep(0.8)
 
-    if (attempt > 4)
-      stop("TRIED FOUR TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
     message("\n\nTrying again for packages: \n\t", paste(pkgs, collapse="\n\t"))
     Sys.sleep(1.2)
   }
@@ -27,11 +28,11 @@
     f <- file.path(local_folder, pkg)
     if (file.exists(f)) {
       cat("   |- installing locally\n")
-      caught <- try({install_local(f, depen=FALSE)})
+      caught <- try({install_local(f, dependencies=FALSE)})
     } else {
       cat("   |- installing from GITHUB\n")
       repo <- paste0("rsaporta/", pkg)
-      caught <- try({install_github(repo, depen=FALSE)})
+      caught <- try({install_github(repo, dependencies=FALSE)})
     }
 
     if (inherits(caught, "try-error")) {
@@ -72,32 +73,36 @@
   }
 }
 
-.rsu_pkgs_strings <- function() {
-  c(
-    "rsuaspath"
-  , "rsuaws"
-  , "rsubitly"
-  , "rsuconsoleutils"
-  , "rsucurl"
-  , "rsudb"
-  , "rsudict"
-  , "rsujesus"
-  , "rsunotify"
-  , "rsuplotting"
-  , "rsuprophesize"
-  , "rsuscrubbers"
-  , "rsushiny"
-  , "rsuvydia"
-  , "rsuworkspace"
-  , "rsuxls"
-  , "rsugeneral"
-  , "rsutils"
+.rsu_pkgs_strings <- function(only_installed=FALSE) {
+  pkgs <- 
+    c(
+      "rsuaspath"
+    , "rsuaws"
+    , "rsubitly"
+    , "rsuconsoleutils"
+    , "rsucurl"
+    , "rsudb"
+    , "rsudict"
+    , "rsujesus"
+    , "rsunotify"
+    , "rsuplotting"
+    , "rsuprophesize"
+    , "rsuscrubbers"
+    , "rsushiny"
+    , "rsuvydia"
+    , "rsuworkspace"
+    , "rsuxls"
+    , "rsugeneral"
+    , "rsutils"
+    )
 
-  # ------- NOT USED --------------- #
-  # , "rsuorchard"
-  # , "rsutils2"
-  # , "rsutils3"
-  )
+  if (only_installed) {
+    ## cross reference against what is installed
+    installed_packages <- unlist(dir(.libPaths()), use.names=FALSE)
+    pkgs <- intersect(pkgs, installed.packages())
+  }
+
+  return(pkgs)
 }
 
 

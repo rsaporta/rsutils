@@ -1,4 +1,4 @@
-load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE) {
+load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE) {
 
 ## usage:  replace   
 ##     library(rsutils)
@@ -10,7 +10,7 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE) {
     library(magrittr)
 
     if (exists(".rsu_pkgs_strings", mode="function")) {
-        pkgs <- setdiff(.rsu_pkgs_strings(), "rsutils3")
+        pkgs <- .rsu_pkgs_strings()
     } else  {
         pkgs <- 
             c("rsugeneral"
@@ -31,17 +31,15 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE) {
             , "rsuworkspace"
             , "rsuxls"
             , "rsutils"
-
-            # ------------------------ #
-            # , "rsuorchard"
-            # , "rsutils2"
-            # , "rsutils3"
-            # ------------------------ #
             )
     }
 
     if (!isTRUE(rsutils_load))
         pkgs <- setdiff(pkgs, "rsutils")
+
+    ## cross reference against what is installed
+    installed_packages <- unlist(dir(.libPaths()), use.names=FALSE)
+    pkgs <- intersect(pkgs, installed.packages())
 
     ## LOAD PACKAGES
     for (pkg in pkgs) {
@@ -50,11 +48,15 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE) {
       try(library(pkg, character.only=TRUE))
     }
 
-    ## SOME FUNCTIONS NEED CREATING
-    try({  eval( rsuworkspace::.create_dir.p_functions(), envir=globalenv() )  })
-    try({  eval(  rsuplotting::.create_axis_functions(),  envir=globalenv() )  })
+    ## UPDATE 2017-06-07, this shouldnt be needed anymore. I belive these run onLoad with each package
+    ##                    Converting to an optional argument
+    if (run_creates) {
+        ## SOME FUNCTIONS NEED CREATING
+        if (!exists("src.p", mode="function"))
+            try({  eval( rsuworkspace::.create_dir.p_functions(), envir=globalenv() )  })
+        if (!(exists("dollar", mode="function") && exists("weeks", mode="function") && exists("days", mode="function")))
+            try({  eval(  rsuplotting::.create_axis_functions(),  envir=globalenv() )  })
+    }
 
-
-    return(invisible(0))
+    return(invisible(TRUE))
 }
-
