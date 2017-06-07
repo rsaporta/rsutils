@@ -8,8 +8,9 @@ Description: Loads up the multiple rsu* packages.
 License: PROPRIETARY
 Encoding: UTF-8
 LazyData: true
+Imports:
+    data.table
 Suggests:
-    data.table,
     rsugeneral,
     rsuaspath,
     rsuaws,
