@@ -13,6 +13,15 @@
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, verbose=verbose)
 }
 
+.refresh_dict <- function(parent_folder=getOption("rsu.homeDir"), verbose=TRUE) {
+  pkg <- "rsudict"
+  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, verbose=verbose)
+}
+.refresh_db <- function(parent_folder=getOption("rsu.homeDir"), verbose=TRUE) {
+  pkg <- "rsudb"
+  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, verbose=verbose)
+}
+
 .refresh_workspace <- function(parent_folder=getOption("rsu.homeDir"), verbose=TRUE) {
   pkg <- "rsuworkspace"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, verbose=verbose)
