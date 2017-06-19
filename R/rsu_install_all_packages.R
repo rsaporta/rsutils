@@ -50,6 +50,8 @@
 
 .rsu_pull_all_packages <- function(parent_folder="~/Development/rsutils_packages", pkgs=.rsu_pkgs_strings() ) {
 
+  try(check_git_status_of_rsutils_packages() )
+
   if (file.exists("~/Development/R_init"))
     system("cd ~/Development/R_init; git pull")
 
