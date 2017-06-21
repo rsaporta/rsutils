@@ -3,12 +3,13 @@
 ## ---------------------------------------------------- ##
 if (FALSE) 
 {
+    .last_successful_pkg <- NULL
     parent_folder <- "~/Development/rsutils_packages/"
     pkgs <-  .rsu_pkgs_strings()
 
-    pkgs <- pkgs[seq(from=which(pkgs == "rsuplotting") + 1, to = length(pkgs))]
-
-    pkgs <- c("rsudb", "rsuaspath")
+    ## FOR MID-RUN CRASH
+    if (!is.null(.last_successful_pkg))
+      pkgs <- pkgs[seq(from=which(pkgs == .last_successful_pkg) + 1, to = length(pkgs))]
 
     stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, verbose=TRUE)[, up_to_date & branch == "master"])
 
