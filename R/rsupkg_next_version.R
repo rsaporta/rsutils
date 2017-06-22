@@ -184,6 +184,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
 
   ## MAKE STABLE VERSION
   ## ------------------------------------------------------------------------ ##
+  browser(expr=rsugeneral::inDebugMode("pkg", "nextversion"))
   for (s_u in stable_unstable) {
       cls(3)
       message("          ---------------------------------------  [", s_u, "]  ---------------------------------------")
@@ -195,7 +196,6 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       if (!.test_run) {
 #          ## WRITE THE FILE
 #          cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
-
           ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
           system(cmd.git_commit[[s_u]], intern=FALSE)
       } else 
