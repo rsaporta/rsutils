@@ -52,7 +52,7 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
 
 
 
-rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", parent_folder="~/Development/rsutils_packages/", branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE) {
+rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", parent_folder="~/Development/rsutils_packages/", branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=TRUE) {
 
   if (missing(pkg))
     stop("you have to specify a pkg")
@@ -194,8 +194,9 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       # cmd <- sprintf(fmt=cmd.git_commit[[s_u]], folder, file.description)
 
       if (!.test_run) {
-#          ## WRITE THE FILE
-#          cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
+        verboseMsg(verbose_raw, raw, sep="\n", time=FALSE)
+         ## WRITE THE FILE
+         cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
           ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
           system(cmd.git_commit[[s_u]], intern=FALSE)
       } else 
