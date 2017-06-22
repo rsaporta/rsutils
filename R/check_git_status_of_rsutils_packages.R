@@ -1,4 +1,6 @@
 check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) {
+  requireNamespace("rsuworkspace")
+
   main_folder <- "~/Development/rsutils_packages"
 
   pkg_folders <- extractSubfoldersFromFolder(folder=main_folder, pattern = "^rsu")
@@ -29,7 +31,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) 
   DT.ret <- data.table(
                   pkg=names(pkg_folders)
                 ## , folder=pkg_folders
-                , as.data.table(git_parse_status_text(rets))
+                , as.data.table(rsuworkspace::git_parse_status_text(txt=rets))
             )
   DT.ret[, on_master  := (branch == "master")]
   DT.ret[, up_to_date := (status == "up-to-date" & no_untracked_files & no_unstaged_changes)]
