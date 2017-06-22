@@ -18,7 +18,7 @@ if (FALSE)
 
     ## TODO, 
     for (pkg in pkgs) {
-      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", parent_folder=parent_folder, .test_run=.test_run, verbose_raw=TRUE)
+      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", parent_folder=parent_folder, .test_run=.test_run, verbose_raw=FALSE)
       catheader(pkg)
     }
 }
@@ -52,7 +52,7 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
 
 
 
-rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", parent_folder="~/Development/rsutils_packages/", branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=TRUE) {
+rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", parent_folder="~/Development/rsutils_packages/", branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
 
   if (missing(pkg))
     stop("you have to specify a pkg")
@@ -194,7 +194,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       # cmd <- sprintf(fmt=cmd.git_commit[[s_u]], folder, file.description)
 
       if (!.test_run) {
-        verboseMsg(verbose_raw, raw, sep="\n", time=FALSE)
+        verboseMsg(verbose_raw, pasteC(raw, C="\n"), time=FALSE)
          ## WRITE THE FILE
          cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
           ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
@@ -209,71 +209,3 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   }
   return(TRUE)
 }
-
-#   ## MAKE UNSTABLE VERSION
-#   ## ------------------------------------------------------------------------ ##
-#   raw[ind.vers]         <- versinfo[["unstable"]]
-#   raw[ind.desc_subline] <- desc_subline[["unstable"]]
-# 
-#   if (!.test_run) {
-#       ## WRITE THE FILE
-#       cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
-# 
-#       ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
-#       sprintf(fmt=cmd.git_commit[["unstable"]], folder, file.description) %>% system(intern=FALSE)
-#   } else {
-#     message("  ....... not writing to disk, but here is the raw output .......")
-#     cat(raw, sep="\n")
-#     message("  ...............................................................\n")
-#   }
-# 
-# 
-# 
-# }
-# 
-# 
-#   if (update_current) {
-#       if (!.test_run) {
-#           ## WRITE THE FILE
-#           cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
-# 
-#           ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
-#           sprintf(cmd.git_commit[["stable"]], folder, file.description) %>% system(intern=FALSE)
-#       } else {
-#         message("  ....... not writing to disk, but here is the raw output .......")
-#         cat(raw, sep="\n")
-#         message("  ...............................................................\n")
-#       }
-#   } else {
-#       sprintf(fmt.git_ck_master, folder) %>% system(TRUE)
-#   }
-# 
-#   ## ---------------------------------------------------------------------------- ##
-#   ## CHANGE MASTER TO SUBSEQUENT VERSION ---------------------------------------- ##
-#   ## ---------------------------------------------------------------------------- ##
-# 
-# 
-#   ## CONFIRM THAT THE CURRENT BRANCH IS MASTER
-#   stopifnot(fmt.git_branch %>% sprintf(folder) %>% system(TRUE) %>% grep(pat="^\\s*\\*", value=TRUE) %>% identical("* master"))
-# 
-#   stopifnot(ind.curr > ind.vers)
-# 
-# 
-#   raw[ind.vers] <- sprintf("Version: %s", vers.next)
-#   raw[ind.curr] <- desc.next
-# 
-#   if (update_next) {
-#       if (!.test_run) {
-#           ## WRITE THE FILE
-#           cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
-# 
-#           ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
-#           sprintf(cmd.git_commit[["unstable"]], folder, file.description) %>% system(intern=FALSE)
-#       } else {
-#         message("  ....... not writing to disk, but here is the raw output .......")
-#         cat(raw, sep="\n")
-#         message("  ...............................................................\n")
-#       }
-#   }
-# }
-# 
