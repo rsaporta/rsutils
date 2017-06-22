@@ -18,7 +18,7 @@ if (FALSE)
 
     ## TODO, 
     for (pkg in pkgs) {
-      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", parent_folder=parent_folder, .test_run=.test_run)
+      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", parent_folder=parent_folder, .test_run=.test_run, verbose_raw=TRUE)
       catheader(pkg)
     }
 }
