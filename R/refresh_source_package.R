@@ -1,6 +1,7 @@
 .refresh_plotting <- function(parent_folder=getOption("rsu.homeDir"), verbose=TRUE) {
   pkg <- "rsuplotting"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, verbose=verbose)
+  .create_axis_functions()
 }
 
 .refresh_vydia <- function(parent_folder=getOption("rsu.homeDir"), verbose=TRUE) {
