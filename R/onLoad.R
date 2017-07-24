@@ -6,7 +6,3 @@
 
   load_rsutils(rsutils_load=FALSE)
 }
-
-testing_utils <- function() {
-  cat("yes, this file loaded. -- it came from '<path>/rsutils/R/onLoad.R'\n")
-}
