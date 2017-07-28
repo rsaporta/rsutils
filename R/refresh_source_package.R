@@ -22,6 +22,10 @@
   pkg <- "rsudb"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
+.refresh_consoleutils <- function(parent_folder=getOption("rsu.homeDir"), git_pull=FALSE, verbose=TRUE) {
+  pkg <- "rsuconsoleutils"
+  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+}
 
 .refresh_workspace <- function(parent_folder=getOption("rsu.homeDir"), git_pull=FALSE, verbose=TRUE) {
   pkg <- "rsuworkspace"
