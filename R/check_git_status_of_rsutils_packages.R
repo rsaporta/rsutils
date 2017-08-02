@@ -1,14 +1,24 @@
-check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) {
+check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=FALSE, verbose=TRUE) {
   requireNamespace("rsuworkspace")
 
   main_folder <- "~/Development/rsutils_packages"
 
   pkg_folders <- extractSubfoldersFromFolder(folder=main_folder, pattern = "^rsu")
 
+
   if (add_R_init) {
     R_init.folder <- c("R_init" = as.path(main_folder, "../R_init/", expand=TRUE))
     if (file.exists(R_init.folder) && isdir(R_init.folder))
       pkg_folders  %<>% c(R_init.folder)
+  }
+
+  if (vydia_too) {
+    vydia_parent_folder <- "~/Development/"
+    vydia_folders <- extractSubfoldersFromFolder(folder=vydia_parent_folder, pattern = "^vydia_")
+
+    ## Restrict to those that have a git repo
+    has_repo <- vydia_folders %>% as.path(".git") %>% file.exists()
+    pkg_folders  %<>% c(vydia_folders[has_repo])
   }
 
   rets <- emptylist(pkg_folders)
@@ -25,7 +35,6 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) 
                     system(TRUE) %>% 
                     pasteC(C="\n")
   }
-
 
 
   DT.ret <- data.table(
@@ -48,7 +57,11 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, verbose=TRUE) 
 }
 
 
+
 if (FALSE) {
+
+check_git_status_of_rsutils_packages(vydia_too=TRUE)
+tb()
 
   system("cd /Users/rsaporta/Development/rsutils_packages/rsuvydia/ && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
   system("cd /Users/rsaporta/Development/rsutils_packages/rsutils/  && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
