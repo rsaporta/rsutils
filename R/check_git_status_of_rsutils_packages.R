@@ -47,7 +47,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=FALS
   setkey(DT.ret, status, pkg)
 
   if (verbose) {
-    if (any(!DT.ret$up_to_date))
+    if (any(!DT.ret$up_to_date, na.rm=TRUE))
       message("\nThe following packages need to pushed or pulled (or both): ", sprintf("\n\t'%s'", DT.ret[!(up_to_date), pkg]), "\n")
     else
       message("The git status for all packages is up-to-date")
@@ -60,8 +60,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=FALS
 
 if (FALSE) {
 
-check_git_status_of_rsutils_packages(vydia_too=TRUE)
-tb()
+  check_git_status_of_rsutils_packages(vydia_too=TRUE)
 
   system("cd /Users/rsaporta/Development/rsutils_packages/rsuvydia/ && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
   system("cd /Users/rsaporta/Development/rsutils_packages/rsutils/  && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
