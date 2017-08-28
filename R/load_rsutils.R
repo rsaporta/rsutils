@@ -6,8 +6,10 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE) {
 ##     rsutils::load_rsutils    
 
     ## THESE PACKAGES GET USED SO OFTEN, MAKE SURE TO LOAD THEM
-    library(data.table)
-    library(magrittr)
+    try( require(colorout,   quietly=TRUE) )
+    try( library(data.table, quietly=TRUE) ) 
+    try( library(magrittr,   quietly=TRUE) )
+    
 
     if (exists(".rsu_pkgs_strings", mode="function")) {
         pkgs <- .rsu_pkgs_strings()
@@ -45,7 +47,7 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE) {
     for (pkg in pkgs) {
       if (verbose)
         message(sprintf("---------- ========= [    LOADING  % 16s    ] ========= ----------", pkg))
-      try(library(pkg, character.only=TRUE))
+      try(library(pkg, warn.conflicts=FALSE, character.only=TRUE))
     }
 
     ## UPDATE 2017-06-07, this shouldnt be needed anymore. I belive these run onLoad with each package
