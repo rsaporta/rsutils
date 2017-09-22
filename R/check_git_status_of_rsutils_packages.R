@@ -1,4 +1,4 @@
-check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=FALSE, verbose=TRUE) {
+check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v=FALSE, fetch=TRUE, verbose=TRUE) {
   requireNamespace("rsuworkspace")
 
   main_folder <- "~/Development/rsutils_packages"
@@ -21,10 +21,18 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=FALS
     pkg_folders  %<>% c(vydia_folders[has_repo])
   }
 
+  if (is_param_auto(fetch)) {
+    last_fetch <- getOption("rsu.git_last_fetch", default=.origin.utc)
+    fetch_again <- as.numeric(now() - last_fetch) > (2 * 60 * 60)
+    if (fetch_again)
+      options("rsu.git_last_fetch" = now())
+  }
+
   rets <- emptylist(pkg_folders)
   for (pkg in names(pkg_folders)) {
     ## FETCH
-    pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git fetch")
+    if (fetch && fetch_again)
+      pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git fetch") %>% system()
 
     # cmd <- pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git status")
     # ret <- system(cmd, TRUE) %>% pasteC(C="\n")
