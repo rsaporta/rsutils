@@ -11,7 +11,7 @@ if (FALSE)
     if (!is.null(.last_successful_pkg))
       pkgs <- pkgs[seq(from=which(pkgs == .last_successful_pkg) + 1, to = length(pkgs))]
 
-    stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, verbose=TRUE)[, up_to_date & branch == "master"])
+    stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, fetch=TRUE, verbose=TRUE)[, up_to_date & branch == "master"])
 
     stable_version_to_make <- 1.8
     .test_run <- TRUE
