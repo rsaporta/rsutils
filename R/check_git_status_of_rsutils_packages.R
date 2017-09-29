@@ -21,6 +21,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
     pkg_folders  %<>% c(vydia_folders[has_repo])
   }
 
+  fetch_again <- FALSE
   if (is_param_auto(fetch)) {
     last_fetch <- getOption("rsu.git_last_fetch", default=.origin.utc)
     fetch_again <- as.numeric(now() - last_fetch) > (2 * 60 * 60)
