@@ -5,7 +5,7 @@
   try(require(magrittr,   quietly=TRUE))
 
   if (verbose)
-    cat("Running .onLoad() from rsutils --------------------------------- ======================================= ||\n")
+    cat(sprintf("Running .onLoad() from %-16s --------------------------- ================================ ||\n", pkgname))
 
   load_rsutils(rsutils_load=FALSE)
 }
