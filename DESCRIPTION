@@ -9,6 +9,7 @@ License: PROPRIETARY
 Encoding: UTF-8
 LazyData: true
 Imports:
+    collectArgs,
     data.table
 Suggests:
     rsugeneral,

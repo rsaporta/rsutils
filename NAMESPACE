@@ -1,2 +1,3 @@
 exportPattern("^[_|\\.|%|[:alpha:]]+|%")
 import(data.table)
+import(collectArgs)
