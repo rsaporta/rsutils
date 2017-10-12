@@ -28,7 +28,8 @@ if (FALSE)
 
 rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsutils_packages/", branch="master") {
   folder <- rsuaspath::as.path(parent_folder, pkg, expand=TRUE)
-  stopifnot(getGitBranch(from_where="system", dir=folder) == branch)
+  # stopifnot(getGitBranch(from_where="system", dir=folder) == branch)
+  confirm_git_branch_is_as_expected(branch_expected=branch, from_where="system", directory_to_check=folder, fail.if.not=TRUE)
 
 
   ## GRAB THE DESCRIPTION FILE
@@ -42,7 +43,7 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
   pat.vers <- "^Version:\\s*"
   ind.vers <- grepi(pat.vers, x=raw)
   stopifnot(length(ind.vers) > 0)
-  stopifnot(ind.vers == 4)
+  stopifnot(ind.vers == 3)
 
   ## extract current version and compare against next version
   last_version <- raw[[ind.vers]] %>% removeText(pat=pat.vers)
@@ -50,9 +51,29 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
   return(last_version)
 }
 
+#' @param from_where enum string of length 1. Where are we checking the git branch? Are we using the system command, or are we checking what branch we have saved in R_options?
+confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, from_where=c("system", "System", "R_options"), fail.if.not=TRUE, showWarnings=!fail.if.not) {
 
+  from_where <- match.arg(from_where)
 
-rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", parent_folder="~/Development/rsutils_packages/", branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
+  current_branch <- getGitBranch(from_where=from_where, dir=directory_to_check)
+  is_same <- current_branch == branch_expected
+
+  if (is_same)
+    return(TRUE)
+
+  msg <- sprintf("Git Branch Confirmation Failed:  Branch expected is '%s' but current branch is '%s'  (we checked using %s)", branch_expected, current_branch, from_where)
+
+  if (fail.if.not)
+    stop(msg, call.=FALSE)
+
+  if (showWarnings)
+    warning(msg, call. = FALSE)
+
+  return(FALSE)
+}
+
+rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", parent_folder=paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/")), branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
 
   if (missing(pkg))
     stop("you have to specify a pkg")
@@ -60,14 +81,15 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   catheader(pkg)
 
   folder <- rsuaspath::as.path(parent_folder, pkg, expand=TRUE)
-  stopifnot(getGitBranch(from_where="system", dir=folder) == branch_start_from)
+  # stopifnot(getGitBranch(from_where="system", dir=folder) == branch_start_from)
+  confirm_git_branch_is_as_expected(branch_expected=branch_start_from, from_where="system", directory_to_check=folder, fail.if.not=TRUE)
 
   ## VALIDATE GIT BRANCH & STATUS BEFORE STARTING
   status <- git_parse_status_text(folder=folder)
   if (!isTRUE(status$branch == branch_start_from))
     stop("branch is not '", branch_start_from, "'  (it is '", status$branch, "')")
   if (!isTRUE(status$status == "up-to-date"))
-    stop("status is not up-to-date for branch '", status$branch, "' for pkg '", pkg, "'")
+    stop("status is not up-to-date for branch '", status$branch, "' for pkg '", pkg, "'\n\n   HINT:   Are there uncommited changes?")
 
   ## GRAB THE DESCRIPTION FILE
   file.description <- as.path(folder, "DESCRIPTION", expand=TRUE)
@@ -89,13 +111,13 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   pat.vers <- "^Version:\\s*"
   ind.vers <- grepi(pat.vers, x=raw)
   stopifnot(length(ind.vers) > 0)
-  stopifnot(ind.vers == 4)
+  stopifnot(ind.vers == 3)
 
   ## find the line of text that contains the stable/unstable details
   pat.desc_subline <- "(^\\s+)Unstable development version"
   ind.desc_subline <- grepi(pat.desc_subline, x=raw)
   stopifnot(length(ind.desc_subline) > 0)
-  stopifnot(ind.desc_subline %in% (7:8))
+  stopifnot(ind.desc_subline %in% (6:7))
   ## ---------------------------------------------------------------------------------------------------------- ##
 
 
@@ -135,8 +157,6 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
     stop("unstable version should have an odd 'y' in version number  x.y.z")
   ## ------------------------------------------------------------------------------------------- ##
 
-
-
   ## ---------------------------- GIT FORMATS ----------------------------- ##
   fmt.git_pull <- "cd %s && git pull"
   fmt.git_branch <- "cd %s && git branch"
@@ -156,6 +176,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       git checkout master;
       git status;
   ', branch_stable_root, stable_version_to_make, shellClean(folder), shellClean(file.description))
+  message("Will execute the following git command for the stable version")
   catnn(cmd.git_commit[["stable"]])
 
   cmd.git_commit[["unstable"]] <- sprintf(fmt='
@@ -166,6 +187,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       git push;
       git checkout %1$s
   ', branch_unstable, next_unstable_version, shellClean(folder), shellClean(file.description))
+  message("Will execute the following git command for the next unstable version")
   catnn(cmd.git_commit[["unstable"]])
   ## ---------------------------- GIT FORMATS ----------------------------- ##
 
@@ -178,8 +200,8 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   versinfo[["stable"]]   <- sprintf("Version: %s", stable_version_to_make)
   versinfo[["unstable"]] <- sprintf("Version: %s", next_unstable_version)
 
-  desc_subline[["stable"]]   <- sprintf("    Current stable version (committed on %s)",             timeStamp(frmt=time_format))
-  desc_subline[["unstable"]] <- sprintf("    Unstable development version (first committed on %s)", timeStamp(frmt=time_format))
+  desc_subline[["stable"]]   <- sprintf("    Current stable version (committed on %s).",             timeStamp(frmt=time_format))
+  desc_subline[["unstable"]] <- sprintf("    Unstable development version (first committed on %s).", timeStamp(frmt=time_format))
 
 
   ## MAKE STABLE VERSION
@@ -207,5 +229,8 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
         message("  ...............................................................\n")
       }
   }
+
+  if (.test_run)
+    message("\n\n------------- REMINDER: to write to disk, rerun with   .test_run = FALSE")
   return(TRUE)
 }
