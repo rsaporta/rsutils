@@ -117,7 +117,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   pat.desc_subline <- "(^\\s+)Unstable development version"
   ind.desc_subline <- grepi(pat.desc_subline, x=raw)
   stopifnot(length(ind.desc_subline) > 0)
-  stopifnot(ind.desc_subline %in% (6:7))
+  stopifnot(ind.desc_subline %in% (6:8))
   ## ---------------------------------------------------------------------------------------------------------- ##
 
 
