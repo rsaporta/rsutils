@@ -2,7 +2,7 @@
 #         OR
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
-.rsu_install_all_packages <- function(local_folder="~rsaporta/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), attempt=0, max_attempts=4) {
+.rsu_install_all_packages <- function(local_folder="~/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), attempt=0, max_attempts=4) {
   if (attempt > max_attempts)
     stop("TRIED ", ifelse (max_attempts==4, "FOUR", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
 
