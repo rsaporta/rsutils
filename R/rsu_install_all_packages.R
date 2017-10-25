@@ -11,7 +11,7 @@
 
   ## Rick's Public Packages, such as rcreds and collectArgs
   if (update_public_rsaporta_pkgs)
-    pkgs %<>% c(public_rsaporta_pkgs, .)
+    pkgs <- c(public_rsaporta_pkgs, pkgs)
 
   if (!nzchar(Sys.getenv("GITHUB_PAT")))
     warning("GITHUB_PAT may not be set correctly.\n\n\tHINT:   try   source('~rsaporta/.Rprofile')\n\n")
