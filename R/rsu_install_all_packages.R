@@ -3,26 +3,15 @@
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
 #' @importFrom devtools install_github
-.rsu_install_all_packages <- function(local_folder="~/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), attempt=0, max_attempts=4) {
+.rsu_install_all_packages <- function(local_folder="~/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), attempt=0, max_attempts=4, quiet_install=TRUE) {
   if (attempt > max_attempts)
     stop("TRIED ", ifelse (max_attempts==4, "FOUR", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
 
   stopifnot(requireNamespace("devtools"))
 
   ## Rick's Public Packages, such as rcreds and collectArgs
-  if (update_public_rsaporta_pkgs) {
-    for (pkg in public_rsaporta_pkgs) {
-      repo <- paste0("rsaporta/", pkg)
-      caught <- try({install_github(repo, dependencies=FALSE)})
-
-      if (inherits(caught, "try-error")) {
-        errd <- c(errd, pkg)
-        cat ("   |- FAILED for ", pkg, "       <~~~~~~~~~~~~~~~~  \n")
-        Sys.sleep(0.8)
-      }
-
-    }
-  }
+  if (update_public_rsaporta_pkgs)
+    pkgs %<>% c(public_rsaporta_pkgs, .)
 
   if (!nzchar(Sys.getenv("GITHUB_PAT")))
     warning("GITHUB_PAT may not be set correctly.\n\n\tHINT:   try   source('~rsaporta/.Rprofile')\n\n")
@@ -45,11 +34,11 @@
     f <- file.path(local_folder, pkg)
     if (file.exists(f)) {
       cat("   |- installing locally\n")
-      caught <- try({install_local(f, dependencies=FALSE)})
+      caught <- try({devtools::install_local(f, dependencies=FALSE, quiet=quiet_install)})
     } else {
       cat("   |- installing from GITHUB\n")
       repo <- paste0("rsaporta/", pkg)
-      caught <- try({install_github(repo, dependencies=FALSE)})
+      caught <- try({devtools::install_github(repo, dependencies=FALSE, quiet=quiet_install)})
     }
 
     if (inherits(caught, "try-error")) {
