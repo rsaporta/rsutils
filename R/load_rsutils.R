@@ -6,9 +6,11 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE, qui
 ##     rsutils::load_rsutils    
 
     ## THESE PACKAGES GET USED SO OFTEN, MAKE SURE TO LOAD THEM
-    try( require(colorout,   quietly=quietly) )
-    try( library(data.table, quietly=quietly) ) 
-    try( library(magrittr,   quietly=quietly) )
+    try( require(colorout,     quietly=quietly) )
+    try( library(data.table,   quietly=quietly) ) 
+    try( library(magrittr,     quietly=quietly) )
+    try( library(collectArgs,  quietly=quietly) )
+    try( library(rcreds,       quietly=quietly) )
     
 
     if (exists(".rsu_pkgs_strings", mode="function")) {
