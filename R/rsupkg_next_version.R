@@ -51,6 +51,10 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
   return(last_version)
 }
 
+#' confirm_git_branch_is_as_expected
+#' 
+#' checks that the system git branch matches an exepected git branch
+#' 
 #' @param from_where enum string of length 1. Where are we checking the git branch? Are we using the system command, or are we checking what branch we have saved in R_options?
 confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, from_where=c("system", "System", "R_options"), fail.if.not=TRUE, showWarnings=!fail.if.not) {
 
