@@ -60,6 +60,9 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
       message("\nThe following packages need to pushed or pulled (or both): ", sprintf("\n\t'%s'", DT.ret[!(up_to_date), pkg]), "\n")
     else
       message("The git status for all packages", ifelse(vydia_too, " and vydia projects", ""), " is up-to-date")
+
+    if (any(!DT.ret$on_master))
+      message("\nThe following packages are not on 'master': ", sprintf("\n\t'%s'", DT.ret[!(on_master), pkg]), "\n")
   }
 
   return(DT.ret)
