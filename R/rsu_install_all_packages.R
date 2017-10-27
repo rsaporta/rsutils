@@ -3,7 +3,7 @@
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
 #' @importFrom devtools install_github
-.rsu_install_all_packages <- function(local_folder="~/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), attempt=0, max_attempts=4, quiet_install=TRUE) {
+.rsu_install_all_packages <- function(local_folder="~/Development/rsutils_packages", pkgs=.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=4, quiet_install=TRUE) {
   if (attempt > max_attempts)
     stop("TRIED ", ifelse (max_attempts==4, "FOUR", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
 
@@ -32,13 +32,15 @@
   for (pkg in pkgs) {
     cat(sprintf(" --------- ========== [ % 15s   ] ========== ----------- \n", pkg))
     f <- file.path(local_folder, pkg)
-    if (file.exists(f)) {
-      cat("   |- installing locally\n")
-      caught <- try({devtools::install_local(f, dependencies=FALSE, quiet=quiet_install)})
-    } else {
+    if (isTRUE(github) || !file.exists(f)) {
       cat("   |- installing from GITHUB\n")
       repo <- paste0("rsaporta/", pkg)
       caught <- try({devtools::install_github(repo, dependencies=FALSE, quiet=quiet_install)})
+    } else if (file.exists(f)) {
+      cat("   |- installing locally\n")
+      caught <- try({devtools::install_local(f, dependencies=FALSE, quiet=quiet_install)})
+    } else {
+      caught <- try(stop("Could not install '", pkg, "'"), silent=TRUE)
     }
 
     if (inherits(caught, "try-error")) {
