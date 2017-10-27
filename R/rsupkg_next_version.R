@@ -77,7 +77,10 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
   return(FALSE)
 }
 
-rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", parent_folder=paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/")), branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
+rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", what_to_increment=c("y", "z", "x"), parent_folder=paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/")), branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
+
+  ## what_to_increment should be one of x.y.z
+  what_to_increment <- match.arg(what_to_increment)
 
   if (missing(pkg))
     stop("you have to specify a pkg")
@@ -132,13 +135,13 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
 
   if (stable_version_to_make == "auto") {
     last_version <- rsu_get_current_version_of_pkg(pkg=pkg, parent_folder=parent_folder, branch=branch_start_from)
-    stable_version_to_make <- increment_version(last_version, what="y", by=1, y_must_be_even=TRUE)
+    stable_version_to_make <- increment_version(last_version, what=what_to_increment, by=1, y_must_be_even=TRUE)
   } else {
     stable_version_to_make %<>% .validate_and_clean_versionNumber(fail.if.not=TRUE)
   }
 
   if (next_unstable_version == "auto") {
-    next_unstable_version <- increment_version(stable_version_to_make, what="y", by=1, y_must_be_odd=TRUE)
+    next_unstable_version <- increment_version(stable_version_to_make, what=what_to_increment, by=1, y_must_be_odd=TRUE)
   } else {
     next_unstable_version %<>% .validate_and_clean_versionNumber(fail.if.not=TRUE)
   }
@@ -152,8 +155,8 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   is_next_increase_from_stable <- compareVersion(next_unstable_version, stable_version_to_make) == 1
   stopifnot(is_next_increase_from_stable)
 
-  y_is_even.stable   <- stable_version_to_make %>% splitVersionNumber() %>% "[["("y") %>% "%%"(2) %>% "=="(0)
-  y_is_odd.unstable  <- next_unstable_version  %>% splitVersionNumber() %>% "[["("y") %>% "%%"(2) %>% "=="(1)
+  y_is_even.stable   <- stable_version_to_make %>% splitVersionNumber() %>% "[["(what_to_increment) %>% "%%"(2) %>% "=="(0)
+  y_is_odd.unstable  <- next_unstable_version  %>% splitVersionNumber() %>% "[["(what_to_increment) %>% "%%"(2) %>% "=="(1)
 
   if (!y_is_even.stable)
     stop("stable version should have an even 'y' in version number  x.y.z")
