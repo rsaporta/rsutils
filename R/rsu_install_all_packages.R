@@ -4,6 +4,15 @@
 
 #' @importFrom devtools install_github
 .rsu_install_all_packages <- function(local_folder=.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=4, quiet_install=FALSE) {
+  caught <- try(force(local_folder))
+  if (inherits(caught, "try-error")) {
+    warning("local_folder error'd.  Will use '~/Development/rsutils_packages'")
+    local_folder <- '~/Development/rsutils_packages'
+  }
+
+  if (!file.exists(local_folder))
+    stop("local_folder '", local_folder, "' does not exist.")
+
   if (attempt > max_attempts)
     stop("TRIED ", ifelse (max_attempts==4, "FOUR", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
 
