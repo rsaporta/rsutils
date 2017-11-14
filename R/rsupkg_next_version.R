@@ -31,6 +31,11 @@ if (FALSE)
       rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", what_to_increment=what_to_increment, parent_folder=parent_folder, .test_run=.test_run, verbose_raw=FALSE)
       catheader(pkg)
     }
+
+    ## Output the devtools install commands
+    if (!.test_run) {
+      pkgs %>% sprintf(fmt='"rsaporta/%s", ') %>% sprintf(fmt='devtools::install_github(%-30s ref="production/V%s", dependencies=FALSE)', stable_version_to_make) %>% catnn
+    }
 }
 ## ---------------------------------------------------- ##
 
