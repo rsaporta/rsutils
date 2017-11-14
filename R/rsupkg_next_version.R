@@ -5,7 +5,8 @@ if (FALSE)
 {
 
     ## PARAMS --------------------------------
-    stable_version_to_make <- 2.0
+    stable_version_to_make <- "2.0.0"  ## make sure it's quoted
+    what_to_increment <- "z"           ## "x", "y", or "z"
     .test_run <- TRUE
     ## PARAMS --------------------------------
     ## ---------------------------------------
@@ -27,7 +28,7 @@ if (FALSE)
 
     ## TODO, 
     for (pkg in pkgs) {
-      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", parent_folder=parent_folder, .test_run=.test_run, verbose_raw=FALSE)
+      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", what_to_increment=what_to_increment, parent_folder=parent_folder, .test_run=.test_run, verbose_raw=FALSE)
       catheader(pkg)
     }
 }
