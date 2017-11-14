@@ -34,7 +34,7 @@ if (FALSE)
 
     ## Output the devtools install commands
     if (!.test_run) {
-      pkgs %>% sprintf(fmt='"rsaporta/%s", ') %>% sprintf(fmt='devtools::install_github(%-30s ref="production/V%s", dependencies=FALSE)', stable_version_to_make) %>% catnn
+      pkgs %>% sprintf(fmt='"rsaporta/%s", ') %>% sprintf(fmt='devtools::install_github(%-30s ref="stable/V%s", dependencies=FALSE)', stable_version_to_make) %>% catnn("\n\n```", ., "```\n")
     }
 }
 ## ---------------------------------------------------- ##
