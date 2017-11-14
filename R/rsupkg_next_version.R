@@ -3,18 +3,27 @@
 ## ---------------------------------------------------- ##
 if (FALSE) 
 {
+
+    ## PARAMS --------------------------------
+    stable_version_to_make <- 2.0
+    .test_run <- TRUE
+    ## PARAMS --------------------------------
+    ## ---------------------------------------
+
+
+    ## LESS FREQUENTLY MODIFIED PACKAGES SHOULD NOT BE UPDATED AS OFTEN
+    pkgs_not_to_update <- c("rsubitly", "rsucurl", "rsunotify", "rsuprophesize", "rsuscrubbers", "rsuorchard")
+
     .last_successful_pkg <- NULL
     parent_folder <- "~/Development/rsutils_packages/"
-    pkgs <-  .rsu_pkgs_strings()
+    pkgs <-  .rsu_pkgs_strings() %>% setdiff(pkgs_not_to_update)
+    stopifnot(length(pkgs) > 0)
 
     ## FOR MID-RUN CRASH
     if (!is.null(.last_successful_pkg))
       pkgs <- pkgs[seq(from=which(pkgs == .last_successful_pkg) + 1, to = length(pkgs))]
 
     stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, fetch=TRUE, verbose=TRUE)[, up_to_date & branch == "master"])
-
-    stable_version_to_make <- 1.8
-    .test_run <- TRUE
 
     ## TODO, 
     for (pkg in pkgs) {
