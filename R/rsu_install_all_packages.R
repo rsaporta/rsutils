@@ -4,6 +4,15 @@
 
 #' @importFrom devtools install_github
 .rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=4, quiet_install=FALSE) {
+
+  ## ------------------------------------------------------------------------------- ##
+  ##                  So that we know where we are in the output
+  ## ------------------------------------------------------------------------------- ##
+  cat("\n\n\n")
+  cat(" ------------------ STARTING rsu_install_all_packages() ------------------ ")
+  cat("\n\n\n")
+  ## ------------------------------------------------------------------------------- ##
+
   caught <- try(force(local_folder))
   if (inherits(caught, "try-error")) {
     warning("local_folder error'd.  Will use '~/Development/rsutils_packages'")
