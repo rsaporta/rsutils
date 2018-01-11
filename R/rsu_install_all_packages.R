@@ -3,7 +3,7 @@
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
 #' @importFrom devtools install_github
-.rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=4, quiet_install=FALSE) {
+.rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=4, quiet_install=FALSE) {
 
   ## ------------------------------------------------------------------------------- ##
   ##                  So that we know where we are in the output
@@ -12,6 +12,9 @@
   cat(" ------------------ STARTING rsu_install_all_packages() ------------------ ")
   cat("\n\n\n")
   ## ------------------------------------------------------------------------------- ##
+
+
+  .rsu_check_branch_is_master(parent_folder=local_folder, pkgs=pkgs, wait_on_verbose=3)
 
   caught <- try(force(local_folder))
   if (inherits(caught, "try-error")) {
@@ -74,7 +77,7 @@
   return(invisible(NULL))
 }
 
-.rsu_pull_all_packages <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=.rsu_pkgs_strings() ) {
+.rsu_pull_all_packages <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings() ) {
 
   try(check_git_status_of_rsutils_packages(fetch=FALSE) )
 
@@ -100,6 +103,35 @@
 
   }
 }
+
+.rsu_check_branch_is_master <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), wait_on_verbose=0, verbose="auto") {
+  DT.ret <- data.table(pkg = pkgs, exists = NA)
+  DT.ret[, exists := file.exists(file.path(parent_folder, pkg))]
+  DT.ret[, is_master := confirm_git_branch_is_as_expected(branch="master", dir=file.path(parent_folder, pkg))]
+
+  are_non_master   <- DT.ret[(exists), !is_master & !is.na(is_master)]
+  have_no_git_repo <- DT.ret[(exists), is.na(is_master)]
+
+  if (identical(verbose, "auto"))
+    verbose <- any(are_non_master, na.rm=TRUE) || any(have_no_git_repo, na.rm=TRUE)
+
+  if (verbose) {
+    pkgs_non_master  <- DT.ret[(exists)][are_non_master]$pkg
+    pkgs_no_git_repo <- DT.ret[(exists)][have_no_git_repo]$pkg
+    if (all(!are_non_master & !have_no_git_repo))
+      cat("All RSU packages are set to MASTER branch\n")
+    if (any(have_no_git_repo))
+      cat("Some RSU packages have NO GIT REPO:", paste(c("", pkgs_no_git_repo), collapse="\n\t * "), "\n\n")
+    if (any(are_non_master))
+      cat("Some RSU packages are not set to MASTER:", paste(c("", pkgs_non_master), collapse="\n\t * "), "\n\n")
+
+    if (wait_on_verbose)
+      Sys.sleep(wait_on_verbose)
+  }
+
+  return(invisible(DT.ret))
+}
+
 
 .rsu_pkgs_strings <- function(only_installed=FALSE) {
   pkgs <- 
