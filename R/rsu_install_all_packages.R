@@ -110,7 +110,7 @@
 
   DT.ret <- data.table(pkg = pkgs, exists = NA)
   DT.ret[, exists := file.exists(file.path(parent_folder, pkg))]
-  DT.ret[, is_master := confirm_git_branch_is_as_expected(branch="master", dir=file.path(parent_folder, pkg))]
+  DT.ret[, is_master := rsutils::confirm_git_branch_is_as_expected(branch="master", dir=file.path(parent_folder, pkg))]
 
   are_non_master   <- DT.ret[(exists), !is_master & !is.na(is_master)]
   have_no_git_repo <- DT.ret[(exists), is.na(is_master)]
