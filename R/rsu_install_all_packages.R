@@ -105,6 +105,8 @@
 }
 
 .rsu_check_branch_is_master <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), wait_on_verbose=0, verbose="auto") {
+  stopifnot(require("data.table", character.only = TRUE))
+  
   DT.ret <- data.table(pkg = pkgs, exists = NA)
   DT.ret[, exists := file.exists(file.path(parent_folder, pkg))]
   DT.ret[, is_master := confirm_git_branch_is_as_expected(branch="master", dir=file.path(parent_folder, pkg))]
