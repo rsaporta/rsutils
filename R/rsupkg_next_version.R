@@ -193,7 +193,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       git push;
       git checkout -b %1$s/V%2$s master;
       git branch;
-      git push origin %1$s/V%2$s;
+      git push --set-upstream origin %1$s/V%2$s;
       git status;
       git checkout master;
       git status;
@@ -228,7 +228,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
 
   ## MAKE STABLE VERSION
   ## ------------------------------------------------------------------------ ##
-  browser(expr=rsugeneral::inDebugMode("pkg", "nextversion"))
+  browser(text = "in rsupkg_next_version right before for loop for iterating both stable and unstable", expr=rsugeneral::inDebugMode("pkg", "nextversion"))
   for (s_u in stable_unstable) {
       cls(3)
       message("          ---------------------------------------  [", s_u, "]  ---------------------------------------")
@@ -243,8 +243,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
          cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
           ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
           system(cmd.git_commit[[s_u]], intern=FALSE)
-      } else 
-      {
+      } else {
         message("  ....... not writing to disk, but here is the raw output .......")
         cat(raw, sep="\n")
         message(cmd.git_commit[[s_u]])
