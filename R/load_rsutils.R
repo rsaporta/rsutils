@@ -1,3 +1,4 @@
+#' @importFrom utils installed.packages
 load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE, quietly=TRUE) {
 
 ## usage:  replace   
@@ -43,7 +44,7 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE, qui
 
     ## cross reference against what is installed
     installed_packages <- unlist(dir(.libPaths()), use.names=FALSE)
-    pkgs <- intersect(pkgs, installed.packages())
+    pkgs <- intersect(pkgs, utils::installed.packages())
 
     ## LOAD PACKAGES
     for (pkg in pkgs) {
