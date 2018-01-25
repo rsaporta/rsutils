@@ -135,7 +135,7 @@
   return(invisible(DT.ret))
 }
 
-
+#' @importFrom utils install.packages
 .rsu_pkgs_strings <- function(only_installed=FALSE) {
   pkgs <- 
     c(
@@ -162,7 +162,7 @@
   if (only_installed) {
     ## cross reference against what is installed
     installed_packages <- unlist(dir(.libPaths()), use.names=FALSE)
-    pkgs <- intersect(pkgs, installed.packages())
+    pkgs <- intersect(pkgs, utils::installed.packages())
   }
 
   return(pkgs)
