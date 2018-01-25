@@ -27,9 +27,6 @@ Suggests:
     rsushiny,
     rsuvydia,
     rsuworkspace,
-    rsuxls
+    rsuxls,
+    testthat
 RoxygenNote: 6.0.1.9000
-
-
-
-
