@@ -8,10 +8,10 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE, qui
 
     ## THESE PACKAGES GET USED SO OFTEN, MAKE SURE TO LOAD THEM
     try( require(colorout,     quietly=quietly) )
-    try( library(data.table,   quietly=quietly) ) 
-    try( library(magrittr,     quietly=quietly) )
-    try( library(collectArgs,  quietly=quietly) )
-    try( library(rcreds,       quietly=quietly) )
+    try( require(data.table,   quietly=quietly) )
+    try( require(magrittr,     quietly=quietly) )
+    try( require(collectArgs,  quietly=quietly) )
+    try( require(rcreds,       quietly=quietly) )
     
 
     if (exists(".rsu_pkgs_strings", mode="function")) {
@@ -58,9 +58,9 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE, qui
     if (run_creates) {
         ## SOME FUNCTIONS NEED CREATING
         if (!exists("src.p", mode="function"))
-            try({  eval( rsuworkspace::.create_dir.p_functions(), envir=globalenv() )  })
+            try({  eval( rsuworkspace:::.create_dir.p_functions(), envir=globalenv() )  })
         if (!(exists("dollar", mode="function") && exists("weeks", mode="function") && exists("days", mode="function")))
-            try({  eval(  rsuplotting::.create_axis_functions(),  envir=globalenv() )  })
+            try({  eval(  rsuplotting:::.create_axis_functions(),  envir=globalenv() )  })
     }
 
     return(invisible(TRUE))
