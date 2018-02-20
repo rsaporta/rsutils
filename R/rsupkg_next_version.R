@@ -3,9 +3,22 @@
 ## ---------------------------------------------------- ##
 if (FALSE) 
 {
+
+    ## PARAMS --------------------------------
+    stable_version_to_make <- "2.0.0"  ## make sure it's quoted
+    what_to_increment <- "z"           ## "x", "y", or "z"
+    .test_run <- TRUE
+    ## PARAMS --------------------------------
+    ## ---------------------------------------
+
+
+    ## LESS FREQUENTLY MODIFIED PACKAGES SHOULD NOT BE UPDATED AS OFTEN
+    pkgs_not_to_update <- c("rsubitly", "rsucurl", "rsunotify", "rsuprophesize", "rsuscrubbers", "rsuorchard")
+
     .last_successful_pkg <- NULL
     parent_folder <- "~/Development/rsutils_packages/"
-    pkgs <-  .rsu_pkgs_strings()
+    pkgs <-  .rsu_pkgs_strings() %>% setdiff(pkgs_not_to_update)
+    stopifnot(length(pkgs) > 0)
 
     ## FOR MID-RUN CRASH
     if (!is.null(.last_successful_pkg))
@@ -13,13 +26,15 @@ if (FALSE)
 
     stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, fetch=TRUE, verbose=TRUE)[, up_to_date & branch == "master"])
 
-    stable_version_to_make <- 1.8
-    .test_run <- TRUE
-
     ## TODO, 
     for (pkg in pkgs) {
-      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", parent_folder=parent_folder, .test_run=.test_run, verbose_raw=FALSE)
+      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", what_to_increment=what_to_increment, parent_folder=parent_folder, .test_run=.test_run, verbose_raw=FALSE)
       catheader(pkg)
+    }
+
+    ## Output the devtools install commands
+    if (!.test_run) {
+      pkgs %>% sprintf(fmt='"rsaporta/%s", ') %>% sprintf(fmt='devtools::install_github(%-30s ref="stable/V%s", dependencies=FALSE)', stable_version_to_make) %>% catnn("\n\n```", ., "```\n")
     }
 }
 ## ---------------------------------------------------- ##
@@ -178,7 +193,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       git push;
       git checkout -b %1$s/V%2$s master;
       git branch;
-      git push origin %1$s/V%2$s;
+      git push --set-upstream origin %1$s/V%2$s;
       git status;
       git checkout master;
       git status;
@@ -213,7 +228,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
 
   ## MAKE STABLE VERSION
   ## ------------------------------------------------------------------------ ##
-  browser(expr=rsugeneral::inDebugMode("pkg", "nextversion"))
+  browser(text = "in rsupkg_next_version right before for loop for iterating both stable and unstable", expr=rsugeneral::inDebugMode("pkg", "nextversion"))
   for (s_u in stable_unstable) {
       cls(3)
       message("          ---------------------------------------  [", s_u, "]  ---------------------------------------")
@@ -228,8 +243,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
          cat(raw, "\n", file=file.description, append=FALSE, sep="\n")
           ## GIT COMMIT, CHECKOUT NEW BRANCH, PUSH, ETC
           system(cmd.git_commit[[s_u]], intern=FALSE)
-      } else 
-      {
+      } else {
         message("  ....... not writing to disk, but here is the raw output .......")
         cat(raw, sep="\n")
         message(cmd.git_commit[[s_u]])

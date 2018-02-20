@@ -29,8 +29,6 @@ For now, you have to call these functions right after loading the package
 
      ```R
      library(rsutils)
-     .create_axis_functions()
-     .create_dir.p_functions()
      ```
 
 --------------------------------------------------
