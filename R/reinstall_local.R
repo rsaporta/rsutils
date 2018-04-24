@@ -1,3 +1,4 @@
+#' @export
 .reinstall_local <- function(pkgs, parent_folder = "~/Development/rsutils_packages/", git_pull=FALSE) {
   if (!file.exists(parent_folder))
     stop("parent_folder \"", parent_folder, "\" does not exist")
