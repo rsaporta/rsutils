@@ -3,7 +3,7 @@
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
 #' @importFrom devtools install_github
-.rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=4, quiet_install=FALSE) {
+.rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=3, quiet_install=FALSE) {
 
   ## ------------------------------------------------------------------------------- ##
   ##                  So that we know where we are in the output
@@ -13,7 +13,12 @@
   cat("\n\n\n")
   ## ------------------------------------------------------------------------------- ##
 
+  ## BACNK ANY CURRENT OPTIONS, WHICH WILL BE REPLACED
+  current_options <- list()
 
+  current_options[["notify.startup"]] <- getOption("notify.startup")
+  options("notify.startup" = FALSE)
+  
   .rsu_check_branch_is_master(parent_folder=local_folder, pkgs=pkgs, wait_on_verbose=3)
 
   caught <- try(force(local_folder))
@@ -26,7 +31,7 @@
     stop("local_folder '", local_folder, "' does not exist.")
 
   if (attempt > max_attempts)
-    stop("TRIED ", ifelse (max_attempts==4, "FOUR", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
+    stop("TRIED ", ifelse (max_attempts==3, "THREE", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
 
   stopifnot(requireNamespace("devtools"))
 
@@ -70,6 +75,8 @@
       Sys.sleep(0.8)
     }
   }
+
+  options(current_options)
 
   if (length(errd))
     return(.rsu_install_all_packages(local_folder=local_folder, pkgs=errd, attempt=attempt+1))
