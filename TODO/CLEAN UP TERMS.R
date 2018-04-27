@@ -1,7 +1,9 @@
 CLEAN UP TERMS
 
 ----------------------------------------------------
+## ALL OF THESE EXIST IN FUNCTIONS
   "allow_null"
+  "allow_NULL"
   "null_ok"
   "na_allowed"
   "blank_allowed"
