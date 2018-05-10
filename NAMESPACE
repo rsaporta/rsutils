@@ -1,5 +1,5 @@
 exportPattern("^[_|\\.|%|[:alpha:]]+|%")
 import(data.table)
 import(collectArgs)
-importFrom(devtools,install_github)
-importFrom(devtools,install_local)
+importFrom(remotes,install_github)
+importFrom(remotes,install_local)
