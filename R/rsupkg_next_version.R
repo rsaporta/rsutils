@@ -5,7 +5,7 @@ if (FALSE)
 {
 
     ## PARAMS --------------------------------
-    stable_version_to_make <- "4.0.0"  ## make sure it's quoted
+    stable_version_to_make <- "4.2.0"  ## make sure it's quoted
     what_to_increment <- "y"           ## "x", "y", or "z"
     .test_run <- TRUE
     ## PARAMS --------------------------------
@@ -191,9 +191,9 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
       git commit -m "Bumping to Stable version %2$s";
       git tag -a V%2$s -m "Stable Version %2$s";
       git push;
-      git checkout -b %1$s/V%2$s master;
+      git checkout -b %1$s_V%2$s master;
       git branch;
-      git push --set-upstream origin %1$s/V%2$s;
+      git push --set-upstream origin %1$s_V%2$s;
       git status;
       git checkout master;
       git status;
