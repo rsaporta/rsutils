@@ -5,7 +5,7 @@ if (FALSE)
 {
 
     ## PARAMS --------------------------------
-    stable_version_to_make <- "4.2.0"  ## make sure it's quoted
+    stable_version_to_make <- "4.4.0"  ## make sure it's quoted
     what_to_increment <- "y"           ## "x", "y", or "z"
     .test_run <- TRUE
     ## PARAMS --------------------------------
