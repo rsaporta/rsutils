@@ -1,4 +1,4 @@
-check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v=FALSE, fetch=TRUE, verbose.pkg=FALSE, verbose=TRUE) {
+check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v=FALSE, fetch="..auto..", verbose.fetch=fetch, verbose=TRUE) {
   requireNamespace("rsuworkspace")
 
   main_folder <- "~/Development/rsutils_packages"
@@ -25,16 +25,15 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
     fetch_again <- FALSE
     last_fetch <- getOption("rsu.git_last_fetch", default=.origin.utc)
     fetch_again <- as.numeric(now() - last_fetch) > (2 * 60 * 60)
-    if (fetch_again)
-      options("rsu.git_last_fetch" = now())
 
     fetch <- fetch_again
   }
 
-  verboseMsg(verbose.pkg, "will check the following packages:\n\t", pasteC(relativePath(pkg_folders, main_folder), C="\n\t"), sep="", time=FALSE)
+  # verboseMsg(verbose.fetch, "will check the following packages:\n\t", pasteC(relativePath(pkg_folders, main_folder), C="\n\t"), sep="", time=FALSE)
 
   rets <- emptylist(pkg_folders)
   for (pkg in names(pkg_folders)) {
+    verboseMsg(verbose.fetch, "FETCHING '", pkg, "'", sep="", level.verbose = 1L, minw=60)
     ## FETCH
     if (fetch)
       pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git fetch") %>% system()
@@ -48,6 +47,9 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
                     system(TRUE) %>% 
                     pasteC(C="\n")
   }
+
+  if (fetch)
+    options("rsu.git_last_fetch" = now())
 
 
   DT.ret <- data.table(
