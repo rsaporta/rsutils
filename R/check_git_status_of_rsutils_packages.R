@@ -33,10 +33,11 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
 
   rets <- emptylist(pkg_folders)
   for (pkg in names(pkg_folders)) {
-    verboseMsg(verbose.fetch, "FETCHING '", pkg, "'", sep="", level.verbose = 1L, minw=60)
     ## FETCH
-    if (fetch)
+    if (fetch) {
+      verboseMsg(verbose.fetch, "FETCHING '", pkg, "'", sep="", level.verbose = 1L, minw=60)
       pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git fetch") %>% system()
+    }
 
     # cmd <- pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git status")
     # ret <- system(cmd, TRUE) %>% pasteC(C="\n")
@@ -71,6 +72,8 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
       message("\nThe following packages are not on 'master': ", sprintf("\n\t'%s'", DT.ret[!(on_master), pkg]), "\n")
   }
 
+  if (all(DT.ret[, up_to_date & no_untracked_files]))
+    return(invisible(DT.ret))
   return(DT.ret)
 }
 
