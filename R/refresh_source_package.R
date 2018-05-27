@@ -4,6 +4,8 @@
 
 
 .refresh_plotting <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
+  library(ggplot2)
+  library(gridExtra)
   pkg <- "rsuplotting"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
   .create_axis_functions()
