@@ -166,11 +166,19 @@
     , "rsutils"
     )
 
-  if (only_installed) {
-    ## cross reference against what is installed
-    installed_packages <- unlist(dir(.libPaths()), use.names=FALSE)
-    pkgs <- intersect(pkgs, utils::installed.packages())
-  }
+  try(expr = {
+    if (only_installed) {
+      ## cross reference against what is installed
+
+      ## TWO DIFFERENT WAYS TO GET INSTALLED PACKAGES
+      if (FALSE)
+        installed_packages <- unlist(dir(.libPaths()), use.names=FALSE)
+      else
+        installed_packages <- utils::installed.packages()[, "Package"]
+      
+      pkgs <- intersect(pkgs, installed_packages)
+    }
+  })
 
   return(pkgs)
 }
