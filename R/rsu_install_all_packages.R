@@ -147,11 +147,11 @@
   pkgs <- 
     c(
       "rsuaspath"
-    , "rsuaws"
     , "rsubitly"
     , "rsuconsoleutils"
     , "rsucurl"
     , "rsudb"
+    , "rsuaws"
     , "rsudict"
     , "rsujesus"
     , "rsunotify"
