@@ -4,10 +4,18 @@
 if (FALSE) 
 {
 
+    &&& TODO BEFORE RUNNING: 
+    &&&   1. change the  `stable_version_to_make`  number  
+    &&&   2. run once, it will be a test.  
+    &&&   3. change the  `.test_run`    and re-run
+    &&&   4. comment this out :) 
+
+
+
     ## PARAMS --------------------------------
-    stable_version_to_make <- "4.0.0"  ## make sure it's quoted
+    stable_version_to_make <- "5.2.0"  ## make sure it's quoted
     what_to_increment <- "y"           ## "x", "y", or "z"
-    .test_run <- TRUE
+    .test_run <- FALSE
     ## PARAMS --------------------------------
     ## ---------------------------------------
 
