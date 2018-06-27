@@ -96,7 +96,7 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", what_to_increment=c("y", "z", "x"), parent_folder=paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/")), branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
 
   ## needs shellClean from rsugeneral
-  stopifnot(exists("shellClean"), mode="function")
+  stopifnot(exists("shellClean", mode="function"))
 
   ## what_to_increment should be one of x.y.z
   what_to_increment <- match.arg(what_to_increment)
