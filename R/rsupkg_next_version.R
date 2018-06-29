@@ -4,12 +4,11 @@
 if (FALSE) 
 {
 
-    &&& TODO BEFORE RUNNING: 
-    &&&   1. change the  `stable_version_to_make`  number  
-    &&&   2. run once, it will be a test.  
-    &&&   3. change the  `.test_run`    and re-run
-    &&&   4. comment this out :) 
-
+    #|  &&& TODO BEFORE RUNNING: 
+    #|  &&&   1. change the  `stable_version_to_make`  number  
+    #|  &&&   2. run once, it will be a test.  
+    #|  &&&   3. change the  `.test_run`    and re-run
+    #|  &&&   4. comment this out :) 
 
 
     ## PARAMS --------------------------------
