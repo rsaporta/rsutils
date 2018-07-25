@@ -25,6 +25,7 @@ Suggests:
     rsuscrubbers,
     rsushiny,
     rsuworkspace,
+    rsuvydia,
     rsuxls,
     testthat
 RoxygenNote: 6.0.1.9000
