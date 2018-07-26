@@ -1,9 +1,9 @@
 Package: rsutils
 Title: RS Utilities Parent Package
-Version: 5.3.0
+Version: 6.2.0
 Authors@R: c(person("Rick", "Saporta", email="RickSaporta@gmail.com", role=c("aut","cre")), person("Mike", "Reca", email="michael.reca@vydia.com", role=c("aut")))
 Description: Loads up the multiple rsu* packages. 
-    Unstable development version (first committed on June 27, 2018).
+    Current stable version (committed on July 26, 2018).
 License: PROPRIETARY
 Encoding: UTF-8
 LazyData: true
@@ -29,6 +29,8 @@ Suggests:
     rsuxls,
     testthat
 RoxygenNote: 6.0.1.9000
+
+
 
 
 
