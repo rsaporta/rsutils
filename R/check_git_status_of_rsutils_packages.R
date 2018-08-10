@@ -72,7 +72,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
       message("\nThe following packages are not on 'master': ", DT.ret[!(on_master), sprintf("\n\t'%s' (branch: \"%s\")", pkg, branch)], "\n")
   }
 
-  if (all(DT.ret[, up_to_date & no_untracked_files]))
+  if (all(DT.ret[, removeNA(up_to_date, TRUE) & no_untracked_files]))
     return(invisible(DT.ret))
   return(DT.ret)
 }
