@@ -58,8 +58,9 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
                 ## , folder=pkg_folders
                 , as.data.table(rsuworkspace::git_parse_status_text(txt=rets))
             )
+  up_to_dates <- c("up-to-date", "up to date")
   DT.ret[, on_master  := (branch == "master")]
-  DT.ret[, up_to_date := (status == "up-to-date" & no_untracked_files & no_unstaged_changes)]
+  DT.ret[, up_to_date := (status %in% up_to_dates & no_untracked_files & no_unstaged_changes)]
   setkey(DT.ret, status, pkg)
 
   if (verbose) {
