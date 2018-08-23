@@ -6,7 +6,11 @@
 .refresh_plotting <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   library(ggplot2)
   library(gridExtra)
+  library(grid)
+  library(scales)
+
   pkg <- "rsuplotting"
+
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
   .create_axis_functions()
 }
@@ -39,10 +43,29 @@
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
 
-.rsu_source_package_files <- function(pkg=.rsu_pkgs_strings(only_installed=only_installed), folder=file.path(parent_folder, pkg, "R"), parent_folder=.get_rsu_homeDir(), git_pull=FALSE, only_installed=TRUE, verbose=TRUE) {
+.refresh_utils <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
+  pkg <- "rsutils"
+  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+}
+
+
+.rsu_source_package_files <- function(
+    pkg            = .rsu_pkgs_strings(only_installed=only_installed)
+  , folder         = file.path(parent_folder, pkg, "R")
+  , parent_folder  = .get_rsu_homeDir()
+  , git_pull       = FALSE
+  , only_installed = TRUE
+  , verbose        = TRUE
+) {
   ## trim superfluous slash at end of parent_folder, if present
   if (length(parent_folder) && nzchar(parent_folder))
     parent_folder <- gsub(pat="/$", repl="", x=parent_folder)
+
+  if (!missing(pkg) && length(pkg) == 1 && !grepl("^rsu", x=pkg)) {
+    rsupkg <- paste0("rsu", pkg)
+    if (rsupkg %in% .rsu_pkgs_strings())
+      pkg <- rsupkg
+  }
 
   if (!length(folder) || !nzchar(parent_folder)) {
     msg <- "'folder' has no length."
