@@ -25,7 +25,7 @@ load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE, qui
             , "rsuconsoleutils"
             , "rsucurl"
             , "rsudb"
-            , "rsudict"
+            # , "rsudict"
             , "rsujesus"
             , "rsunotify"
             , "rsuplotting"
