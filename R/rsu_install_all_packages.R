@@ -6,6 +6,7 @@
 #' @import rcreds
 #' @importFrom remotes install_github
 #' @importFrom remotes install_local
+#' @export
 .rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=3, quiet_install=FALSE) {
 
   ## ------------------------------------------------------------------------------- ##
@@ -87,6 +88,7 @@
   return(invisible(NULL))
 }
 
+#' @export
 .rsu_pull_all_packages <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings() ) {
 
   try(check_git_status_of_rsutils_packages(fetch=FALSE) )
@@ -115,6 +117,7 @@
 }
 
 #' @importFrom data.table data.table
+#' @export
 .rsu_check_branch_is_master <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), wait_on_verbose=0, verbose="auto") {
   stopifnot(require("data.table", character.only = TRUE))
 
@@ -146,6 +149,7 @@
 }
 
 #' @importFrom utils install.packages
+#' @export
 .rsu_pkgs_strings <- function(only_installed=FALSE) {
   pkgs <- 
     c(

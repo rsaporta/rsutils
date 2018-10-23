@@ -62,6 +62,7 @@ if (FALSE)
 
 
 
+#' @export
 rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsutils_packages/", branch="master") {
   folder <- rsuaspath::as.path(parent_folder, pkg, expand=TRUE)
   # stopifnot(getGitBranch(from_where="system", dir=folder) == branch)
@@ -92,6 +93,7 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
 #' checks that the system git branch matches an exepected git branch
 #' 
 #' @param from_where enum string of length 1. Where are we checking the git branch? Are we using the system command, or are we checking what branch we have saved in R_options?
+#' @export
 confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, from_where=c("system", "System", "R_options"), fail.if.not=TRUE, showWarnings=!fail.if.not) {
 
   from_where <- match.arg(from_where)
@@ -114,6 +116,7 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 }
 
 #' @importFrom rsugeneral shellClean
+#' @export
 rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", what_to_increment=c("y", "z", "x"), parent_folder=paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/")), branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
 
   ## needs shellClean from rsugeneral

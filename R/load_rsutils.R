@@ -1,4 +1,5 @@
 #' @importFrom utils installed.packages
+#' @export
 load_rsutils <- function(verbose=TRUE, rsutils_load=TRUE, run_creates=FALSE, quietly=TRUE) {
 
 ## usage:  replace   

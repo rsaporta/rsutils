@@ -1,8 +1,10 @@
+#' @export
 .get_rsu_homeDir <- function(default="~/Development/rsutils_packages") {
   getOption("rsu.homeDir", default=default)
 }
 
 
+#' @export
 .refresh_plotting <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   library(ggplot2)
   library(gridExtra)
@@ -15,40 +17,48 @@
   .create_axis_functions()
 }
 
+#' @export
 .refresh_vydia <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   pkg <- "rsuvydia"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
 
+#' @export
 .refresh_general <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   pkg <- "rsugeneral"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
 
+#' @export
 # .refresh_dict <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
 #   pkg <- "rsudict"
 #   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 # }
+#' @export
 .refresh_db <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   pkg <- "rsudb"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
+#' @export
 .refresh_consoleutils <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   pkg <- "rsuconsoleutils"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
 
+#' @export
 .refresh_workspace <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   pkg <- "rsuworkspace"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
 
+#' @export
 .refresh_utils <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
   pkg <- "rsutils"
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
 
 
+#' @export
 .rsu_source_package_files <- function(
     pkg            = .rsu_pkgs_strings(only_installed=only_installed)
   , folder         = file.path(parent_folder, pkg, "R")

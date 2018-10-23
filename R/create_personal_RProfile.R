@@ -1,3 +1,4 @@
+#' @export
 create_personal_RProfile <- function(
     file_full_path = as.path(folder, base_file_name, ext = ext)
   , folder         = "~/Development/R_init/"

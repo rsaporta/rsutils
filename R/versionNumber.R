@@ -1,3 +1,5 @@
+## NOTE: none of these are being exported
+
 splitVersionNumber <- function(versionNumber) {
   versionNumber %<>% .validate_and_clean_versionNumber(fail.if.not=TRUE)
 
