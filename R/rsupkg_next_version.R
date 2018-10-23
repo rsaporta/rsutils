@@ -53,9 +53,9 @@ if (FALSE)
       catheader(pkg)
     }
 
-    ## Output the devtools install commands
+    ## Output the remotes install commands
     if (!.test_run) {
-      pkgs %>% sprintf(fmt='"rsaporta/%s", ') %>% sprintf(fmt='devtools::install_github(%-30s ref="stable/V%s", dependencies=FALSE)', stable_version_to_make) %>% catnn("\n\n```", ., "```\n")
+      pkgs %>% sprintf(fmt='"rsaporta/%s", ') %>% sprintf(fmt='remotes::install_github(%-30s ref="stable/V%s", dependencies=FALSE)', stable_version_to_make) %>% catnn("\n\n```", ., "```\n")
     }
 }
 ## ---------------------------------------------------- ##
@@ -221,7 +221,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   ## ------------------------------------------------------------------------------------------- ##
 
   if (!.test_run) {
-    devtools::document(as.path(folder))
+    remotes::document(as.path(folder))
     git_add_A(folder=folder, verbose.cmd = TRUE)
     git_commit("roxygen documents", folder=folder, verbose.cmd = TRUE)
   }

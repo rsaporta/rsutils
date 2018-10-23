@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom remotes install_local
 .reinstall_local <- function(pkgs, parent_folder = "~/Development/rsutils_packages/", git_pull=FALSE, dependencies=FALSE) {
   if (!file.exists(parent_folder))
     stop("parent_folder \"", parent_folder, "\" does not exist")
@@ -13,6 +14,6 @@
   }
 
   lapply(pkgs, function(pkg) {
-    try(devtools::install_local(file.path(parent_folder, pkg), dependencies=dependencies), silent=FALSE)
+    try(remotes::install_local(file.path(parent_folder, pkg), dependencies=dependencies), silent=FALSE)
   })
 }

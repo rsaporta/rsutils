@@ -4,7 +4,8 @@
 
 #' @import collectArgs
 #' @import rcreds
-#' @importFrom devtools install_github
+#' @importFrom remotes install_github
+#' @importFrom remotes install_local
 .rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=3, quiet_install=FALSE) {
 
   ## ------------------------------------------------------------------------------- ##
@@ -35,7 +36,7 @@
   if (attempt > max_attempts)
     stop("TRIED ", ifelse (max_attempts==3, "THREE", max_attempts), " TIMES. SOME FAILURES REMAIN:\n\t", paste(pkgs, collapse="\n\t"))
 
-  stopifnot(requireNamespace("devtools"))
+  stopifnot(requireNamespace("remotes"))
 
   ## Rick's Public Packages, such as rcreds and collectArgs
   if (update_public_rsaporta_pkgs)
@@ -63,10 +64,10 @@
     if (isTRUE(github) || !file.exists(f)) {
       cat("   |- installing from GITHUB\n")
       repo <- paste0("rsaporta/", pkg)
-      caught <- try({devtools::install_github(repo, dependencies=FALSE, quiet=quiet_install)})
+      caught <- try({remotes::install_github(repo, dependencies=FALSE, quiet=quiet_install)})
     } else if (file.exists(f)) {
       cat("   |- installing locally\n")
-      caught <- try({devtools::install_local(f, dependencies=FALSE, quiet=quiet_install)})
+      caught <- try({remotes::install_local(f, dependencies=FALSE, quiet=quiet_install)})
     } else {
       caught <- try(stop("Could not install '", pkg, "'"), silent=TRUE)
     }
@@ -193,12 +194,12 @@ if (FALSE)
   source(paste0(parent_folder="~rsaporta/Development/rsutils_packages/rsutils/R/", file="rsu_install_all_packages.R"))
 
   install.packages("prophet")
-  install.packages("devtools")
-  devtools::install_github("RcppCore/Rcpp")
-  devtools::install_github("rstats-db/DBI")
-  devtools::install_github("rstats-db/RPostgres")
-  devtools::install_github("rstats-db/RSQLite")
-  devtools::install_github("rstats-db/RMySQL")
+  install.packages("remotes")
+  remotes::install_github("RcppCore/Rcpp")
+  remotes::install_github("rstats-db/DBI")
+  remotes::install_github("rstats-db/RPostgres")
+  remotes::install_github("rstats-db/RSQLite")
+  remotes::install_github("rstats-db/RMySQL")
   try(remove.packages("rsutils"))
   .rsu_install_all_packages()
 
