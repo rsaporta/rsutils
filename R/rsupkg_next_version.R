@@ -1,26 +1,40 @@
 ## ---------------------------------------------------- ##
-## TO EXECUTE
+## ==================================================== ##
+##                                                      ##
+##     USE THIS                                         ##
+##     TO EXECUTE                                       ##
+##                                                      ##
+##     But ** READ THE INSTRUCTIONS BELOW FIRST **      ##
+##                                                      ##
+##                                                      ##
+## ==================================================== ##
 ## ---------------------------------------------------- ##
+
 if (FALSE) 
 {
 
-    #|  &&& TODO BEFORE RUNNING: 
-    #|  &&&   1. change the  `stable_version_to_make`  number  
-    #|  &&&   2. run once, it will be a test.  
-    #|  &&&   3. change the  `.test_run`    and re-run
-    #|  &&&   4. comment this out :) 
+    # |  &&& TODO BEFORE RUNNING: 
+    # |  &&&   0. Make sure all packages are on Master:   check_git_status_of_rsutils_packages(f=TRUE)
+    # |  &&&   1. change the  `stable_version_to_make`  number  
+    # |  &&&   2. run once, it will be a test.  
+    # |  &&&   3. change the  `.test_run`    and re-run
+    # |  &&&   4. comment this out :) 
 
 
     ## PARAMS --------------------------------
-    stable_version_to_make <- "5.2.0"  ## make sure it's quoted
-    what_to_increment <- "y"           ## "x", "y", or "z"
-    .test_run <- FALSE
+    stable_version_to_make <- "6.4.0"  ## make sure it's quoted
+    what_to_increment <- "z"           ## "x", "y", or "z"
+    .test_run <- TRUE # FALSE
+    # .test_run <- FALSE
     ## PARAMS --------------------------------
     ## ---------------------------------------
 
 
     ## LESS FREQUENTLY MODIFIED PACKAGES SHOULD NOT BE UPDATED AS OFTEN
     pkgs_not_to_update <- c("rsubitly", "rsucurl", "rsunotify", "rsuprophesize", "rsuscrubbers", "rsuorchard")
+
+    #| ## To update the packages that we generally do not update, run this.
+    #| pkgs_not_to_update %<>% setdiff(.rsu_pkgs_strings(), .) %>% setdiff("rsuorchard")
 
     .last_successful_pkg <- NULL
     parent_folder <- "~/Development/rsutils_packages/"
@@ -31,7 +45,7 @@ if (FALSE)
     if (!is.null(.last_successful_pkg))
       pkgs <- pkgs[seq(from=which(pkgs == .last_successful_pkg) + 1, to = length(pkgs))]
 
-    stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, fetch=TRUE, verbose=TRUE)[, up_to_date & branch == "master"])
+    stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, fetch=FALSE, verbose=TRUE)[, (up_to_date | pkg == "rsutils") & branch == "master" & no_untracked_files])
 
     ## TODO, 
     for (pkg in pkgs) {
@@ -131,7 +145,7 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   ## READ IN THE FILE
   raw <- readLines(file.description)
 
-  ## initialize emptry lists
+  ## initialize empty lists
   stable_unstable <- c("stable", "unstable")
   cmd.git_commit <- emptylist(stable_unstable)
   versinfo       <- emptylist(stable_unstable)
@@ -176,10 +190,26 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
 
   ## ---------------------------- CONFIRM CORRECT INCREMENTATIONS  ----------------------------- ##
   is_stable_increase_from_last <- compareVersion(stable_version_to_make, last_version) == 1
-  stopifnot(is_stable_increase_from_last)
+  if (!is_stable_increase_from_last) {
+    stop("
+       ---- Cannot proceed ------------------------------------------------
+                          PACKAGE:  ", pkg, "
+                  last_version is:  ", last_version, "
+        stable_version_to_make is:  ", stable_version_to_make, "
+        WRONG DIRECTION
+       --------------------------------------------------------------------     ")
+  }
 
   is_next_increase_from_stable <- compareVersion(next_unstable_version, stable_version_to_make) == 1
-  stopifnot(is_next_increase_from_stable)
+  if (!is_next_increase_from_stable) {
+    stop("
+       ---- Cannot proceed ------------------------------------------------
+                          PACKAGE:  ", pkg, "
+        stable_version_to_make is:  ", stable_version_to_make, "
+         next_unstable_version is:  ", next_unstable_version, "
+        WRONG DIRECTION
+       --------------------------------------------------------------------     ")
+  }
 
   y_is_even.stable   <- stable_version_to_make %>% splitVersionNumber() %>% "[["(what_to_increment) %>% "%%"(2) %>% "=="(0)
   y_is_odd.unstable  <- next_unstable_version  %>% splitVersionNumber() %>% "[["(what_to_increment) %>% "%%"(2) %>% "=="(1)
@@ -190,13 +220,19 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
     stop("unstable version should have an odd 'y' in version number  x.y.z")
   ## ------------------------------------------------------------------------------------------- ##
 
+  if (!.test_run) {
+    devtools::document(as.path(folder))
+    git_add_A(folder=folder, verbose.cmd = TRUE)
+    git_commit("roxygen documents", folder=folder, verbose.cmd = TRUE)
+  }
+
   ## ---------------------------- GIT FORMATS ----------------------------- ##
   fmt.git_pull <- "cd %s && git pull"
   fmt.git_branch <- "cd %s && git branch"
   fmt.git_ck_master <- "cd %s && git checkout master"
 
   cmd.git_commit[["stable"]] <- sprintf(fmt='
-      cd %3$s; 
+      cd %3$s;
       git fetch;
       git add "%4$s";
       git commit -m "Bumping to Stable version %2$s";
