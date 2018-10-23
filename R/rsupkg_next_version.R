@@ -26,6 +26,7 @@ if (FALSE)
     what_to_increment <- "z"           ## "x", "y", or "z"
     .test_run <- TRUE # FALSE
     # .test_run <- FALSE
+    document <- FALSE ## Whether to update the ROxygen Documents -- note: for this to work, all functions must be marked as `#' @export` as necessary
     ## PARAMS --------------------------------
     ## ---------------------------------------
 
@@ -49,7 +50,7 @@ if (FALSE)
 
     ## TODO, 
     for (pkg in pkgs) {
-      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", what_to_increment=what_to_increment, parent_folder=parent_folder, .test_run=.test_run, verbose_raw=FALSE)
+      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", what_to_increment=what_to_increment, parent_folder=parent_folder, document=document, .test_run=.test_run, verbose_raw=FALSE)
       catheader(pkg)
     }
 
@@ -117,7 +118,7 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 
 #' @importFrom rsugeneral shellClean
 #' @export
-rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", what_to_increment=c("y", "z", "x"), parent_folder=paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/")), branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", .test_run=TRUE, verbose_raw=FALSE) {
+rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstable_version="auto", what_to_increment=c("y", "z", "x"), parent_folder=paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/")), branch_stable_root="stable", branch_unstable="master", branch_start_from="master", time_format = "%B %d, %Y", document=FALSE, .test_run=TRUE, verbose_raw=FALSE) {
 
   ## needs shellClean from rsugeneral
   stopifnot(exists("shellClean", mode="function"))
@@ -140,6 +141,15 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
     stop("branch is not '", branch_start_from, "'  (it is '", status$branch, "')")
   if (!isTRUE(status$status == "up-to-date"))
     stop("status is not up-to-date for branch '", status$branch, "' for pkg '", pkg, "'\n\n   HINT:   Are there uncommited changes?")
+
+
+  ## ADD DOCUMENTS
+  if (document && !.test_run) {
+    remotes::document(folder)
+    rsugeneral::git_add_A(folder=folder, verbose.cmd = TRUE)
+    rsugeneral::git_commit("roxygen documents", folder=folder, verbose.cmd = TRUE)
+  }
+
 
   ## GRAB THE DESCRIPTION FILE
   file.description <- as.path(folder, "DESCRIPTION", expand=TRUE)
@@ -222,12 +232,6 @@ rsupkg_next_version <- function(pkg, stable_version_to_make="auto", next_unstabl
   if (!y_is_odd.unstable)
     stop("unstable version should have an odd 'y' in version number  x.y.z")
   ## ------------------------------------------------------------------------------------------- ##
-
-  if (!.test_run) {
-    remotes::document(as.path(folder))
-    git_add_A(folder=folder, verbose.cmd = TRUE)
-    git_commit("roxygen documents", folder=folder, verbose.cmd = TRUE)
-  }
 
   ## ---------------------------- GIT FORMATS ----------------------------- ##
   fmt.git_pull <- "cd %s && git pull"
