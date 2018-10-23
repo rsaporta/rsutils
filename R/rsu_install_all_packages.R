@@ -2,6 +2,8 @@
 #         OR
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
+#' @import collectArgs
+#' @import rcreds
 #' @importFrom devtools install_github
 .rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=3, quiet_install=FALSE) {
 
