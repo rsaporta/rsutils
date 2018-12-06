@@ -159,7 +159,6 @@
     , "rsucurl"
     , "rsudb"
     , "rsuaws"
-    # , "rsudict"
     , "rsujesus"
     , "rsunotify"
     , "rsuplotting"
