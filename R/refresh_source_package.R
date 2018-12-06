@@ -29,7 +29,7 @@
   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
 }
 
-#' @export
+# #' @export
 # .refresh_dict <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
 #   pkg <- "rsudict"
 #   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
