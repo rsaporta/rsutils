@@ -70,11 +70,11 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
     else
       message("The git status for all packages", ifelse(vydia_too, " and vydia projects", ""), " is up-to-date")
 
-    if (any(!DT.ret$on_master))
+    if (any(!DT.ret$on_master, na.rm=TRUE))
       message("\nThe following packages are not on 'master': ", DT.ret[!(on_master), sprintf("\n\t'%s' (branch: \"%s\")", pkg, branch)], "\n")
   }
 
-  if (all(DT.ret[, removeNA(up_to_date, TRUE) & no_untracked_files]))
+  if (all(DT.ret[, removeNA(up_to_date, TRUE) & no_untracked_files], na.rm=TRUE))
     return(invisible(DT.ret))
   return(DT.ret)
 }
