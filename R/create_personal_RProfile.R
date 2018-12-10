@@ -1,3 +1,5 @@
+#' @importFrom rsugeneral catn
+#' @importFrom rsugeneral is.character_of_length1
 #' @export
 create_personal_RProfile <- function(
     file_full_path = as.path(folder, base_file_name, ext = ext)

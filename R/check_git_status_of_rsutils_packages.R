@@ -1,3 +1,10 @@
+#' @importFrom rsugeneral extractSubfoldersFromFolder
+#' @importFrom rsugeneral pasteC
+#' @importFrom rsugeneral now
+#' @importFrom rsugeneral verboseMsg
+#' @importFrom rsugeneral removeNA
+#' @importFrom data.table data.table
+#' @importFrom data.table setkey
 #' @export
 check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v=FALSE, fetch="..auto..", verbose.fetch=fetch, verbose=TRUE) {
   requireNamespace("rsuworkspace")
