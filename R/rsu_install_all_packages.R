@@ -1,4 +1,4 @@
-#   sudo R --vanilla -e 'require(colorout); source("~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R"); source("~rsaporta/Development/R_init/personal_settings_and_options.R"); .rsu_install_all_packages();'
+#   sudo R --vanilla -e 'options(rsunotify.DO_NOTHING=TRUE); require(colorout); source("~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R"); source("~rsaporta/Development/R_init/personal_settings_and_options.R"); .rsu_install_all_packages();'
 #         OR
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
