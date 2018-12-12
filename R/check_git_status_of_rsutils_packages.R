@@ -6,8 +6,12 @@
 #' @importFrom data.table data.table
 #' @importFrom data.table setkey
 #' @export
-check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v=FALSE, fetch="..auto..", verbose.fetch=fetch, verbose=TRUE) {
-  requireNamespace("rsuworkspace")
+check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v=FALSE, fetch="..auto..", verbose.fetch=fetch && verbose, verbose=TRUE) {
+
+  stopifnot( requireNamespace("rsuworkspace") )
+  stopifnot( requireNamespace("rsugeneral")   )
+  stopifnot( requireNamespace("rsuaspath")    )
+  stopifnot( requireNamespace("data.table")   )
 
   main_folder <- "~/Development/rsutils_packages"
 
@@ -43,7 +47,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
   for (pkg in names(pkg_folders)) {
     ## FETCH
     if (fetch) {
-      verboseMsg(verbose.fetch, "FETCHING '", pkg, "'", sep="", level.verbose = 1L, minw=60)
+      verboseMsg(verbose.fetch, "FETCHING '", pkg, "'", sep="", level.verbose = 1L, minw=75)
       pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git fetch") %>% system()
     }
 
