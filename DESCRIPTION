@@ -16,7 +16,7 @@ Suggests:
     rsuaspath,
     rsuaws,
     rsubitly,
-#    rsuconsoleutils,
+    rsuconsoleutils,
     rsucurl,
     rsudb,
     rsujesus,
