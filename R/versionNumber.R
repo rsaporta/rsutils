@@ -19,9 +19,6 @@ splitVersionNumber <- function(versionNumber) {
   return(xyz)
 }
 
-if (FALSE) {
-}
-
 #' @importFrom rsugeneral is.numeric_of_length1
 #' @importFrom rsugeneral fmt_int0
 #' @importFrom rsugeneral pasteR
