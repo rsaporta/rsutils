@@ -120,13 +120,24 @@ function bump_and_commit_rsu_package_version_number_using_git_hash() {
   elif [ ! -d "$1" ];          then
       errcho "ERROR:  Argument passed is not a folder (or it does not exist): '$1'"
   else 
+    echo
     bump_rsu_package_version_number_using_git_hash "$1"
     git_patch_bump "$1"
     echo 
-    echo "======= HERE ARE THE LAST 7 COMMITS ======="
-    echo $(cd "$1" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)')
+    echo "================= HERE ARE THE LAST 7 COMMITS ================="
+    local cmd_gitlog="cd \"$1\" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'"
+    eval $cmd_gitlog
+    echo "==============================================================="
+    # eval $(cd "$1" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)')
   fi
 }
+
+#| function test() {
+#|   bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsutils/
+#| }
+#| 
+#| test
+
 
 ## #| EXAMPLES:
 # git status
