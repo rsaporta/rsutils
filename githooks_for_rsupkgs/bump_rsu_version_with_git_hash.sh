@@ -1,4 +1,4 @@
-function bump_rsu_version_with_git_hash() {
+function bump_rsu_package_version_number_using_git_hash() {
   if [   -z "$1" ];               then
       errcho "ERROR:  No argument passed to bump_version_with_git_hash"
   else 
@@ -6,7 +6,7 @@ function bump_rsu_version_with_git_hash() {
     local FOLDER=$(echo "$1" | sed s/'\/\/'/'\/'/g) # /Users/rsaporta/Development/rsutils_packages/rsutils
     local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt" | sed s/'\/\/'/'\/'/g
     local FILE=$(echo "$FOLDER/$FILE_NAME" | sed s/'\/\/'/'\/'/g)
-    local expected_patch=$(cd $FOLDER && echo $(git_hash_to_octal))
+    local expected_patch=$(cd "$FOLDER" && echo $(git_hash_to_octal))
 
       if [   -z "$1" ];               then
         errcho "ERROR:  No argument passed"
@@ -45,7 +45,7 @@ function bump_rsu_version_with_git_hash() {
           ## TODO: Check if blank
           # echo $PATCH_FIRST_THREE
 
-          local APPEND_NEW=$(cd $FOLDER && echo $(git_hash_to_octal))
+          local APPEND_NEW=$(cd "$FOLDER" && echo $(git_hash_to_octal))
       
 
           local VER_NEW=$(printf '%s.%s.%s%s' $MAJOR_CURRENT $MINOR_CURRENT $PATCH_FIRST_THREE $APPEND_NEW)
@@ -81,6 +81,54 @@ function bump_rsu_version_with_git_hash() {
 ## IF (FALSE) {
 # echo ------------------------ === SOURCED $(date) === --------------------------------
 # cp /Users/rsaporta/Development/rsutils_packages/rsutils/DESCRIPTION /Users/rsaporta/Development/rsutils_packages/rsutils/DESCRIPTION_sample.txt
-# source /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_version_with_git_hash.sh
-# bump_rsu_version_with_git_hash ~/Development/rsutils_packages/rsutils/
+# source /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_rsu_package_version_number_using_git_hash.sh
+# bump_rsu_package_version_number_using_git_hash ~/Development/rsutils_packages/rsutils/
+# git_patch_bump /Users/rsaporta/Development/rsutils_packages/rsutils/
 ## }
+
+function git_patch_bump() {
+   if [   -z "$1" ];               then
+      errcho "ERROR:  No argument passed to bump_version_with_git_hash"
+  else 
+
+    local FOLDER=$(echo "$1" | sed s/'\/\/'/'\/'/g) # /Users/rsaporta/Development/rsutils_packages/rsutils
+    local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt" | sed s/'\/\/'/'\/'/g
+    local FILE=$(echo "$FOLDER/$FILE_NAME" | sed s/'\/\/'/'\/'/g)
+    local expected_patch=$(cd "$FOLDER" && echo $(git_hash_to_octal))
+
+      if [   -z "$1" ];               then
+        errcho "ERROR:  No argument passed"
+    elif [ ! -d "$FOLDER" ];          then
+        errcho "ERROR:  Could not find folder (or it is not a directory): '$FOLDER'"
+    elif [ ! -f $FILE ];              then
+        errcho "ERROR:  Could not find file (or it is not a regular file): '$FILE'"
+    elif [   -z "$expected_patch" ];  then
+        errcho "ERROR:  Could not get git hash octal -- are you sure git is initialized in the folder?"
+    else 
+        local VER_CURRENT=$(cat $FILE | grep "^Version" | sed -e 's/Version: \([0-9].*\)/\1/' )
+        cmd="cd \""$FOLDER"\" && git add \""$FILE"\" && git commit -m \"PATCH BUMP: $VER_CURRENT\""
+        echo EXECUTING THE FOLLOWING COMMAND:
+        echo ------------------------------------------------------------
+        echo $cmd
+        echo ------------------------------------------------------------
+        eval $cmd
+    fi
+  fi 
+}
+
+function bump_and_commit_rsu_package_version_number_using_git_hash() {
+   if [   -z "$1" ];               then
+      errcho "ERROR:  No argument passed to bump_version_with_git_hash"
+  elif [ ! -d "$1" ];          then
+      errcho "ERROR:  Argument passed is not a folder (or it does not exist): '$1'"
+  else 
+    bump_rsu_package_version_number_using_git_hash "$1"
+    git_patch_bump "$1"
+  fi
+}
+
+# git status
+# source /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_rsu_package_version_number_using_git_hash.sh
+# git_patch_bump /Users/rsaporta/Development/rsutils_packages/rsutils/
+# git status
+# gitlog -5
