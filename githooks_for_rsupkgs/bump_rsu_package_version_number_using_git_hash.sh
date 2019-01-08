@@ -2,7 +2,7 @@ function bump_rsu_package_version_number_using_git_hash() {
   if [   -z "$1" ];               then
       errcho "ERROR:  No argument passed to bump_version_with_git_hash"
   else 
-
+    local PWD_BAK=$(pwd)
     local FOLDER=$(echo "$1" | sed s/'\/\/'/'\/'/g) # /Users/rsaporta/Development/rsutils_packages/rsutils
     local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt" | sed s/'\/\/'/'\/'/g
     local FILE=$(echo "$FOLDER/$FILE_NAME" | sed s/'\/\/'/'\/'/g)
@@ -75,6 +75,7 @@ function bump_rsu_package_version_number_using_git_hash() {
           sed -i '' -E s/"^.*development version .\s*(next|last) committed.*"/"$DEV_LINE_NEW"/ $FILE
         fi
     fi
+    cd $PWD_BAK
   fi
 }
 
@@ -88,7 +89,7 @@ function git_patch_bump() {
    if [   -z "$1" ];               then
       errcho "ERROR:  No argument passed to bump_version_with_git_hash"
   else 
-
+    local PWD_BAK=$(pwd)
     local FOLDER=$(echo "$1" | sed s/'\/\/'/'\/'/g) # /Users/rsaporta/Development/rsutils_packages/rsutils
     local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt" | sed s/'\/\/'/'\/'/g
     local FILE=$(echo "$FOLDER/$FILE_NAME" | sed s/'\/\/'/'\/'/g)
@@ -104,13 +105,14 @@ function git_patch_bump() {
         errcho "ERROR:  Could not get git hash octal -- are you sure git is initialized in the folder?"
     else 
         local VER_CURRENT=$(cat $FILE | grep "^Version" | sed -e 's/Version: \([0-9].*\)/\1/' )
-        cmd="cd \""$FOLDER"\" && git add \""$FILE"\" && git commit -m \"PATCH BUMP: $VER_CURRENT\""
+        cmd="cd \""$FOLDER"\" && git add \""$FILE_NAME"\" && git commit -m \"PATCH BUMP: $VER_CURRENT\""
         echo EXECUTING THE FOLLOWING COMMAND:
         echo ------------------------------------------------------------
         echo $cmd
         echo ------------------------------------------------------------
         eval $cmd
     fi
+    cd $PWD_BAK
   fi 
 }
 
@@ -120,6 +122,7 @@ function bump_and_commit_rsu_package_version_number_using_git_hash() {
   elif [ ! -d "$1" ];          then
       errcho "ERROR:  Argument passed is not a folder (or it does not exist): '$1'"
   else 
+    local PWD_BAK=$(pwd)
     echo
     bump_rsu_package_version_number_using_git_hash "$1"
     git_patch_bump "$1"
@@ -129,6 +132,7 @@ function bump_and_commit_rsu_package_version_number_using_git_hash() {
     eval $cmd_gitlog
     echo "==============================================================="
     # eval $(cd "$1" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)')
+    cd $PWD_BAK
   fi
 }
 
