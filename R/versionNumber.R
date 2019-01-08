@@ -19,9 +19,21 @@ splitVersionNumber <- function(versionNumber) {
   return(xyz)
 }
 
-versionNumberFromXYZ <- function(full, x=full[["x"]], y=full[["y"]], z=full[["z"]], sep_xy=sep, sep_yz=sep, sep=".") {
+if (FALSE) {
+}
+
+#' @importFrom rsugeneral is.numeric_of_length1
+#' @importFrom rsugeneral fmt_int0
+#' @importFrom rsugeneral pasteR
+versionNumberFromXYZ <- function(full, x=full[["x"]], y=full[["y"]], z=full[["z"]], sep_xy=sep, sep_yz=sep, sep=".", digs_x=1, digs_y=2, digs_z=3, zeros_to_pad_at_end=0) {
+
+  is.numeric_of_length1(zeros_to_pad_at_end, min_value=0, integer_allowed=TRUE, null_ok=FALSE, fail.if.not=TRUE)
+  is.numeric_of_length1(digs_x, min_value=1, integer_allowed=TRUE, null_ok=FALSE, fail.if.not=TRUE)
+  is.numeric_of_length1(digs_y, min_value=1, integer_allowed=TRUE, null_ok=FALSE, fail.if.not=TRUE)
+  is.numeric_of_length1(digs_z, min_value=1, integer_allowed=TRUE, null_ok=FALSE, fail.if.not=TRUE)
+
   missing_full <- missing(full)
-  missing_xyz <- missing(x) || missing(y) || missing(z)
+  missing_xyz  <- missing(x) || missing(y) || missing(z)
 
   if (!missing_full && !missing_xyz)
     stop("Either use 'full'  or set 'x', 'y', 'z'.   No mixing and matching")
@@ -30,7 +42,17 @@ versionNumberFromXYZ <- function(full, x=full[["x"]], y=full[["y"]], z=full[["z"
   if (!missing_full &&  sort(names(full)) != c("x", "y", "z") )
     stop("full must have names c('x', 'y', 'z')")
 
-  paste0(x, sep_xy, y, sep_yz, z)
+  ## format 0
+  x <- sprintf(fmt_int0(digs_x), x)
+  y <- sprintf(fmt_int0(digs_y), y)
+  z <- sprintf(fmt_int0(digs_z), z)
+
+  ret <- paste0(x, sep_xy, y, sep_yz, z)
+
+  if (zeros_to_pad_at_end > 0) {
+    ret <- paste0(ret, pasteR(x=0, n=zeros_to_pad_at_end))
+  }
+  return(ret)
 }
 
 if (FALSE) {
