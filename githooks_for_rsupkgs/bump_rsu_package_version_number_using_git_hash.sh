@@ -78,13 +78,11 @@ function bump_rsu_package_version_number_using_git_hash() {
   fi
 }
 
-## IF (FALSE) {
-# echo ------------------------ === SOURCED $(date) === --------------------------------
+## #| EXAMPLES:
 # cp /Users/rsaporta/Development/rsutils_packages/rsutils/DESCRIPTION /Users/rsaporta/Development/rsutils_packages/rsutils/DESCRIPTION_sample.txt
 # source /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_rsu_package_version_number_using_git_hash.sh
 # bump_rsu_package_version_number_using_git_hash ~/Development/rsutils_packages/rsutils/
 # git_patch_bump /Users/rsaporta/Development/rsutils_packages/rsutils/
-## }
 
 function git_patch_bump() {
    if [   -z "$1" ];               then
@@ -127,8 +125,14 @@ function bump_and_commit_rsu_package_version_number_using_git_hash() {
   fi
 }
 
+## #| EXAMPLES:
 # git status
 # source /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_rsu_package_version_number_using_git_hash.sh
-# git_patch_bump /Users/rsaporta/Development/rsutils_packages/rsutils/
+# bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsutils/
 # git status
 # gitlog -5
+
+
+
+
+# echo ------------------------ === SOURCED $(date) === --------------------------------
