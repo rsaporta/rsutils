@@ -3,9 +3,9 @@ function bump_rsu_version_with_git_hash() {
       errcho "ERROR:  No argument passed to bump_version_with_git_hash"
   else 
 
-    local FOLDER="$1" # /Users/rsaporta/Development/rsutils_packages/rsutils
-    local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt"
-    local FILE=$FOLDER/$FILE_NAME
+    local FOLDER="$1" | sed s/'\/\/'/'\/'/g # /Users/rsaporta/Development/rsutils_packages/rsutils
+    local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt" | sed s/'\/\/'/'\/'/g
+    local FILE=$FOLDER/$FILE_NAME | sed s/'\/\/'/'\/'/g
     local expected_patch=$(cd $FOLDER && echo $(git_hash_to_octal))
 
       if [   -z "$1" ];               then
@@ -19,36 +19,36 @@ function bump_rsu_version_with_git_hash() {
     else 
         echo -n "Bumping version in file '"$FILE"'"
         {
-          VER_CURRENT=$(cat $FILE | grep "^Version" | sed -e 's/Version: \([0-9].*\)/\1/' )
+          local VER_CURRENT=$(cat $FILE | grep "^Version" | sed -e 's/Version: \([0-9].*\)/\1/' )
           ## TODO: Check if blank
           # echo $VER_CURRENT
 
-          PATCH_CURRENT=$(echo $VER_CURRENT | sed -e s/'[0-9]\{1,\}\.[0-9]\{1,\}\.'//)
+          local PATCH_CURRENT=$(echo $VER_CURRENT | sed -e s/'[0-9]\{1,\}\.[0-9]\{1,\}\.'//)
           ## TODO: Check if blank
           # echo $PATCH_CURRENT
 
-          MAJMIN_CURRENT=$(echo $VER_CURRENT | sed -e s/'.[0-9]\{1,\}$'//)
+          local MAJMIN_CURRENT=$(echo $VER_CURRENT | sed -e s/'.[0-9]\{1,\}$'//)
           ## TODO: Check if blank
           # echo $MAJMIN_CURRENT
 
-          MAJOR_CURRENT=$(echo $MAJMIN_CURRENT | sed -e s/'.[0-9]\{1,\}$'//)
+          local MAJOR_CURRENT=$(echo $MAJMIN_CURRENT | sed -e s/'.[0-9]\{1,\}$'//)
           ## TODO: Check if blank
           # echo $MAJOR_CURRENT
 
-          MINOR_CURRENT=$(echo $MAJMIN_CURRENT | sed -e s/'^[0-9]\{1,\}\.'// | xargs printf '%02s')
+          local MINOR_CURRENT=$(echo $MAJMIN_CURRENT | sed -e s/'^[0-9]\{1,\}\.'// | xargs printf '%02s')
           ## TODO: Check if blank
           # echo $MINOR_CURRENT
 
-          PATCH_FIRST_THREE=$(echo $PATCH_CURRENT | head -c 3 | xargs printf '%03s')
-          # tmp_first_three="$(echo $PATCH_CURRENT | head -c 3)"
-          # PATCH_FIRST_THREE=$(printf '%03d' "${tmp_first_three#0}")
+          local PATCH_FIRST_THREE=$(echo $PATCH_CURRENT | head -c 3 | xargs printf '%03s')
+          # local tmp_first_three="$(echo $PATCH_CURRENT | head -c 3)"
+          # local PATCH_FIRST_THREE=$(printf '%03d' "${tmp_first_three#0}")
           ## TODO: Check if blank
           # echo $PATCH_FIRST_THREE
 
-          APPEND_NEW=$(cd $FOLDER && echo $(git_hash_to_octal))
+          local APPEND_NEW=$(cd $FOLDER && echo $(git_hash_to_octal))
       
 
-          VER_NEW=$(printf '%s.%s.%s%s' $MAJOR_CURRENT $MINOR_CURRENT $PATCH_FIRST_THREE $APPEND_NEW)
+          local VER_NEW=$(printf '%s.%s.%s%s' $MAJOR_CURRENT $MINOR_CURRENT $PATCH_FIRST_THREE $APPEND_NEW)
           ## TODO: Check if blank
           # echo $VER_NEW
         }
@@ -56,7 +56,7 @@ function bump_rsu_version_with_git_hash() {
 
       
         ## UPDATE THE VERSION NUMBER IN THE DESCRIPTION FILE
-        CONFIRMED=$(echo $VER_NEW | grep -E "^\d+\.\d+\.\d+$")
+        local CONFIRMED=$(echo $VER_NEW | grep -E "^\d+\.\d+\.\d+$")
         if [ -z "$CONFIRMED" ]; then 
           errcho "ERROR:  \$VER_NEW did not format correctly. Its value is: '$VER_NEW'"
         else
@@ -66,8 +66,8 @@ function bump_rsu_version_with_git_hash() {
         fi
       
         ## UPDATE THE "last committed" LINE
-        DEV_LINE_NEW=$(printf "    Unstable development version ( last committed on %s)." "$(date +'%b %d, %Y')")
-        CONFIRMED=$(echo $DEV_LINE_NEW | grep -E "\( last committed on [A-Z][a-z][a-z] \d\d, \d\d\d\d\)\.$")
+        local DEV_LINE_NEW=$(printf "    Unstable development version ( last committed on %s)." "$(date +'%b %d, %Y')")
+        local CONFIRMED=$(echo $DEV_LINE_NEW | grep -E "\( last committed on [A-Z][a-z][a-z] \d\d, \d\d\d\d\)\.$")
         if [ -z "$CONFIRMED" ]; then 
           errcho "ERROR:  \$DEV_LINE_NEW did not format correctly. Its value is: '$DEV_LINE_NEW'"
         else
