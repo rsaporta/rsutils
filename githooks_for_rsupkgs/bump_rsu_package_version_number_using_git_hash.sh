@@ -122,6 +122,9 @@ function bump_and_commit_rsu_package_version_number_using_git_hash() {
   else 
     bump_rsu_package_version_number_using_git_hash "$1"
     git_patch_bump "$1"
+    echo 
+    echo "======= HERE ARE THE LAST 7 COMMITS ======="
+    echo $(cd "$1" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)')
   fi
 }
 
