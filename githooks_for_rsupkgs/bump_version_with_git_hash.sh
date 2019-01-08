@@ -3,9 +3,9 @@ function bump_rsu_version_with_git_hash() {
       errcho "ERROR:  No argument passed to bump_version_with_git_hash"
   else 
 
-    local FOLDER="$1" | sed s/'\/\/'/'\/'/g # /Users/rsaporta/Development/rsutils_packages/rsutils
+    local FOLDER=$(echo "$1" | sed s/'\/\/'/'\/'/g) # /Users/rsaporta/Development/rsutils_packages/rsutils
     local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt" | sed s/'\/\/'/'\/'/g
-    local FILE=$FOLDER/$FILE_NAME | sed s/'\/\/'/'\/'/g
+    local FILE=$(echo "$FOLDER/$FILE_NAME" | sed s/'\/\/'/'\/'/g)
     local expected_patch=$(cd $FOLDER && echo $(git_hash_to_octal))
 
       if [   -z "$1" ];               then
@@ -17,7 +17,7 @@ function bump_rsu_version_with_git_hash() {
     elif [   -z "$expected_patch" ];  then
         errcho "ERROR:  Could not get git hash octal -- are you sure git is initialized in the folder?"
     else 
-        echo -n "Bumping version in file '"$FILE"'"
+        echo "Bumping version in file '"$FILE"'"
         {
           local VER_CURRENT=$(cat $FILE | grep "^Version" | sed -e 's/Version: \([0-9].*\)/\1/' )
           ## TODO: Check if blank
@@ -52,8 +52,9 @@ function bump_rsu_version_with_git_hash() {
           ## TODO: Check if blank
           # echo $VER_NEW
         }
-        echo " to version $VER_NEW"
 
+        echo " from version:  $VER_CURRENT"
+        echo " to   version:  $VER_NEW"
       
         ## UPDATE THE VERSION NUMBER IN THE DESCRIPTION FILE
         local CONFIRMED=$(echo $VER_NEW | grep -E "^\d+\.\d+\.\d+$")
