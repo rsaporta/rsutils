@@ -7,21 +7,34 @@
 #' @importFrom remotes install_github
 #' @importFrom remotes install_local
 #' @export
-.rsu_install_all_packages <- function(local_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), update_public_rsaporta_pkgs=TRUE, public_rsaporta_pkgs=c("rcreds", "collectArgs"), github="auto", attempt=0, max_attempts=3, quiet_install=FALSE) {
+.rsu_install_all_packages <- function(
+    local_folder                = rsutils::.get_rsu_homeDir(default = "~/Development/rsutils_packages")
+  , pkgs                        = rsutils::.rsu_pkgs_strings()
+  , rsutils.load_on_startup     = FALSE
+  , update_public_rsaporta_pkgs = TRUE
+  , public_rsaporta_pkgs        = c("rcreds", "collectArgs")
+  , github                      = "auto"
+  , attempt                     = 0
+  , max_attempts                = 3
+  , quiet_install               = FALSE
+) {
 
   ## ------------------------------------------------------------------------------- ##
   ##                  So that we know where we are in the output
   ## ------------------------------------------------------------------------------- ##
   cat("\n\n\n")
-  cat(" ------------------ STARTING rsu_install_all_packages() ------------------ ")
+  cat(" ------------------ STARTING .rsu_install_all_packages() ------------------ ")
   cat("\n\n\n")
   ## ------------------------------------------------------------------------------- ##
 
-  ## BACNK ANY CURRENT OPTIONS, WHICH WILL BE REPLACED
+  ## BANK ANY CURRENT OPTIONS, WHICH WILL BE REPLACED
   current_options <- list()
 
   current_options[["notify.startup"]] <- getOption("notify.startup")
   options("notify.startup" = FALSE)
+
+  if (!rsutils_load)
+    options(rsutils.load_on_startup = FALSE)
   
   .rsu_check_branch_is_master(parent_folder=local_folder, pkgs=pkgs, wait_on_verbose=3)
 

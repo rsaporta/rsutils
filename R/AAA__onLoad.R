@@ -11,5 +11,6 @@
   if (verbose)
     packageStartupMessage(sprintf("Running .onLoad() from %-16s --------------------------- ================================ ||\n", pkgname))
 
-  load_rsutils(rsutils_load=FALSE)
+  if (getOption("rsutils.load_on_startup", default=TRUE))
+    load_rsutils(rsutils_load=FALSE)
 }
