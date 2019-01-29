@@ -2,6 +2,7 @@
 
 
 {
+source $HOME/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_rsu_package_version_number_using_git_hash.sh
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsuaspath
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsuaws
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsubitly
