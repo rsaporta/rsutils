@@ -79,12 +79,17 @@ function bump_rsu_package_version_number_using_git_hash() {
   fi
 }
 
+# ------------------------------------------------------------------------- #
 ## #| EXAMPLES:
+# ------------------------------------------------------------------------- #
 # cp /Users/rsaporta/Development/rsutils_packages/rsutils/DESCRIPTION /Users/rsaporta/Development/rsutils_packages/rsutils/DESCRIPTION_sample.txt
 # source /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_rsu_package_version_number_using_git_hash.sh
 # bump_rsu_package_version_number_using_git_hash ~/Development/rsutils_packages/rsutils/
 # git_patch_bump /Users/rsaporta/Development/rsutils_packages/rsutils/
-
+# ------------------------------------------------------------------------- #
+# UPDATE 2019-02-15:  Use this file instead:
+#  /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/BUMP-ALL.sh
+# ------------------------------------------------------------------------- #
 function git_patch_bump() {
    if [   -z "$1" ];               then
       errcho "ERROR:  No argument passed to bump_version_with_git_hash"
