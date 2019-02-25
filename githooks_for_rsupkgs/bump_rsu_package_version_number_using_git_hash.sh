@@ -6,6 +6,12 @@ function bump_rsu_package_version_number_using_git_hash() {
     local FOLDER=$(echo "$1" | sed s/'\/\/'/'\/'/g) # /Users/rsaporta/Development/rsutils_packages/rsutils
     local FILE_NAME="DESCRIPTION" # "DESCRIPTION_sample.txt" | sed s/'\/\/'/'\/'/g
     local FILE=$(echo "$FOLDER/$FILE_NAME" | sed s/'\/\/'/'\/'/g)
+
+    ## PULL CHANGES BEFORE; Wrap in a quick validator. More robust error-handling is downstream.
+    if [ -d "$FOLDER" ];          then
+      cd "$FOLDER" && git pull
+    fi
+
     local patch_hash_part=$(cd "$FOLDER" && echo $(git_hash_to_decimal_3))
 
       if [   -z "$1" ];               then
