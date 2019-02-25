@@ -21,3 +21,23 @@ bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Develo
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsuxls
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsutils
 }
+
+{
+  cd /Users/rsaporta/Development/rsutils_packages/rsuaspath       && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuaws          && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsubitly        && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuconsoleutils && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsucurl         && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsudb           && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsugeneral      && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsujesus        && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsunotify       && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuplotting     && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuprophesize   && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuscrubbers    && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsushiny        && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuvydia        && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuworkspace    && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsuxls          && git push
+  cd /Users/rsaporta/Development/rsutils_packages/rsutils         && git push
+}
