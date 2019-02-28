@@ -3,6 +3,7 @@
 #' @importFrom rsugeneral now
 #' @importFrom rsugeneral verboseMsg
 #' @importFrom rsugeneral removeNA
+#' @importFrom rsuaspath  as.path
 #' @importFrom data.table data.table
 #' @importFrom data.table setkey
 #' @export
@@ -17,6 +18,8 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
 
   pkg_folders <- extractSubfoldersFromFolder(folder=main_folder, pattern = "^rsu")
 
+  if (!exists("as.path", mode = "function"))
+    as.path <- file.path
 
   if (add_R_init) {
     R_init.folder <- c("R_init" = as.path(main_folder, "../R_init/", expand=TRUE))
