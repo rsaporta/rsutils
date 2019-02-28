@@ -22,8 +22,8 @@ if (FALSE)
 
 
     ## PARAMS --------------------------------
-    stable_version_to_make <- "6.4.0"  ## make sure it's quoted
-    what_to_increment <- "z"           ## "x", "y", or "z"
+    stable_version_to_make <- "6.06.0"  ## make sure it's quoted
+    what_to_increment <- "y"           ## "x", "y", or "z"
     .test_run <- TRUE # FALSE
     # .test_run <- FALSE
     document <- FALSE ## Whether to update the ROxygen Documents -- note: for this to work, all functions must be marked as `#' @export` as necessary
