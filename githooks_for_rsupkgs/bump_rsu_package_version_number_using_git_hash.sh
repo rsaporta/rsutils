@@ -127,6 +127,7 @@ function git_patch_bump() {
   fi 
 }
 
+
 function bump_and_commit_rsu_package_version_number_using_git_hash() {
    if [   -z "$1" ];               then
       errcho "ERROR:  No argument passed to bump_version_with_git_hash"
@@ -135,14 +136,35 @@ function bump_and_commit_rsu_package_version_number_using_git_hash() {
   else 
     local PWD_BAK=$(pwd)
     echo
-    bump_rsu_package_version_number_using_git_hash "$1"
-    git_patch_bump "$1"
-    echo 
-    echo "================= HERE ARE THE LAST 7 COMMITS ================="
-    local cmd_gitlog="cd \"$1\" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'"
-    eval $cmd_gitlog
-    echo "==============================================================="
-    # eval $(cd "$1" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)')
+
+    local folder=$1
+    local folder=${folder/\~/${HOME}}
+
+    if [[ $folder = '.' ]]
+    then
+      folder=$(pwd)
+    fi
+
+    echo_grn "==========[    Processing folder: '$(basename $folder)'    ]=========="
+
+    ## We will check the last commit and not bump if it was already bumped
+    local cmd_last_commit="cd \"$folder\" && git log -1 --pretty=format:'%s'"
+    local last_commit=$(eval $cmd_last_commit)
+
+    if [[ $last_commit =~ 'PATCH BUMP: ' ]]
+    then
+      echo_prp "No Action Taken -- last commit was already a patch bump"
+    else
+      bump_rsu_package_version_number_using_git_hash "$folder"
+      git_patch_bump "$folder"
+      echo 
+      echo "================= HERE ARE THE LAST 7 COMMITS ================="
+      local cmd_gitlog="cd \"$folder\" && git log -7 --graph --pretty=format:'%C(auto)%h%C(auto)%d %s %C(dim white)(%aN, %ar)'"
+      eval $cmd_gitlog
+      echo "==============================================================="
+    fi
+
+    ## Put the pwd back to where it was
     cd $PWD_BAK
   fi
 }
