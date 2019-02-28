@@ -1,3 +1,4 @@
+# source /Users/rsaporta/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/BUMP-ALL.sh
 # bump_and_commit_rsu_package_version_number_using_git_hash
 
 {
