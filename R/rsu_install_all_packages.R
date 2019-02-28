@@ -42,7 +42,8 @@
     options(rsutils.load_on_startup = FALSE)
   }
   
-  .rsu_check_branch_is_master(parent_folder=local_folder, pkgs=pkgs, wait_on_verbose=3)
+  if (exists(".rsu_check_branch_is_master", mode = "function"))
+    .rsu_check_branch_is_master(parent_folder=local_folder, pkgs=pkgs, wait_on_verbose=3)
 
   caught <- try(force(local_folder))
   if (inherits(caught, "try-error")) {
