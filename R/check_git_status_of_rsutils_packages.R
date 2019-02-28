@@ -18,23 +18,28 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
 
   pkg_folders <- extractSubfoldersFromFolder(folder=main_folder, pattern = "^rsu")
 
-  if (!exists("as.path", mode = "function"))
+  if (!exists("as.path", mode = "function")) {
     as.path <- file.path
-
-  if (add_R_init) {
-    R_init.folder <- c("R_init" = as.path(main_folder, "../R_init/", expand=TRUE))
-    if (file.exists(R_init.folder) && isdir(R_init.folder))
-      pkg_folders  %<>% c(R_init.folder)
   }
 
-  if (vydia_too) {
-    vydia_parent_folder <- "~/Development/"
-    vydia_folders <- extractSubfoldersFromFolder(folder=vydia_parent_folder, pattern = "^vydia_")
+  try({
+    if (add_R_init) {
+      R_init.folder <- c("R_init" = as.path(main_folder, "../R_init/", expand=TRUE))
+      if (file.exists(R_init.folder) && isdir(R_init.folder))
+        pkg_folders  %<>% c(R_init.folder)
+    }
+  })
 
-    ## Restrict to those that have a git repo
-    has_repo <- vydia_folders %>% as.path(".git") %>% file.exists()
-    pkg_folders  %<>% c(vydia_folders[has_repo])
-  }
+  try({
+    if (vydia_too) {
+      vydia_parent_folder <- "~/Development/"
+      vydia_folders <- extractSubfoldersFromFolder(folder=vydia_parent_folder, pattern = "^vydia_")
+
+      ## Restrict to those that have a git repo
+      has_repo <- vydia_folders %>% as.path(".git") %>% file.exists()
+      pkg_folders  %<>% c(vydia_folders[has_repo])
+    }
+  })
 
   if (is_param_auto(fetch)) {
     fetch_again <- FALSE
