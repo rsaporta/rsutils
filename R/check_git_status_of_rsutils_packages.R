@@ -3,6 +3,9 @@
 #' @importFrom rsugeneral now
 #' @importFrom rsugeneral verboseMsg
 #' @importFrom rsugeneral removeNA
+#' @importFrom rsugeneral isdir
+#' @importFrom rsugeneral is_param_auto
+#' @importFrom rsugeneral emptylist
 #' @importFrom rsuaspath  as.path
 #' @importFrom data.table data.table
 #' @importFrom data.table setkey
@@ -41,7 +44,9 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
     }
   })
 
-  if (is_param_auto(fetch)) {
+  if (!exists("is_param_auto", mode = "function")) {
+    fetch <- FALSE
+  } else if (is_param_auto(fetch)) {
     fetch_again <- FALSE
     last_fetch <- getOption("rsu.git_last_fetch", default=.origin.utc)
     fetch_again <- as.numeric(now() - last_fetch) > (2 * 60 * 60)
