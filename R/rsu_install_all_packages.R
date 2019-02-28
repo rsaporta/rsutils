@@ -33,8 +33,14 @@
   current_options[["notify.startup"]] <- getOption("notify.startup")
   options("notify.startup" = FALSE)
 
-  if (!rsutils.load_on_startup)
+  current_options[["rsutils.installing"]] <- getOption("rsutils.installing")
+  options("rsutils.installing" = TRUE)
+
+
+  if (!rsutils.load_on_startup) {
+    current_options[["rsutils.load_on_startup"]] <- getOption("rsutils.load_on_startup")
     options(rsutils.load_on_startup = FALSE)
+  }
   
   .rsu_check_branch_is_master(parent_folder=local_folder, pkgs=pkgs, wait_on_verbose=3)
 
