@@ -158,7 +158,7 @@ rsupkg_next_version <- function(
 
   ## ADD DOCUMENTS
   if (document && !.test_run) {
-    remotes::document(folder)
+    devtools::document(folder)
     rsugeneral::git_add_A(folder=folder, verbose.cmd = TRUE)
     rsugeneral::git_commit("roxygen documents", folder=folder, verbose.cmd = TRUE)
   }
