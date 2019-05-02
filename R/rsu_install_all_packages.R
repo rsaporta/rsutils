@@ -9,10 +9,11 @@
 #' checks that the system git branch matches an exepected git branch
 #' If 
 #' 
+#' @importFrom rsugeneral git_get_current_branch
 #' @export
 confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, fail.if.not=TRUE, showWarnings=!fail.if.not) {
 
-  current_branch <- vapply(directory_to_check, git_get_current_branch, showWarnings=showWarnings, FUN.VALUE="", USE.NAMES = TRUE)
+  current_branch <- vapply(directory_to_check, rsugeneral::git_get_current_branch, showWarnings=showWarnings, FUN.VALUE="", USE.NAMES = TRUE)
   is_same <- current_branch == branch_expected
 
   if (all(is_same))
