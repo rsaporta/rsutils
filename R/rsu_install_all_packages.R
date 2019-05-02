@@ -2,6 +2,39 @@
 #         OR
 #   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
+
+## 2019-05-02 -- SHOULD THIS GO TO rsugeneral ??
+#' confirm_git_branch_is_as_expected
+#' 
+#' checks that the system git branch matches an exepected git branch
+#' If 
+#' 
+#' @export
+confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, fail.if.not=TRUE, showWarnings=!fail.if.not) {
+
+  current_branch <- vapply(directory_to_check, git_get_current_branch, showWarnings=showWarnings, FUN.VALUE="", USE.NAMES = TRUE)
+  is_same <- current_branch == branch_expected
+
+  if (all(is_same))
+    return(is_same)
+
+  ## OTHER WISE COMPUTE ERROR MESSAGE
+  if (length(branch_expected) == 1)
+    branch_expected <- rep(branch_expected, length(directory_to_check))
+
+  msg <- sprintf("Git Branch Confirmation Failed for folder '%s':  Branch expected is '%s' but current branch is '%s'\n", directory_to_check, branch_expected, current_branch)
+  msg <- msg[!(is_same)]
+
+  if (fail.if.not)
+    stop(msg, call.=FALSE)
+
+  if (showWarnings)
+    warning(msg, call. = FALSE)
+
+  return(is_same)
+}
+
+
 #' @import collectArgs
 #' @import rcreds
 #' @importFrom remotes install_github
@@ -143,7 +176,7 @@
 
   DT.ret <- data.table(pkg = pkgs, exists = NA)
   DT.ret[, exists := file.exists(file.path(parent_folder, pkg))]
-  DT.ret[, is_master := rsutils::confirm_git_branch_is_as_expected(branch="master", dir=file.path(parent_folder, pkg))]
+  DT.ret[, is_master := confirm_git_branch_is_as_expected(branch="master", dir=file.path(parent_folder, pkg))]
 
   are_non_master   <- DT.ret[(exists), !is_master & !is.na(is_master)]
   have_no_git_repo <- DT.ret[(exists), is.na(is_master)]

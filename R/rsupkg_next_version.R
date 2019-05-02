@@ -88,29 +88,6 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
   return(last_version)
 }
 
-#' confirm_git_branch_is_as_expected
-#' 
-#' checks that the system git branch matches an exepected git branch
-#' 
-#' @export
-confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, fail.if.not=TRUE, showWarnings=!fail.if.not) {
-
-  current_branch <- rsugeneral::getGitBranch(dir=directory_to_check)
-  is_same <- current_branch == branch_expected
-
-  if (is_same)
-    return(TRUE)
-
-  msg <- sprintf("Git Branch Confirmation Failed:  Branch expected is '%s' but current branch is '%s'", branch_expected, current_branch)
-
-  if (fail.if.not)
-    stop(msg, call.=FALSE)
-
-  if (showWarnings)
-    warning(msg, call. = FALSE)
-
-  return(FALSE)
-}
 
 #' @importFrom rsugeneral git_parse_status_text
 #' @importFrom rsugeneral shellClean
