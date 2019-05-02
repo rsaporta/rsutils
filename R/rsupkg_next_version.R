@@ -66,8 +66,7 @@ if (FALSE)
 #' @export
 rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsutils_packages/", branch="master") {
   folder <- rsuaspath::as.path(parent_folder, pkg, expand=TRUE)
-  # stopifnot(getGitBranch(from_where="system", dir=folder) == branch)
-  confirm_git_branch_is_as_expected(branch_expected=branch, from_where="system", directory_to_check=folder, fail.if.not=TRUE)
+  confirm_git_branch_is_as_expected(branch_expected=branch, directory_to_check=folder, fail.if.not=TRUE)
 
 
   ## GRAB THE DESCRIPTION FILE
@@ -93,19 +92,16 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
 #' 
 #' checks that the system git branch matches an exepected git branch
 #' 
-#' @param from_where enum string of length 1. Where are we checking the git branch? Are we using the system command, or are we checking what branch we have saved in R_options?
 #' @export
-confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, from_where=c("system", "System", "R_options"), fail.if.not=TRUE, showWarnings=!fail.if.not) {
+confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_check, fail.if.not=TRUE, showWarnings=!fail.if.not) {
 
-  from_where <- match.arg(from_where)
-
-  current_branch <- rsugeneral::getGitBranch(from_where=from_where, dir=directory_to_check)
+  current_branch <- rsugeneral::getGitBranch(dir=directory_to_check)
   is_same <- current_branch == branch_expected
 
   if (is_same)
     return(TRUE)
 
-  msg <- sprintf("Git Branch Confirmation Failed:  Branch expected is '%s' but current branch is '%s'  (we checked using %s)", branch_expected, current_branch, from_where)
+  msg <- sprintf("Git Branch Confirmation Failed:  Branch expected is '%s' but current branch is '%s'", branch_expected, current_branch)
 
   if (fail.if.not)
     stop(msg, call.=FALSE)
@@ -145,8 +141,7 @@ rsupkg_next_version <- function(
   catheader(pkg)
 
   folder <- rsuaspath::as.path(parent_folder, pkg, expand=TRUE)
-  # stopifnot(getGitBranch(from_where="system", dir=folder) == branch_start_from)
-  confirm_git_branch_is_as_expected(branch_expected=branch_start_from, from_where="system", directory_to_check=folder, fail.if.not=TRUE)
+  confirm_git_branch_is_as_expected(branch_expected=branch_start_from, directory_to_check=folder, fail.if.not=TRUE)
 
   ## VALIDATE GIT BRANCH & STATUS BEFORE STARTING
   status <- git_parse_status_text(folder=folder)
