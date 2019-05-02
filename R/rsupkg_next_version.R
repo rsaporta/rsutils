@@ -112,7 +112,9 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
   return(FALSE)
 }
 
+#' @importFrom rsugeneral git_parse_status_text
 #' @importFrom rsugeneral shellClean
+#' @importFrom rsuaspath  as.path
 #' @export
 rsupkg_next_version <- function(
     pkg
@@ -144,7 +146,7 @@ rsupkg_next_version <- function(
   confirm_git_branch_is_as_expected(branch_expected=branch_start_from, directory_to_check=folder, fail.if.not=TRUE)
 
   ## VALIDATE GIT BRANCH & STATUS BEFORE STARTING
-  status <- git_parse_status_text(folder=folder)
+  status <- rsugeneral::git_parse_status_text(folder=folder)
   if (!isTRUE(status$branch == branch_start_from))
     stop("branch is not '", branch_start_from, "'  (it is '", status$branch, "')")
   if (!isTRUE(status$status == "up-to-date"))

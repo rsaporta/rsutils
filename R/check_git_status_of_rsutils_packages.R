@@ -6,6 +6,7 @@
 #' @importFrom rsugeneral isdir
 #' @importFrom rsugeneral is_param_auto
 #' @importFrom rsugeneral emptylist
+#' @importFrom rsugeneral git_parse_status_text
 #' @importFrom rsuaspath  as.path
 #' @importFrom data.table data.table
 #' @importFrom data.table setkey
@@ -81,7 +82,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
   DT.ret <- data.table(
                   pkg=names(pkg_folders)
                 ## , folder=pkg_folders
-                , as.data.table(rsuworkspace::git_parse_status_text(txt=rets))
+                , as.data.table(rsugeneral::git_parse_status_text(txt=rets))
             )
   up_to_dates <- c("up-to-date", "up to date")
   DT.ret[, on_master  := (branch == "master")]

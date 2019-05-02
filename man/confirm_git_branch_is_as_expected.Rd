@@ -5,11 +5,7 @@
 \title{confirm_git_branch_is_as_expected}
 \usage{
 confirm_git_branch_is_as_expected(branch_expected, directory_to_check,
-  from_where = c("system", "System", "R_options"), fail.if.not = TRUE,
-  showWarnings = !fail.if.not)
-}
-\arguments{
-\item{from_where}{enum string of length 1. Where are we checking the git branch? Are we using the system command, or are we checking what branch we have saved in R_options?}
+  fail.if.not = TRUE, showWarnings = !fail.if.not)
 }
 \description{
 checks that the system git branch matches an exepected git branch
