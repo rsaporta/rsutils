@@ -1,9 +1,10 @@
-## PAT -- goto https://github.com/settings/tokens to create
-##   needs just repo rights
-export GITHUB_PAT=3b2f2a7429ede72e887c8e63c506426fa6ca69ad
+## PAT -- goto 
+##   https://github.com/settings/tokens to create
+##  needs just 'repo' rights
+export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
 
 ## WHOM TO ADD
-export USER_TO_ADD=ibernotas
+export USER_TO_ADD=bubbatea
 
 ## MY Github USER NAME
 export REPO_OWNER=rsaporta
