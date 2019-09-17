@@ -1,5 +1,5 @@
-## PAT -- goto 
-##   https://github.com/settings/tokens to create
+## PAT -- To create, go to:
+##   https://github.com/settings/tokens
 ##  needs just 'repo' rights
 export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
 
