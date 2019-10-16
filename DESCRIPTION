@@ -1,6 +1,6 @@
 Package: rsutils
 Title: RS Utilities Parent Package
-Version: 6.07.000505249
+Version: 6.07.00010110248
 Authors@R: c(person("Rick", "Saporta", email="RickSaporta@gmail.com", role=c("aut","cre")), person("Mike", "Reca", email="michael.reca@vydia.com", role=c("aut")))
 Description: Loads up the multiple rsu* packages. 
     Unstable development version (first committed on February 28, 2019).
