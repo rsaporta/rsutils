@@ -36,7 +36,7 @@ EOF
 ## THIS IS THE FRAMEWORK FOR THE API CALL TO *accept* THE INVITATION
 ## (this is missing just the invitation_id, which is added by the curl responses below)
 ## NOTE that in CMD_INVITATION_ACCEPT, the GITHUB_PAT should be changed by the user
-export CMD_INVITATION_ACCEPT="curl -X PUT -H \"Authorization: token \${GITHUB_PAT}\" https://api.github.com/user/repository_invitations/"
+export CMD_INVITATION_ACCEPT="curl -X PATCH -H \"Authorization: token \${GITHUB_PAT}\" https://api.github.com/user/repository_invitations/"
 
 echo -e "\033[1;35m"Beginning curl calls to add user to github repos"\033[m"
 
