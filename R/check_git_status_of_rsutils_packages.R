@@ -22,6 +22,9 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
 
   pkg_folders <- extractSubfoldersFromFolder(folder=main_folder, pattern = "^rsu")
 
+  if (!length(pkg_folders))
+    warning("\n================================================================\n**INTERNAL ERROR**\n\tpkg_folders returned no 'rsu' folders.\n\tmain_folder = \"", main_folder, "\"\n================================================================\n")
+
   if (!exists("as.path", mode = "function")) {
     as.path <- file.path
   }
