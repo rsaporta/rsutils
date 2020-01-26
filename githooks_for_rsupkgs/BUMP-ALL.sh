@@ -43,3 +43,5 @@ bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Develo
   cd /Users/rsaporta/Development/rsutils_packages/rsutils         && git push
 }
 }
+
+RSU_UPDATE_nogit
