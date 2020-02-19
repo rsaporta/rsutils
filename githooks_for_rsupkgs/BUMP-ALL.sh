@@ -2,6 +2,15 @@
 # bump_and_commit_rsu_package_version_number_using_git_hash
 
 {
+
+## PULL THE MORE COMMONLY UPDATED PACKAGES
+{
+  cd /Users/rsaporta/Development/rsutils_packages/rsudb           && git pull
+  cd /Users/rsaporta/Development/rsutils_packages/rsugeneral      && git pull
+  cd /Users/rsaporta/Development/rsutils_packages/rsuplotting     && git pull
+  cd /Users/rsaporta/Development/rsutils_packages/rsuworkspace    && git pull
+}
+
 {
 source $HOME/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/bump_rsu_package_version_number_using_git_hash.sh
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsuaspath
@@ -23,6 +32,8 @@ bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Develo
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsutils
 }
 
+RSU_UPDATE_nogit
+
 {
   cd /Users/rsaporta/Development/rsutils_packages/rsuaspath       && git push
   cd /Users/rsaporta/Development/rsutils_packages/rsuaws          && git push
@@ -42,6 +53,6 @@ bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Develo
   cd /Users/rsaporta/Development/rsutils_packages/rsuxls          && git push
   cd /Users/rsaporta/Development/rsutils_packages/rsutils         && git push
 }
+
 }
 
-RSU_UPDATE_nogit
