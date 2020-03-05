@@ -1,6 +1,15 @@
 #!/bin/bash
 
 
+## HOW TO USE:
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+##   1. Goto https://github.com/settings/tokens   (only need REPO)
+##   2. Create token and copy it to clipboard
+##   3. Only need to edit these two fields.  (not the extra GITHUB_PAT below, thats for the acceptar output)
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+
+
 ## GITUB PAT (PERSONAL ACCESS TOKEN) 
 ## To create a PAT, go to:
 ##   https://github.com/settings/tokens
@@ -17,6 +26,18 @@ export REPO_OWNER=rsaporta
 ## CREATE A FILE TO EXPORT OUTPUT
 export GITHUB_API_RESPONSE_FILE="/tmp/github_api_invitation_accept_for_${USER_TO_ADD}_$(date -u +'%Y%m%dT%H%M%SZ').sh"
 
+
+
+
+
+
+
+
+
+
+
+## REMINDER TO RICKY:  Dont edit this lower one.  It is for the file for the ACCEPTER
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 cat << EOF > $GITHUB_API_RESPONSE_FILE
 #!/bin/bash
 
@@ -29,8 +50,14 @@ export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
 
 
 EOF
-## ------------------------------------- ##
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 
+
+
+
+
+
+## ------------------------------------- ##
 
 {
 ## THIS IS THE FRAMEWORK FOR THE API CALL TO *accept* THE INVITATION
@@ -61,9 +88,15 @@ curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos
 curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/rsugeneral/collaborators/${USER_TO_ADD}      | jq '.id' | sed -e "s|^|$CMD_INVITATION_ACCEPT|g" >> "$GITHUB_API_RESPONSE_FILE"
 echo -e "\033[1;97m"================================================================="\033[m"
 
+## OUTPUT FOR USER
+echo -e "\033[1;97m"================================================================="\033[m"
+echo -e "\033[1;97m""      (dont copy the lines, dummy :}~      )                   ""\033[m"
+echo -e "\033[1;97m"–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"\033[m"
+
 echo -e "\033[1;35m"To Accept the invitations, the receiver should run the following"\033[m"
 cat "$GITHUB_API_RESPONSE_FILE"
 echo ""
+echo -e "\033[1;97m"–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"\033[m"
 echo -e "\033[1;35m"'The tmp file is located here:'"\033[m"  \"${GITHUB_API_RESPONSE_FILE}\"
 echo -e "\033[1;97m"================================================================="\033[m"
 }
