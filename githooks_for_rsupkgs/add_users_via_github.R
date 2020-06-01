@@ -36,6 +36,31 @@ export GITHUB_API_RESPONSE_FILE="/tmp/github_api_invitation_accept_for_${USER_TO
 
 
 
+
+
+
+
+
+
+# ONLY EDIT ABOVE ^^^^^^^^^^^^^^^^^
+# ONLY EDIT ABOVE ^^^^^^^^^^^^^^^^^
+# ONLY EDIT ABOVE ^^^^^^^^^^^^^^^^^
+# ONLY EDIT ABOVE ^^^^^^^^^^^^^^^^^
+#
+#
+# DO NOT EDIT BELOW -----------------------------------------------------
+# DO NOT EDIT BELOW -----------------------------------------------------
+# DO NOT EDIT BELOW -----------------------------------------------------
+# DO NOT EDIT BELOW -----------------------------------------------------
+
+
+
+
+
+
+
+
+
 ## REMINDER TO RICKY:  Dont edit this lower one.  It is for the file for the ACCEPTER
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 cat << EOF > $GITHUB_API_RESPONSE_FILE
