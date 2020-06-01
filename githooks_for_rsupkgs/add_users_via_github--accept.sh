@@ -6,7 +6,7 @@ export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
 
 # PATCH /user/repository_invitations/:invitation_id
 
-https://api.github.com/user/repository_invitations/
+echo "https://api.github.com/user/repository_invitations/"
 
 export CMD_INVITATION_ACCEPT="curl -X PUT -H \"Authorization: token \\\${GITHUB_PAT}\" https://api.github.com/user/repository_invitations/"
 echo $CMD_INVITATION_ACCEPT
