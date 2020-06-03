@@ -124,11 +124,15 @@ echo -e "\033[1;97m"============================================================
 echo -e "\033[1;97m"================================================================="\033[m"
 echo -e "\033[1;97m""      (dont copy the lines, dummy :}~      )                   ""\033[m"
 echo -e "\033[1;97m"–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"\033[m"
-
 echo -e "\033[1;35m"To Accept the invitations, the receiver should run the following"\033[m"
 cat "$GITHUB_API_RESPONSE_FILE"
 echo ""
 echo -e "\033[1;97m"–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"\033[m"
 echo -e "\033[1;35m"'The tmp file is located here:'"\033[m"  \"${GITHUB_API_RESPONSE_FILE}\"
+echo -e "\033[1;35m"'The tmp file is located here:'"\033[m"  \"${GITHUB_API_RESPONSE_FILE}\"
+echo -e "\033[1;35m"'The tmp file is located here:'"\033[m"  \"${GITHUB_API_RESPONSE_FILE}\"
+echo ""
+echo -e "\033[1;35m"'Send it to the receiver'"\033[m"
 echo -e "\033[1;97m"================================================================="\033[m"
+
 }
