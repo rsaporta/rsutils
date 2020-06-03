@@ -4,8 +4,40 @@
 export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
 
 
-# PATCH /user/repository_invitations/:invitation_id
+if ! [ -x "$(command -v jq)" ]; then
+  echo NOTE: JSON parsing tool \'jq\' is not installed. Will attempt to install it now with homebrew
+  echo Running:  \'brew install jq\'
+  brew install jq
+fi
 
+
+
+*** THIS IS NOT THE RIGHT FILE TO SEND ***
+--- CHECK YOUR TMP FOLDER  ---------------
+
+
+ls -la /tmp/github_api_*
+ls -la /tmp/github_api_*
+ls -la /tmp/github_api_*
+ls -la /tmp/github_api_*
+ls -la /tmp/github_api_*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# PATCH /user/repository_invitations/:invitation_id
 echo "https://api.github.com/user/repository_invitations/"
 
 export CMD_INVITATION_ACCEPT="curl -X PUT -H \"Authorization: token \\\${GITHUB_PAT}\" https://api.github.com/user/repository_invitations/"
