@@ -1,6 +1,6 @@
-#   sudo R --vanilla -e 'options(rsunotify.NO_OPTIONS_AT_STARTUP=TRUE); require(colorout); source("~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R"); source("~rsaporta/Development/R_init/personal_settings_and_options.R"); .rsu_install_all_packages();'
+#   sudo R --vanilla -e 'options(rsunotify.NO_OPTIONS_AT_STARTUP=TRUE); require(colorout); source("~/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R"); source("~/Development/R_init/personal_settings_and_options.R"); .rsu_install_all_packages();'
 #         OR
-#   sudo R --vanilla -e 'source(\"~rsaporta/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
+#   sudo R --vanilla -e 'source(\"~/Development/rsutils_packages/rsutils/R/rsu_install_all_packages.R\"); Sys.setenv(GITHUB_PAT   = \"xxxxxxx\");  .rsu_install_all_packages();'
 
 
 ## 2019-05-02 -- SHOULD THIS GO TO rsugeneral ??
@@ -248,7 +248,7 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 if (FALSE) 
 {
   ## CHANGE THE PATH TO POINT TO THIS FILE
-  source(paste0(parent_folder="~rsaporta/Development/rsutils_packages/rsutils/R/", file="rsu_install_all_packages.R"))
+  source(paste0(parent_folder="~/Development/rsutils_packages/rsutils/R/", file="rsu_install_all_packages.R"))
 
   install.packages("prophet")
   install.packages("remotes")
