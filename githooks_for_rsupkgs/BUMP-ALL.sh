@@ -3,6 +3,8 @@
 
 {
 
+export PWD_BACK=$(PWD)
+
 ## PULL THE MORE COMMONLY UPDATED PACKAGES
 {
   cd /Users/rsaporta/Development/rsutils_packages/rsudb           && git pull
@@ -59,5 +61,7 @@ RSU_UPDATE_nogit
   cd /Users/rsaporta/Development/rpkgs/dsiutils                   && git push
 }
 
+cd "$PWD_BACK"
+unset PWD_BACK
 }
 
