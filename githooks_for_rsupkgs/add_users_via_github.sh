@@ -27,6 +27,9 @@ export REPO_OWNER=rsaporta
 export GITHUB_API_RESPONSE_FILE="/tmp/github_api_invitation_accept_for_${USER_TO_ADD}_$(date -u +'%Y%m%dT%H%M%SZ').sh"
 
 
+## THEN JUST SOURCE:
+# source ~/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/add_users_via_github.sh
+
 
 
 
