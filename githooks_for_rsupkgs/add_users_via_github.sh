@@ -102,6 +102,7 @@ export CMD_INVITATION_ACCEPT="curl -X PATCH -H \"Authorization: token \${GITHUB_
 
 echo -e "\033[1;35m"Beginning curl calls to add user to github repos"\033[m"
 
+curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/bash_profile_pieces/collaborators/${USER_TO_ADD} | jq '.id' | sed -e "s | ^ | $CMD_INVITATION_ACCEPT | g" >> "$GITHUB_API_RESPONSE_FILE"
 curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/collectArgs/collaborators/${USER_TO_ADD}     | jq '.id' | sed -e "s|^|$CMD_INVITATION_ACCEPT|g" >> "$GITHUB_API_RESPONSE_FILE"
 curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/rcreds/collaborators/${USER_TO_ADD}          | jq '.id' | sed -e "s|^|$CMD_INVITATION_ACCEPT|g" >> "$GITHUB_API_RESPONSE_FILE"
 curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/R_init/collaborators/${USER_TO_ADD}          | jq '.id' | sed -e "s|^|$CMD_INVITATION_ACCEPT|g" >> "$GITHUB_API_RESPONSE_FILE"
@@ -121,6 +122,8 @@ curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos
 curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/rsuworkspace/collaborators/${USER_TO_ADD}    | jq '.id' | sed -e "s|^|$CMD_INVITATION_ACCEPT|g" >> "$GITHUB_API_RESPONSE_FILE"
 curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/rsuxls/collaborators/${USER_TO_ADD}          | jq '.id' | sed -e "s|^|$CMD_INVITATION_ACCEPT|g" >> "$GITHUB_API_RESPONSE_FILE"
 curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/rsugeneral/collaborators/${USER_TO_ADD}      | jq '.id' | sed -e "s|^|$CMD_INVITATION_ACCEPT|g" >> "$GITHUB_API_RESPONSE_FILE"
+## TFD Specifically
+curl -X PUT -H "Authorization: token ${GITHUB_PAT}" https://api.github.com/repos/${REPO_OWNER}/tfd_misc/collaborators/${USER_TO_ADD}            | jq '.id' | sed -e "s | ^ | $CMD_INVITATION_ACCEPT | g" >> "$GITHUB_API_RESPONSE_FILE"
 echo -e "\033[1;97m"================================================================="\033[m"
 
 ## OUTPUT FOR USER
