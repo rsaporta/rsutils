@@ -22,8 +22,15 @@ if (FALSE)
 
 
     ## PARAMS --------------------------------
+    ## You can try this.... 
+    stable_version_to_make <- "auto"  ## make sure it's quoted
+    what_to_increment <- "x"           ## "x", "y", or "z"
+
+    ## ... or this:
     stable_version_to_make <- "6.06.0"  ## make sure it's quoted
     what_to_increment <- "y"           ## "x", "y", or "z"
+
+
     .test_run <- TRUE # FALSE
     # .test_run <- FALSE
     document <- FALSE ## Whether to update the ROxygen Documents -- note: for this to work, all functions must be marked as `#' @export` as necessary
@@ -164,7 +171,7 @@ rsupkg_next_version <- function(
   pat.desc_subline <- "(^\\s+)Unstable development version"
   ind.desc_subline <- grepi(pat.desc_subline, x=raw)
   stopifnot(length(ind.desc_subline) > 0)
-  stopifnot(ind.desc_subline %in% (6:8))
+  # stopifnot(ind.desc_subline %in% (6:8))
   ## ---------------------------------------------------------------------------------------------------------- ##
 
 
