@@ -39,7 +39,7 @@ if (FALSE)
 
 
     ## LESS FREQUENTLY MODIFIED PACKAGES SHOULD NOT BE UPDATED AS OFTEN
-    pkgs_not_to_update <- c("rsubitly", "rsucurl", "rsunotify", "rsuprophesize", "rsuscrubbers", "rsuorchard")
+    pkgs_not_to_update <- c("rsubitly", "rsucurl", "rsunotify", "rsuprophesize", "rsuscrubbers", "rsuorchard", "rsuvydia")
 
     #| ## To update the packages that we generally do not update, run this.
     #| pkgs_not_to_update %<>% setdiff(.rsu_pkgs_strings(), .) %>% setdiff("rsuorchard")
