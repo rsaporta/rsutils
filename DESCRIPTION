@@ -1,10 +1,10 @@
 Package: rsutils
 Title: RS Utilities Parent Package
-Version: 8.0
+Version: 9.01.000
 Authors@R: c(person("Rick", "Saporta", email="RickSaporta@gmail.com", role=c("aut","cre")), person("Mike", "Reca", email="michael.reca@vydia.com", role=c("aut")))
 Description: Loads up the multiple rsu* packages. 
-    Current stable version (committed on January 25, 2021).
-    Current stable version (committed on January 25, 2021).
+    Unstable development version (first committed on January 25, 2021).
+    Unstable development version (first committed on January 25, 2021).
 License: PROPRIETARY
 Encoding: UTF-8
 LazyData: true
