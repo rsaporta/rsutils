@@ -9,6 +9,9 @@
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 
 
+# open https://github.com/settings/tokens
+
+
 
 ## GITUB PAT (PERSONAL ACCESS TOKEN) 
 ## To create a PAT, go to:
@@ -132,6 +135,7 @@ echo -e "\033[1;97m""      (dont copy the lines, dummy :}~      )               
 echo -e "\033[1;97m"–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"\033[m"
 echo -e "\033[1;35m"To Accept the invitations, the receiver should run the following"\033[m"
 cat "$GITHUB_API_RESPONSE_FILE"
+subl "$GITHUB_API_RESPONSE_FILE" 
 echo ""
 echo -e "\033[1;97m"–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"\033[m"
 echo -e "\033[1;35m"'The tmp file is located here:'"\033[m"  \"${GITHUB_API_RESPONSE_FILE}\"
