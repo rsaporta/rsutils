@@ -15,7 +15,7 @@
 
 ## GITUB PAT (PERSONAL ACCESS TOKEN) 
 ## To create a PAT, go to:
-##   https://github.com/settings/tokens
+##   https://github.com/settings/tokens/new
 ## You only need to grant 'repo' rights
 export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
 
