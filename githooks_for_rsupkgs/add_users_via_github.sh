@@ -17,18 +17,23 @@
 ## To create a PAT, go to:
 ##   https://github.com/settings/tokens/new
 ## You only need to grant 'repo' rights
-export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
+if [ -z "${GITHUB_PAT}" ]; then
+  export GITHUB_PAT=XXXXXXXXXXX_____fill_me_in____XXXXXXXXXX
+fi  
 
 # ## WHOM TO ADD
-export USER_TO_ADD=XXXXXXXXXXX_____THEIR_USER_NAME____XXXXXXXXXX
-
+if [ -z "${USER_TO_ADD}" ]; then
+  export USER_TO_ADD=XXXXXXXXXXX_____THEIR_USER_NAME____XXXXXXXXXX
+fi
 # ## MY Github USER NAME
-export REPO_OWNER=rsaporta
-
+if [ -z "${REPO_OWNER}" ]; then
+  export REPO_OWNER=rsaporta
+fi
 
 ## CREATE A FILE TO EXPORT OUTPUT
-export GITHUB_API_RESPONSE_FILE="/tmp/github_api_invitation_accept_for_${USER_TO_ADD}_$(date -u +'%Y%m%dT%H%M%SZ').sh"
-
+if [ -z "${GITHUB_API_RESPONSE_FILE}" ]; then
+  export GITHUB_API_RESPONSE_FILE="/tmp/github_api_invitation_accept_for_${USER_TO_ADD}_$(date -u +'%Y%m%dT%H%M%SZ').sh"
+fi
 
 ## THEN JUST SOURCE:
 # source ~/Development/rsutils_packages/rsutils/githooks_for_rsupkgs/add_users_via_github.sh
