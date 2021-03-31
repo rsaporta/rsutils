@@ -68,13 +68,13 @@ fi
 
 
 
-
-
+FOLDER_GITHUB_API_RESPONSE_FILE=$(dirname "$GITHUB_API_RESPONSE_FILE")
+mkdir -p "$FOLDER_GITHUB_API_RESPONSE_FILE"
 
 
 ## REMINDER TO RICKY:  Dont edit this lower one.  It is for the file for the ACCEPTER
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-cat << EOF > $GITHUB_API_RESPONSE_FILE
+cat << EOF > "$GITHUB_API_RESPONSE_FILE"
 #!/bin/bash
 
 
@@ -141,7 +141,7 @@ echo -e "\033[1;97m"––––––––––––––––––––
 echo -e "\033[1;35m"To Accept the invitations, the receiver should run the following"\033[m"
 cat "$GITHUB_API_RESPONSE_FILE"
 subl "$GITHUB_API_RESPONSE_FILE" 
-cp "$GITHUB_API_RESPONSE_FILE" "$HOME/Documents/DSI_Computer_Setup/to_send_to_candidates/$(basename "$GITHUB_API_RESPONSE_FILE")"
+# cp "$GITHUB_API_RESPONSE_FILE" "$HOME/Development/DSI_Computer_Setup/to_send_to_candidates/$(basename "$GITHUB_API_RESPONSE_FILE")"
 echo ""
 echo -e "\033[1;97m"–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"\033[m"
 echo -e "\033[1;35m"'The tmp file is located here:'"\033[m"  \"${GITHUB_API_RESPONSE_FILE}\"
