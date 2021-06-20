@@ -4,8 +4,12 @@
 \alias{confirm_git_branch_is_as_expected}
 \title{confirm_git_branch_is_as_expected}
 \usage{
-confirm_git_branch_is_as_expected(branch_expected, directory_to_check,
-  fail.if.not = TRUE, showWarnings = !fail.if.not)
+confirm_git_branch_is_as_expected(
+  branch_expected,
+  directory_to_check,
+  fail.if.not = TRUE,
+  showWarnings = !fail.if.not
+)
 }
 \description{
 checks that the system git branch matches an exepected git branch

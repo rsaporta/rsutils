@@ -5,58 +5,48 @@
 
 
 #' @export
-.refresh_plotting <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
-  library(ggplot2)
-  library(gridExtra)
-  library(grid)
-  library(scales)
+.refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+  if (source_instead_of_devtools) {
+    library(ggplot2)
+    library(gridExtra)
+    library(grid)
+    library(scales)
+  }
 
   pkg <- "rsuplotting"
 
-  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
   .create_axis_functions()
 }
 
 #' @export
-.refresh_vydia <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
-  pkg <- "rsuvydia"
-  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
-}
-
-#' @export
-.refresh_general <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
+.refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsugeneral"
-  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
-# #' @export
-# .refresh_dict <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
-#   pkg <- "rsudict"
-#   .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
-# }
 #' @export
-.refresh_db <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
+.refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsudb"
-  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 #' @export
-.refresh_consoleutils <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
+.refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsuconsoleutils"
-  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_workspace <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
+.refresh_workspace <- function(parent_folder    = .get_rsu_homeDir(), git_pull = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsuworkspace"
-  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_utils <- function(parent_folder=.get_rsu_homeDir(), git_pull=FALSE, verbose=TRUE) {
+.refresh_utils <- function(parent_folder        = .get_rsu_homeDir(), git_pull = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsutils"
-  .rsu_source_package_files(pkg=pkg, parent_folder=parent_folder, git_pull=git_pull, verbose=verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
-
 
 #' @export
 .rsu_source_package_files <- function(
@@ -65,6 +55,7 @@
   , parent_folder  = .get_rsu_homeDir()
   , git_pull       = FALSE
   , only_installed = TRUE
+  , source_instead_of_devtools = FALSE
   , verbose        = TRUE
 ) {
   ## trim superfluous slash at end of parent_folder, if present
@@ -88,6 +79,10 @@
     folder %>% shellClean %>% sprintf(fmt="cd %s && git pull;") %>% system()
   }
 
-  # sourceEntireFolder(folder, verbose=verbose)
-  rsugeneral::sourceEntireFolder(folder, verbose=verbose)
+  ## devtools method is better in that packages that call those functions will still work
+  if (source_instead_of_devtools) {
+    rsugeneral::sourceEntireFolder(folder, verbose=verbose)
+  } else {
+    devtools::load_all(path = folder, quiet = !verbose)
+  }
 }
