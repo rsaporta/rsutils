@@ -1,10 +1,4 @@
 #' @export
-.get_rsu_homeDir <- function(default="~/Development/rsutils_packages") {
-  getOption("rsu.homeDir", default=default)
-}
-
-
-#' @export
 .refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   if (source_instead_of_devtools) {
     library(ggplot2)
