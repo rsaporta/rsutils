@@ -36,6 +36,12 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 }
 
 
+#' @export
+.get_rsu_homeDir <- function(default="~/Development/rsutils_packages") {
+  getOption("rsu.homeDir", default=default)
+}
+
+
 #' @import collectArgs
 #' @import rcreds
 #' @importFrom remotes install_github
