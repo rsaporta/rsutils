@@ -42,8 +42,8 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 #' @importFrom remotes install_local
 #' @export
 .rsu_install_all_packages <- function(
-    local_folder                = rsutils::.get_rsu_homeDir(default = "~/Development/rsutils_packages")
-  , pkgs                        = rsutils::.rsu_pkgs_strings()
+    local_folder                = .get_rsu_homeDir(default = "~/Development/rsutils_packages")
+  , pkgs                        = .rsu_pkgs_strings()
   , rsutils.load_on_startup     = FALSE
   , update_public_rsaporta_pkgs = TRUE
   , public_rsaporta_pkgs        = c("rcreds", "collectArgs")
@@ -143,7 +143,7 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 }
 
 #' @export
-.rsu_pull_all_packages <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings() ) {
+.rsu_pull_all_packages <- function(parent_folder=.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=.rsu_pkgs_strings() ) {
 
   try(check_git_status_of_rsutils_packages(fetch=FALSE) )
 
@@ -172,7 +172,7 @@ confirm_git_branch_is_as_expected <- function(branch_expected, directory_to_chec
 
 #' @importFrom data.table data.table
 #' @export
-.rsu_check_branch_is_master <- function(parent_folder=rsutils::.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=rsutils::.rsu_pkgs_strings(), wait_on_verbose=0, verbose="auto") {
+.rsu_check_branch_is_master <- function(parent_folder=.get_rsu_homeDir(default="~/Development/rsutils_packages"), pkgs=.rsu_pkgs_strings(), wait_on_verbose=0, verbose="auto") {
   stopifnot(require("data.table", character.only = TRUE))
 
   DT.ret <- data.table(pkg = pkgs, exists = NA)
