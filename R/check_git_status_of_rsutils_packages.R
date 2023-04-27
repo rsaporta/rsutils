@@ -11,7 +11,7 @@
 #' @importFrom data.table data.table
 #' @importFrom data.table setkey
 #' @export
-check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v=FALSE, fetch="..auto..", verbose.fetch=fetch && verbose, verbose=TRUE) {
+check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, fetch="..auto..", verbose.fetch=fetch && verbose, verbose=TRUE) {
 
   stopifnot( requireNamespace("rsuworkspace") )
   stopifnot( requireNamespace("rsugeneral")   )
@@ -34,17 +34,6 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, vydia_too=v, v
       R_init.folder <- c("R_init" = as.path(main_folder, "../R_init/", expand=TRUE))
       if (file.exists(R_init.folder) && isdir(R_init.folder))
         pkg_folders  %<>% c(R_init.folder)
-    }
-  })
-
-  try({
-    if (vydia_too) {
-      vydia_parent_folder <- "~/Development/"
-      vydia_folders <- extractSubfoldersFromFolder(folder=vydia_parent_folder, pattern = "^vydia_")
-
-      ## Restrict to those that have a git repo
-      has_repo <- vydia_folders %>% as.path(".git") %>% file.exists()
-      pkg_folders  %<>% c(vydia_folders[has_repo])
     }
   })
 
