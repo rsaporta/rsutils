@@ -22,20 +22,27 @@ if (FALSE)
 
 
     ## PARAMS --------------------------------
-    ## You can try this.... 
-    stable_version_to_make <- "auto"  ## make sure it's quoted
-    what_to_increment <- "x"           ## "x", "y", or "z"
+    if (FALSE) {
+      ## You can try this.... 
+      stable_version_to_make <- "auto"  ## make sure it's quoted
+      what_to_increment <- "x"           ## "x", "y", or "z"
+
+      ## ... or this:
+      stable_version_to_make <- "6.06.0"  ## make sure it's quoted
+      what_to_increment <- "y"           ## "x", "y", or "z"
+    }
 
     ## ... or this:
-    stable_version_to_make <- "6.06.0"  ## make sure it's quoted
-    what_to_increment <- "y"           ## "x", "y", or "z"
+    what_to_increment <- "z"
 
 
     .test_run <- TRUE # FALSE
     # .test_run <- FALSE
     document <- FALSE ## Whether to update the ROxygen Documents -- note: for this to work, all functions must be marked as `#' @export` as necessary
+
     ## PARAMS --------------------------------
     ## ---------------------------------------
+
 
 
     ## LESS FREQUENTLY MODIFIED PACKAGES SHOULD NOT BE UPDATED AS OFTEN
@@ -53,16 +60,18 @@ if (FALSE)
     if (!is.null(.last_successful_pkg))
       pkgs <- pkgs[seq(from=which(pkgs == .last_successful_pkg) + 1, to = length(pkgs))]
 
-    stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, fetch=FALSE, verbose=TRUE)[, (up_to_date | pkg == "rsutils") & branch == "master" & no_untracked_files])
+    stopifnot(check_git_status_of_rsutils_packages(add_R_init=FALSE, fetch=FALSE, verbose=TRUE)[pkg %in% pkgs][, (up_to_date | pkg == "rsutils") & branch == "master" & no_untracked_files])
 
     ## TODO, 
     for (pkg in pkgs) {
-      rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", what_to_increment=what_to_increment, parent_folder=parent_folder, document=document, .test_run=.test_run, verbose_raw=FALSE)
-      catheader(pkg)
+      # rsupkg_next_version(pkg, stable_version_to_make=stable_version_to_make, next_unstable_version="auto", what_to_increment=what_to_increment, parent_folder=parent_folder, document=document, .test_run=.test_run, verbose_raw=FALSE)
+      rsupkg_next_version(pkg, next_unstable_version="auto", what_to_increment="z", parent_folder=parent_folder, document=document, .test_run=.test_run, verbose_raw=FALSE)
+      catheader(sprintf(fmt = "  ⬆️⬆️  %s  ⬆️⬆️ ", pkg), prel = 0L, endl = 4)
+      Sys.sleep(1L * .test_run * interactive())
     }
 
     ## Output the remotes install commands
-    if (!.test_run) {
+    if (!.test_run && exists("stable_version_to_make")) {
       pkgs %>% sprintf(fmt='"rsaporta/%s", ') %>% sprintf(fmt='remotes::install_github(%-30s ref="stable/V%s", dependencies=FALSE)', stable_version_to_make) %>% catnn("\n\n```", ., "```\n")
     }
 }
@@ -105,6 +114,7 @@ rsupkg_next_version <- function(
   , stable_version_to_make = "auto"
   , next_unstable_version  = "auto"
   , what_to_increment      = c("y", "z", "x")
+  , unstable_only          = !(what_to_increment %in% c("x", "y")) 
   , parent_folder          = paste0("~/Development/", ifelse(grepli("^rsu", pkg), "rsutils_packages/", "rpkgs/"))
   , branch_stable_root     = "stable"
   , branch_unstable        = "master"
@@ -120,11 +130,20 @@ rsupkg_next_version <- function(
 
   ## what_to_increment should be one of x.y.z
   what_to_increment <- match.arg(what_to_increment)
+  force(unstable_only)
 
   if (missing(pkg))
     stop("you have to specify a pkg")
 
   catheader(pkg)
+  if (unstable_only)
+    message("Will only increment the Unstable version.")
+
+  rsugeneral::is.character_of_length1(stable_version_to_make, fail.if.not = TRUE)
+  rsugeneral::is.character_of_length1(next_unstable_version, fail.if.not = TRUE)
+#|  if ((stable_version_to_make != "auto") && next_unstable_version == "auto")
+#|    warning("REMINDER:  When only 'unstable' is set to AUTO (and not 'stable'), we will **NOT** bump the Unstable version")
+
 
   folder <- rsuaspath::as.path(parent_folder, pkg, expand=TRUE)
   confirm_git_branch_is_as_expected(branch_expected=branch_start_from, directory_to_check=folder, fail.if.not=TRUE)
@@ -153,7 +172,7 @@ rsupkg_next_version <- function(
   raw <- readLines(file.description)
 
   ## initialize empty lists
-  stable_unstable <- c("stable", "unstable")
+  stable_unstable <- if (!unstable_only) c("stable", "unstable") else c("unstable")
   cmd.git_commit <- emptylist(stable_unstable)
   versinfo       <- emptylist(stable_unstable)
   desc_subline   <- emptylist(stable_unstable)
@@ -180,51 +199,81 @@ rsupkg_next_version <- function(
   ## extract current version and compare against next version
   last_version <- raw[[ind.vers]] %>% removeText(pat=pat.vers)
 
-  if (stable_version_to_make == "auto") {
-    last_version <- rsu_get_current_version_of_pkg(pkg=pkg, parent_folder=parent_folder, branch=branch_start_from)
-    stable_version_to_make <- increment_version(last_version, what=what_to_increment, by=1, y_must_be_even=TRUE)
+  ## UPDATE 2023-04-29
+  ## If only incrementing "z", then that is just "unstable" version bump.
+  if (!unstable_only) {
+    if (stable_version_to_make == "auto") {
+      last_version <- rsu_get_current_version_of_pkg(pkg = pkg, parent_folder = parent_folder, branch = branch_start_from)
+      stable_version_to_make <- last_version %>% increment_version(what = what_to_increment, by = 1, y_must_be_even = TRUE)
+    } else {
+      stable_version_to_make %<>% .validate_and_clean_versionNumber(fail.if.not = TRUE)
+    }
+  
+    if (next_unstable_version == "auto") {
+      next_unstable_version <- stable_version_to_make %>% increment_version(what = "y", by = 1, y_must_be_odd = TRUE)
+    } else {
+      next_unstable_version %<>% .validate_and_clean_versionNumber(fail.if.not = TRUE)
+    }
   } else {
-    stable_version_to_make %<>% .validate_and_clean_versionNumber(fail.if.not=TRUE)
-  }
-
-  if (next_unstable_version == "auto") {
-    next_unstable_version <- increment_version(stable_version_to_make, what=what_to_increment, by=1, y_must_be_odd=TRUE)
-  } else {
-    next_unstable_version %<>% .validate_and_clean_versionNumber(fail.if.not=TRUE)
+    if (next_unstable_version == "auto") {
+      last_version <- rsu_get_current_version_of_pkg(pkg = pkg, parent_folder = parent_folder, branch = branch_start_from)
+      next_unstable_version <- last_version %>% increment_version(what = what_to_increment, by = 1, y_must_be_odd = TRUE)
+    } else {
+      next_unstable_version %<>% .validate_and_clean_versionNumber(fail.if.not = TRUE)
+    }
   }
   ## ----------------------------------------------------------------------------------------------------------- ##
 
 
   ## ---------------------------- CONFIRM CORRECT INCREMENTATIONS  ----------------------------- ##
-  is_stable_increase_from_last <- compareVersion(stable_version_to_make, last_version) == 1
-  if (!is_stable_increase_from_last) {
+  if (! unstable_only) {
+    ## CHECKS STABLE RELATIVE TO LAST **and** UNSTABLE RELATIVE TO STABLE
+    y_is_even.stable   <- stable_version_to_make %>% splitVersionNumber() %>% {.[["y"]] %% 2 == 0}
+    if (!y_is_even.stable)
+      stop("stable version should have an even 'y' in version number  x.y.z")
+
+    is_stable_increase_from_last <- compareVersion(stable_version_to_make, last_version) == 1
+    if (!is_stable_increase_from_last) {
+      stop("
+         ---- Cannot proceed ------------------------------------------------
+                            PACKAGE:  ", pkg, "
+                    last_version is:  ", last_version, "
+          stable_version_to_make is:  ", stable_version_to_make, "
+          WRONG DIRECTION
+         --------------------------------------------------------------------     ")
+    }
+
+    is_unstable_increase_from_stable <- compareVersion(next_unstable_version, stable_version_to_make) == 1
+    if (!is_unstable_increase_from_stable) {
+      stop("
+         ---- Cannot proceed ------------------------------------------------
+                            PACKAGE:  ", pkg, "
+          stable_version_to_make is:  ", stable_version_to_make, "
+           next_unstable_version is:  ", next_unstable_version, "
+          WRONG DIRECTION
+         --------------------------------------------------------------------     ")
+    }
+
+  } #// closes if !unstable_only
+
+  ## CHECKS UNSTABLE RELATIVE TO LAST
+  y_is_odd.unstable  <- next_unstable_version  %>% splitVersionNumber() %>% {.[["y"]] %% 2 == 1}
+  if (!y_is_odd.unstable)
+    stop("unstable version should have an odd 'y' in version number  x.y.z")
+
+  is_unstable_increase_from_last <- compareVersion(next_unstable_version, last_version) == 1
+  if (!is_unstable_increase_from_last) {
     stop("
        ---- Cannot proceed ------------------------------------------------
                           PACKAGE:  ", pkg, "
                   last_version is:  ", last_version, "
-        stable_version_to_make is:  ", stable_version_to_make, "
-        WRONG DIRECTION
-       --------------------------------------------------------------------     ")
-  }
-
-  is_next_increase_from_stable <- compareVersion(next_unstable_version, stable_version_to_make) == 1
-  if (!is_next_increase_from_stable) {
-    stop("
-       ---- Cannot proceed ------------------------------------------------
-                          PACKAGE:  ", pkg, "
-        stable_version_to_make is:  ", stable_version_to_make, "
          next_unstable_version is:  ", next_unstable_version, "
         WRONG DIRECTION
        --------------------------------------------------------------------     ")
   }
 
-  y_is_even.stable   <- stable_version_to_make %>% splitVersionNumber() %>% "[["(what_to_increment) %>% "%%"(2) %>% "=="(0)
-  y_is_odd.unstable  <- next_unstable_version  %>% splitVersionNumber() %>% "[["(what_to_increment) %>% "%%"(2) %>% "=="(1)
 
-  if (!y_is_even.stable)
-    stop("stable version should have an even 'y' in version number  x.y.z")
-  if (!y_is_odd.unstable)
-    stop("unstable version should have an odd 'y' in version number  x.y.z")
+
   ## ------------------------------------------------------------------------------------------- ##
 
   ## ---------------------------- GIT FORMATS ----------------------------- ##
@@ -232,22 +281,24 @@ rsupkg_next_version <- function(
   fmt.git_branch <- "cd %s && git branch"
   fmt.git_ck_master <- "cd %s && git checkout master"
 
-  cmd.git_commit[["stable"]] <- sprintf(fmt='
-      cd %3$s;
-      git fetch;
-      git add "%4$s";
-      git commit -m "Bumping to Stable version %2$s";
-      git tag -a V%2$s -m "Stable Version %2$s";
-      git push;
-      git checkout -b %1$s/V%2$s master;
-      git branch;
-      git push --set-upstream origin %1$s/V%2$s;
-      git status;
-      git checkout master;
-      git status;
-  ', branch_stable_root, stable_version_to_make, shellClean(folder), shellClean(file.description))
-  message("Will execute the following git command for the stable version")
-  catnn(cmd.git_commit[["stable"]])
+  if (!unstable_only) {
+    cmd.git_commit[["stable"]] <- sprintf(fmt='
+        cd %3$s;
+        git fetch;
+        git add "%4$s";
+        git commit -m "Bumping to Stable version %2$s";
+        git tag -a V%2$s -m "Stable Version %2$s";
+        git push;
+        git checkout -b %1$s/V%2$s master;
+        git branch;
+        git push --set-upstream origin %1$s/V%2$s;
+        git status;
+        git checkout master;
+        git status;
+    ', branch_stable_root, stable_version_to_make, shellClean(folder), shellClean(file.description))
+    message("Will execute the following git command for the stable version")
+    catnn(cmd.git_commit[["stable"]])
+  }
 
   cmd.git_commit[["unstable"]] <- sprintf(fmt='
       cd %3$s; 
@@ -300,6 +351,6 @@ rsupkg_next_version <- function(
   }
 
   if (.test_run)
-    message("\n\n------------- REMINDER: to write to disk, rerun with   .test_run = FALSE")
+    message("\n\n------------- REMINDER: In order to write to disk, you **MUST** rerun with   .test_run = FALSE")
   return(TRUE)
 }
