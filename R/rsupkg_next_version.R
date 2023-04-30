@@ -351,6 +351,6 @@ rsupkg_next_version <- function(
   }
 
   if (.test_run)
-    message("\n\n------------- REMINDER: In order to write to disk, you **MUST** rerun with   .test_run = FALSE")
+    message("\n\n------------- REMINDER: In order to write to disk, you **MUST** rerun with:\n                         .test_run = TRUE")
   return(TRUE)
 }
