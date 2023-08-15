@@ -76,15 +76,15 @@
     git_pull(folder = folder)
   }
 
+  if (document_too)
+    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, verbose = verbose, verbose.diff = verbose)
+
   ## devtools method is better in that packages that call those functions will still work
   if (source_instead_of_devtools) {
     rsugeneral::sourceEntireFolder(folder, verbose=verbose)
   } else {
     devtools::load_all(path = folder, quiet = !verbose)
   }
-
-  if (document_too)
-    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, verbose = verbose, verbose.diff = verbose)
 
   return(invisible(folder))
 }
