@@ -33,8 +33,8 @@ bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Develo
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsuxls
 bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rsutils_packages/rsutils
 
-## -- DSI PACKAGES
-bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rpkgs/dsiutils
+#| -- DSI PACKAGES
+#| bump_and_commit_rsu_package_version_number_using_git_hash /Users/rsaporta/Development/rpkgs/dsiutils
 }
 
 RSU_UPDATE_nogit
