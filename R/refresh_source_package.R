@@ -1,5 +1,5 @@
 #' @export
-.refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
   if (source_instead_of_devtools) {
     library(ggplot2)
     library(gridExtra)
@@ -14,30 +14,30 @@
 }
 
 #' @export
-.refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsugeneral"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsudb"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 #' @export
-.refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsuconsoleutils"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_workspace <- function(parent_folder    = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_workspace <- function(parent_folder    = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsuworkspace"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_utils <- function(parent_folder        = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_utils <- function(parent_folder        = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsutils"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
@@ -50,10 +50,15 @@
   , git_pull       = FALSE
   , only_installed = TRUE
   , document_too   = FALSE
-  , diff_shown.for_documenting = TRUE
+  , diff_shown.for_documenting = verbose
   , source_instead_of_devtools = FALSE
   , verbose        = TRUE
 ) {
+  
+  if (!diff_shown.for_documenting && !document_too) {
+    warning("diff_shown is set to FALSE, while also NOT documenting.\nHINT:  Did you mean to also set:    document_too = TRUE")
+  }
+
   ## trim superfluous slash at end of parent_folder, if present
   if (length(parent_folder) && nzchar(parent_folder))
     parent_folder %<>% remove_text(pat = "/$")
@@ -78,7 +83,7 @@
   }
 
   if (document_too)
-    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, diff_shown = diff_shown.for_documenting, verbose = verbose, verbose.diff = verbose)
+    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, diff_shown = diff_shown.for_documenting, verbose = verbose, verbose.diff = diff_shown.for_documenting)
 
   ## devtools method is better in that packages that call those functions will still work
   if (source_instead_of_devtools) {
@@ -104,6 +109,9 @@
   , verbose.diff               = diff_shown
 ) {
 
+  if (!identical(verbose.diff, diff_shown))
+    stop("'verbose.diff' is a synonym for 'diff_shown'. These values should be the same")
+
   ## trim superfluous slash at end of parent_folder, if present
   if (length(parent_folder) && nzchar(parent_folder))
     parent_folder %<>% remove_text(pat = "/$")
@@ -127,19 +135,18 @@
     git_pull(folder = folder, verbose = FALSE)
   }
 
-  {
-    message("Status is as follows")
-    git_status(folder = folder, verbose.cmd = verbose.git_cmd)
-  }
+  ## BEFORE
+  message("BEFORE RUNNING document():  Git Status is as follows")
+  git_status(folder = folder, verbose.cmd = verbose.git_cmd)
 
+  ## AFTER
   devtools::document(folder, quiet = !verbose)
-  {
-    message("Status is as follows")
-    git_status(folder = folder, verbose.cmd = verbose.git_cmd)
-    if (verbose.diff)
-      git_diff(folder = folder, verbose.cmd = TRUE)
-  }
+  message("AFTER  RUNNING document():  Git Status is as follows")
+  git_status(folder = folder, verbose.cmd = verbose.git_cmd)
+  if (verbose.diff)
+    git_diff(folder = folder, verbose.cmd = TRUE)
 
+  return(invisible(NULL))
 }
 
 #' @export
