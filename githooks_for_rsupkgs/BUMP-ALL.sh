@@ -57,8 +57,10 @@ RSU_UPDATE_nogit
   cd /Users/rsaporta/Development/rsutils_packages/rsuworkspace    && git push
   cd /Users/rsaporta/Development/rsutils_packages/rsuxls          && git push
   cd /Users/rsaporta/Development/rsutils_packages/rsutils         && git push
-  ## -- DSI PACKAGES
-  cd /Users/rsaporta/Development/rpkgs/dsiutils                   && git push
+
+
+  #| -- DSI PACKAGES
+  #| cd /Users/rsaporta/Development/rpkgs/dsiutils                   && git push
 }
 
 cd "$PWD_BACK"
