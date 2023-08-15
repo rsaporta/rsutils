@@ -1,5 +1,5 @@
 #' @export
-.refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   if (source_instead_of_devtools) {
     library(ggplot2)
     library(gridExtra)
@@ -9,37 +9,37 @@
 
   pkg <- "rsuplotting"
 
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
   .create_axis_functions()
 }
 
 #' @export
-.refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsugeneral"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsudb"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 #' @export
-.refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsuconsoleutils"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_workspace <- function(parent_folder    = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_workspace <- function(parent_folder    = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsuworkspace"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_utils <- function(parent_folder        = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_utils <- function(parent_folder        = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = TRUE, source_instead_of_devtools = FALSE, verbose = TRUE) {
   pkg <- "rsutils"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
 
 #' @export
@@ -50,6 +50,7 @@
   , git_pull       = FALSE
   , only_installed = TRUE
   , document_too   = FALSE
+  , diff_shown.for_documenting = TRUE
   , source_instead_of_devtools = FALSE
   , verbose        = TRUE
 ) {
@@ -77,7 +78,7 @@
   }
 
   if (document_too)
-    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, verbose = verbose, verbose.diff = verbose)
+    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, diff_shown = diff_shown.for_documenting, verbose = verbose, verbose.diff = verbose)
 
   ## devtools method is better in that packages that call those functions will still work
   if (source_instead_of_devtools) {
