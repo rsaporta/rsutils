@@ -98,6 +98,10 @@ increment_version <- function(
   if (y_must_be_odd && y_must_be_even)
     stop("Both y_must_be_odd & y_must_be_even cannot be set to TRUE")
 
+if (FALSE) {
+  c(Version = "9.01.9771019799")
+}
+
   what <- match.arg(what)
   xyz <- splitVersionNumber(current_version)
 
@@ -116,6 +120,13 @@ increment_version <- function(
   } else {
     stop("internal error.  Wrong value for what")
   }
+
+  if (xyz[["z"]] > .Machine$integer.max) {
+    warning("The \"z\" portion of the version number has too many digits, and will be cropped")
+    divide_by <- 10 ^ (ceiling(log10(xyz[["z"]])) - floor(log10(.Machine$integer.max)) + 1L)
+    xyz[["z"]] <- (xyz[["z"]] / divide_by) + by
+  }
+
 
   y_is_even <- (y %% 2) == 0
   if (y_must_be_even && !y_is_even)
