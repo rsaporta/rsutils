@@ -83,7 +83,7 @@
   }
 
   if (document_too)
-    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, diff_shown = diff_shown.for_documenting, verbose = verbose, verbose.diff = diff_shown.for_documenting)
+    .rsu_document_package_files(pkg = pkg, folder = folder, parent_folder = parent_folder, git_pull = FALSE, diff_shown = diff_shown.for_documenting, verbose = verbose, verbose.diff = diff_shown.for_documenting, verbose.git_cmd = FALSE)
 
   ## devtools method is better in that packages that call those functions will still work
   if (source_instead_of_devtools) {
@@ -136,12 +136,15 @@
   }
 
   ## BEFORE
-  message("BEFORE RUNNING document():  Git Status is as follows")
+  message("*** BEFORE RUNNING document()  ***    Git Status is as follows")
   git_status(folder = folder, verbose.cmd = verbose.git_cmd)
 
-  ## AFTER
+  ## DURING
+  message("*** RUNNING document()  ***    below output is from devtools / oxygen")
   devtools::document(folder, quiet = !verbose)
-  message("AFTER  RUNNING document():  Git Status is as follows")
+
+  ## AFTER
+  message("*** AFTER  RUNNING document()  ***    Git Status is as follows")
   git_status(folder = folder, verbose.cmd = verbose.git_cmd)
   if (verbose.diff)
     git_diff(folder = folder, verbose.cmd = TRUE)
