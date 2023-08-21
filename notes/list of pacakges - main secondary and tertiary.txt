@@ -1,0 +1,25 @@
+## MAIN
+
+subl /Users/rsaporta/Development/rsutils_packages/rsuworkspace
+subl /Users/rsaporta/Development/rsutils_packages/rsugeneral
+subl /Users/rsaporta/Development/rsutils_packages/rsuplotting
+subl /Users/rsaporta/Development/rsutils_packages/rsuaws
+subl /Users/rsaporta/Development/rsutils_packages/rsuconsoleutils
+subl /Users/rsaporta/Development/rsutils_packages/rsutils
+subl /Users/rsaporta/Development/rsutils_packages/rsujesus
+subl /Users/rsaporta/Development/rsutils_packages/rsuxls
+subl /Users/rsaporta/Development/rsutils_packages/rsuaspath
+subl /Users/rsaporta/Development/rsutils_packages/rsudb
+
+## SECONDARY
+subl /Users/rsaporta/Development/rsutils_packages/rsuscrubbers
+subl /Users/rsaporta/Development/rsutils_packages/rsuprophesize
+subl /Users/rsaporta/Development/rsutils_packages/rsunotify
+subl /Users/rsaporta/Development/rsutils_packages/rsushiny
+subl /Users/rsaporta/Development/rsutils_packages/rsubitly
+subl /Users/rsaporta/Development/rsutils_packages/rsucurl
+
+## COMPANY SPECIFIC
+subl /Users/rsaporta/Development/rsutils_packages/rsuvydia
+subl /Users/rsaporta/Development/rsutils_packages/rsuorchard
+subl /Users/rsaporta/Development/rsutils_packages/dsiutils
