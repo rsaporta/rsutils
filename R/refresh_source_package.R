@@ -61,8 +61,7 @@
 
   ## trim superfluous slash at end of parent_folder, if present
   if (length(parent_folder) && nzchar(parent_folder))
-    parent_folder %<>% remove_text(pat = "/$")
-    # parent_folder <- gsub(pat="/$", repl="", x=parent_folder)
+    parent_folder <- gsub(pat="/$", repl="", x=parent_folder)
 
   ## Allow for pacakge name like "general" instead of "rsugeneral"
   if (!missing(pkg) && length(pkg) == 1 && !grepl("^rsu", x=pkg)) {
