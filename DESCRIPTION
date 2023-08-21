@@ -1,10 +1,10 @@
 Package: rsutils
 Title: RS Utilities Parent Package
-Version: 9.03.001555399
-Authors@R: c(person("Rick", "Saporta", email="RickSaporta@gmail.com", role=c("aut","cre")), person("Mike", "Reca", email="michael.reca@vydia.com", role=c("aut")))
+Version: 9.03.0001
+Authors@R: c(person("Rick", "Saporta", email="RickSaporta@gmail.com"))
 Description: Loads up the multiple rsu* packages. 
-    Unstable development version (first committed on April 29, 2023).
-    Unstable development version (first committed on April 29, 2023).
+    Unstable development version (first committed on Aug 21, 2023).
+    Unstable development version ( last committed on Aug 21, 2023).
 License: PROPRIETARY
 Encoding: UTF-8
 LazyData: true
