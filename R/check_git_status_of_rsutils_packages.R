@@ -85,7 +85,7 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, fetch="..auto.
     if (any(!DT.ret$up_to_date, na.rm=TRUE))
       message("\nThe following packages need to pushed or pulled (or both): ", sprintf("\n\t'%s'", DT.ret[!(up_to_date), pkg]), "\n")
     else
-      message("The git status for all packages", ifelse(vydia_too, " and vydia projects", ""), " is up-to-date")
+      message("The git status for all packages is up-to-date")
 
     if (any(!DT.ret$on_master, na.rm=TRUE))
       message("\nThe following packages are not on 'master': ", DT.ret[!(on_master), sprintf("\n\t'%s' (branch: \"%s\")", pkg, branch)], "\n")
@@ -100,10 +100,10 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, fetch="..auto.
 
 if (FALSE) {
 
-  check_git_status_of_rsutils_packages(vydia_too=TRUE)
-  check_git_status_of_rsutils_packages(vydia_too=FALSE)
+  check_git_status_of_rsutils_packages()
+  check_git_status_of_rsutils_packages(fetch = FALSE)
 
-  system("cd /Users/rsaporta/Development/rsutils_packages/rsuvydia/ && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
+  ## MANUALLY
   system("cd /Users/rsaporta/Development/rsutils_packages/rsutils/  && git status", TRUE) %>% pasteC(C="\n") %>% git_parse_status_text
 
 }
