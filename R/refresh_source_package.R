@@ -15,6 +15,11 @@
 
 #' @export
 .refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
+  if (exists(".Pfm", envir = globalenv()))
+      rm(".Pfm", envir = globalenv())
+  if (exists("print.bytes", envir = globalenv()))
+      rm("print.bytes", envir = globalenv())
+
   pkg <- "rsugeneral"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
 }
