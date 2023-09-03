@@ -15,9 +15,9 @@
 
 #' @export
 .refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
-  if (exists(".Pfm", envir = globalenv()))
+  if (exists(".Pfm", envir = globalenv(), inherits = FALSE))
       rm(".Pfm", envir = globalenv())
-  if (exists("print.bytes", envir = globalenv()))
+  if (exists("print.bytes", envir = globalenv(), inherits = FALSE))
       rm("print.bytes", envir = globalenv())
 
   pkg <- "rsugeneral"
