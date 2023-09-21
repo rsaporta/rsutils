@@ -54,14 +54,14 @@ check_git_status_of_rsutils_packages <- function(add_R_init=TRUE, fetch="..auto.
     ## FETCH
     if (fetch) {
       verboseMsg(verbose.fetch, "FETCHING '", pkg, "'", sep="", level.verbose = 1L, minw=75)
-      pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git fetch") %>% system()
+      pkg_folders[[pkg]] %>% escapeShell %>% sprintf(f="cd %s && git fetch") %>% system()
     }
 
-    # cmd <- pkg_folders[[pkg]] %>% shellClean %>% sprintf(f="cd %s && git status")
+    # cmd <- pkg_folders[[pkg]] %>% escapeShell %>% sprintf(f="cd %s && git status")
     # ret <- system(cmd, TRUE) %>% pasteC(C="\n")
     # rets[[pkg]] <- ret
     rets[[pkg]] <- pkg_folders[[pkg]] %>% 
-                    shellClean %>% 
+                    escapeShell %>% 
                     sprintf(f="cd %s && git status") %>% 
                     system(TRUE) %>% 
                     pasteC(C="\n")

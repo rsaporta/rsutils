@@ -106,7 +106,7 @@ rsu_get_current_version_of_pkg <- function(pkg, parent_folder="~/Development/rsu
 
 
 #' @importFrom rsugeneral git_parse_status_text
-#' @importFrom rsugeneral shellClean
+#' @importFrom rsugeneral escapeShell
 #' @importFrom rsuaspath  as.path
 #' @export
 rsupkg_next_version <- function(
@@ -125,8 +125,8 @@ rsupkg_next_version <- function(
   , verbose_raw            = FALSE
 ) {
 
-  ## needs shellClean from rsugeneral
-  stopifnot(exists("shellClean", mode="function"))
+  ## needs escapeShell from rsugeneral
+  stopifnot(exists("escapeShell", mode="function"))
 
   ## what_to_increment should be one of x.y.z
   what_to_increment <- match.arg(what_to_increment)
@@ -295,7 +295,7 @@ rsupkg_next_version <- function(
         git status;
         git checkout master;
         git status;
-    ', branch_stable_root, stable_version_to_make, shellClean(folder), shellClean(file.description))
+    ', branch_stable_root, stable_version_to_make, escapeShell(folder), escapeShell(file.description))
     message("Will execute the following git command for the stable version")
     catnn(cmd.git_commit[["stable"]])
   }
@@ -307,7 +307,7 @@ rsupkg_next_version <- function(
       git commit -m "Bumping to Unstable version %2$s";
       git push;
       git checkout %1$s
-  ', branch_unstable, next_unstable_version, shellClean(folder), shellClean(file.description))
+  ', branch_unstable, next_unstable_version, escapeShell(folder), escapeShell(file.description))
   message("Will execute the following git command for the next unstable version")
   catnn(cmd.git_commit[["unstable"]])
   ## ---------------------------- GIT FORMATS ----------------------------- ##
