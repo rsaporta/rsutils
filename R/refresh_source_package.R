@@ -1,5 +1,5 @@
 #' @export
-.refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_plotting <- function(parent_folder     = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   if (source_instead_of_devtools) {
     library(ggplot2)
     library(gridExtra)
@@ -9,44 +9,73 @@
 
   pkg <- "rsuplotting"
 
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
   .create_axis_functions()
 }
 
 #' @export
-.refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   if (exists(".Pfm", envir = globalenv(), inherits = FALSE))
       rm(".Pfm", envir = globalenv())
   if (exists("print.bytes", envir = globalenv(), inherits = FALSE))
       rm("print.bytes", envir = globalenv())
 
   pkg <- "rsugeneral"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   pkg <- "rsudb"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
 }
 #' @export
-.refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_prophesize <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
+  pkg <- "rsuprophesize"
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
+}
+#' @export
+.refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   pkg <- "rsuconsoleutils"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_workspace <- function(parent_folder    = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_workspace <- function(parent_folder    = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   pkg <- "rsuworkspace"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
 }
 
 #' @export
-.refresh_utils <- function(parent_folder        = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, verbose = TRUE) {
+.refresh_utils <- function(parent_folder        = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   pkg <- "rsutils"
-  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, verbose = verbose)
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
 }
 
+#' .refresh_rsu_pkg
+#' 
+#' This is a wrapper to a wrapper! hahah. calls .rsu_source_package_files()
+#' 
+#' Because I have gotten so use to .refresh_general() and similar, I now need a .refresh_rsu_pkg()
+#' 
+#' Although truthfully, I should probably just take a moment to type one for each, and the end.
+#' 
+#' ## TODO:  The other .refresh_.. should probably call this, no?
+#' @export
+.refresh_rsu_pkg <- function(pkg, parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
+  if (missing(pkg)) {
+    stop("You must specificy which `pkg` to refresh\n\nHINT: .refresh_rsu_pkg() is the generic function")
+  }
+
+  stopifnot(is.character(pkg))
+
+  stopifnot(length(pkg) == 1L)
+
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
+}
+
+#' .rsu_source_package_files
+#' 
 #' @export
 .rsu_source_package_files <- function(
     pkg            = .rsu_pkgs_strings(only_installed=only_installed)
@@ -57,6 +86,7 @@
   , document_too   = FALSE
   , diff_shown.for_documenting = verbose
   , source_instead_of_devtools = FALSE
+  , helpers_devtools = TRUE
   , verbose        = TRUE
 ) {
   
@@ -93,13 +123,15 @@
   if (source_instead_of_devtools) {
     rsugeneral::sourceEntireFolder(folder, verbose=verbose)
   } else {
-    devtools::load_all(path = folder, quiet = !verbose)
+    devtools::load_all(path = folder, quiet = !verbose, helpers = helpers_devtools)
   }
 
   return(invisible(folder))
 }
 
 
+#' .rsu_document_package_files
+#' 
 #' @export
 .rsu_document_package_files <- function(
     pkg                        = .rsu_pkgs_strings(only_installed=only_installed)
@@ -109,9 +141,15 @@
   , only_installed             = TRUE
   , diff_shown                 = TRUE
   , verbose                    = TRUE
-  , verbose.git_cmd            = TRUE
-  , verbose.diff               = diff_shown
+  , verbose.devtools           = verbose
+  , verbose.git_cmd            = verbose
+  , verbose.diff               = diff_shown && verbose
 ) {
+
+  if (verbose) {
+    hr <- rep("=", 78 + nchar(pkg)) %>% paste0(collapse = "") %>% paste0("\n", ., "\n")
+    message("\n\n\n", hr, "----------- STARTING rsu_document_package_files for ", pkg, " (", format(Sys.time(), "%l:%M:%S %p") ,") ----------- \n")
+  }
 
   if (!identical(verbose.diff, diff_shown))
     stop("'verbose.diff' is a synonym for 'diff_shown'. These values should be the same")
@@ -140,18 +178,29 @@
   }
 
   ## BEFORE
-  message("*** BEFORE RUNNING document()  ***    Git Status is as follows")
+  if (verbose || verbose.git_cmd)
+      message("\n\n*** BEFORE RUNNING document() ***       | Git Status is as follows: ")
   git_status(folder = folder, verbose.cmd = verbose.git_cmd)
 
   ## DURING
-  message("*** RUNNING document()  ***    below output is from devtools / oxygen")
-  devtools::document(folder, quiet = !verbose)
+  if (verbose || verbose.devtools)
+      message("\n\n*** RUNNING document() ***              | The below output is from devtools / oxygen: ")
+  devtools::document(folder, quiet = !verbose.devtools)
 
   ## AFTER
-  message("*** AFTER  RUNNING document()  ***    Git Status is as follows")
+  if (verbose || verbose.git_cmd)
+      message("\n\n*** AFTER  RUNNING document() ***       | Git Status is as follows: ")
   git_status(folder = folder, verbose.cmd = verbose.git_cmd)
-  if (verbose.diff)
+
+
+  if (verbose.diff) {
+    message("\n\n*** Git Diff is now as follows ***")
     git_diff(folder = folder, verbose.cmd = TRUE)
+  }
+
+  if (verbose) {
+    message(" \n\n---------- COMPLETED rsu_document_package_files for ", pkg, " (", format(Sys.time(), "%l:%M:%S %p") ,") -----------", hr, "\n\n")
+  }
 
   return(invisible(NULL))
 }
