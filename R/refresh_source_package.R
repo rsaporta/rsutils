@@ -25,15 +25,23 @@
 }
 
 #' @export
+.refresh_aspath <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
+  pkg <- "rsuaspath"
+  .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
+}
+
+#' @export
 .refresh_db <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   pkg <- "rsudb"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
 }
+
 #' @export
 .refresh_prophesize <- function(parent_folder           = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   pkg <- "rsuprophesize"
   .rsu_source_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, source_instead_of_devtools = source_instead_of_devtools, helpers_devtools = helpers_devtools, verbose = verbose)
 }
+
 #' @export
 .refresh_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   pkg <- "rsuconsoleutils"
@@ -222,6 +230,7 @@
   pkg <- "rsudb"
   .rsu_document_package_files(pkg = pkg, parent_folder = parent_folder, git_pull = git_pull, verbose = verbose, verbose.git_cmd = verbose.git_cmd, verbose.diff = verbose.diff)
 }
+
 #' @export
 .document_consoleutils <- function(parent_folder = .get_rsu_homeDir(), git_pull = FALSE, diff_shown = TRUE, verbose = TRUE, verbose.git_cmd = TRUE, verbose.diff = diff_shown) {
   pkg <- "rsuconsoleutils"
