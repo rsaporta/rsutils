@@ -11,6 +11,7 @@
   document_too = FALSE,
   diff_shown.for_documenting = verbose,
   source_instead_of_devtools = FALSE,
+  helpers_devtools = TRUE,
   verbose = TRUE
 )
 }

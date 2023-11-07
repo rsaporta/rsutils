@@ -14,6 +14,15 @@
 }
 
 #' @export
+.refresh_general_doc <- function(document_too = TRUE, diff_shown.for_documenting = FALSE, ...) {
+    ## REMINDER TO MYSELF: 
+    ##   * resist the urge to program this to handle NAMESPACE, and instead cleanup the package so that NAMESPACE is properly operating
+
+    ## Since I run this setup so often, this is a quick shorthand
+    .refresh_general(document_too = document_too, diff_shown.for_documenting = diff_shown.for_documenting, ...)
+}
+
+#' @export
 .refresh_general <- function(parent_folder      = .get_rsu_homeDir(), git_pull = FALSE, document_too = FALSE, diff_shown.for_documenting = verbose, source_instead_of_devtools = FALSE, helpers_devtools = TRUE, verbose = TRUE) {
   if (exists(".Pfm", envir = globalenv(), inherits = FALSE))
       rm(".Pfm", envir = globalenv())
